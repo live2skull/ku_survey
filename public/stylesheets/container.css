@@ -1,0 +1,7 @@
+#main-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    padding: 12px 20px 12px 20px;
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0, 0.4);
+}

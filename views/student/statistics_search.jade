@@ -1,0 +1,119 @@
+extends layout
+
+block content
+
+    div#main-container.container(ng-controller='statisticsSearchController')
+
+        h4
+        h4(style='display: inline') 설문 검색 :
+        div.stat-search
+            .ku-select.stat-year
+                select(ng-model='select.year', ng-options='data as data.name for data in option.year',
+                ng-change='click.updateYear()')
+
+        hr.assign-hr-top
+        div(ng-show='flag.listShow')
+
+            i.fa.fa-window-restore.fa-2x
+                i.notice &nbsp;&nbsp;검색결과
+
+            table.table.stat-list
+                        thead
+                            tr
+                                th.stat-th-large 이름
+                                th.stat-th-large 시작일
+                                th.stat-th-large 교수
+                                //th 부서(학과)
+                                th.stat-th 참여인원
+                                th.stat-th 마감여부
+                                //th Share
+                                //th More
+                        tbody
+                            tr.stat-th-body(ng-click='click.goStat(survey.id)', ng-repeat='survey in option.survey')
+                                th
+                                    a.stat-list-href {{ survey.title }}
+                                td {{ survey.closed_at }}
+                                td {{ survey.professor }}
+                                td {{ survey.participants_cnt }}명
+                                //td {{ survey.participants_cnt }} 명
+                                td
+                                    i(ng-show='!survey.complete').fa.fa-times
+                                    i(ng-show='survey.complete').fa.fa-check-circle-o
+                        tfoot
+                            tr
+                                td(colspan='5')
+
+        // 다중 option 으로 구현함
+
+        //i.fa.fa-lightbulb-o.fa-2x
+        //    i.notice &nbsp;&nbsp;공지사항
+        //h5 {{ getNotice() }}
+        //hr.assign-hr-top
+        //
+        //i.fa.fa-address-book-o.fa-2x
+        //    i.notice &nbsp;&nbsp;기본정보
+        //
+        //div.container-fluid
+        //    .rows
+        //        .col-md-3.col-sm-3
+        //            div
+        //                h4.assign-info-h 이름&nbsp;&nbsp;
+        //                input.assign-q-input.assign-default-info(ng-model='survey.hak_name',ng-disabled='true', type='text')
+        //        .col-md-3.col-sm-3
+        //            div
+        //                h4.assign-info-h 학번&nbsp;&nbsp;
+        //                input.assign-q-input.assign-default-info(ng-model='survey.hak_number',ng-disabled='true', type='text')
+        //        .col-md-3.col-sm-3
+        //            div
+        //                h4.assign-info-h 학년&nbsp;&nbsp;
+        //                input.assign-q-input.assign-default-info(ng-model='survey.hak_grade', type='number',
+        //                style='text-align: right', id='qid-grade', pattern='[0-9]*')
+
+        //
+        //i.fa.fa-edit.fa-2x
+        //    i.notice &nbsp;&nbsp;질의응답
+        //
+        ////h8 &nbsp;
+        //div.assign-list
+        //    div.assign-q(ng-repeat='quest in survey.questions', id='qid-{{quest.no}}')
+        //        div.assign-entry
+        //            h4.assign-q-title {{ quest.no + '. ' + quest.name }}
+        //            h4.assign-q-multi(ng-show='quest.type == 2') &nbsp; (복수선택 가능)
+        //        // 주관식 문항
+        //        div(ng-show='quest.type == 0')
+        //            textarea.assign-q-textarea(ng-model='quest.write', placeholder="최대 {{ quest.maxLength }} 글자까지 입력 가능")
+        //
+        //        //- ng-checked : one-way binding!
+        //
+        //        // 객관식 문항 (단일)
+        //        div(ng-show='quest.type == 1')
+        //            div(ng-repeat='option in quest.options')
+        //                label.assign-q-lab
+        //                    //input(type='radio',name='quest.no',
+        //                    input(type='radio',
+        //                    ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
+        //                    | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
+        //
+        //                input.assign-q-input(ng-show='option.custom && option.checked', ng-model='option.write', type='text', placeholder='세부 사항 입력')
+        //
+        //        // 객관식 문항 (다중)
+        //        div(ng-show='quest.type == 2')
+        //            div(ng-repeat='option in quest.options')
+        //                label.assign-q-lab
+        //                    //input(type='checkbox', name='quest.no',
+        //                    input(type='checkbox',
+        //                    ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
+        //                    | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
+        //
+        //                input.assign-q-input(ng-show='option.custom && option.checked', ng-model='option.write', type='text', placeholder='세부 사항 입력')
+        //
+        //        hr.assign-hr
+        //
+        //button.btn.ku-button(type='button', ng-click='click.test()')
+        //    i.fa.fa-check.fa-neg.fa-12x &nbsp;응답 제출
+
+
+
+    link(rel='stylesheet', href='/public/stylesheets/statistics.css')
+    script(src='/public/javascripts/publicAPI.js')
+    script(src='/public/javascripts/student.js')

@@ -1,0 +1,99 @@
+.assign-c-title {
+    padding-left: 10px;
+    width: 80%;
+    max-width: 818px;
+    /*padding: 20px 15px 10px 15px;*/
+    /*margin-top: 10*/
+}
+
+.assign-c-qtitle {
+    display: block !important;
+    padding-left: 10px;
+    width: 70%;
+}
+
+@media screen and (max-width: 414px) {
+    .assign-c-qtitle {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .assign-c-title {
+        width: 90%;
+    }
+}
+
+.assign-c-notice {
+    min-height: 100px !important;
+    margin-bottom: 0px;
+}
+
+.assign-c-otitle {
+    width: 236px; !important;
+}
+
+.create-button {
+    height: 32px;
+    box-shadow: none;
+}
+
+.create-type {
+    display: inline-block;
+    width: 150px;
+}
+
+.create-form .container-fluid {
+    padding-left: 5px;
+}
+
+.assign-c-qtitle {
+    display: inline-block !important;
+    max-width: 500px; !important;
+}
+
+.quest-type {
+    display: inline-block;
+    margin-bottom: -17px;
+}
+
+.create-q-ctrl {
+    margin-top: -10px;
+}
+
+.no-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.edit-button {
+    background-color: var(--ku-crimson-default);
+    width: 24px;
+    height: 24px;
+    box-shadow: none;
+}
+
+.create-hr {
+    color: #929191;
+    background-color: #929191;
+    height: 1px;
+}
+
+.option-list {
+    background-color: #d6d5d5;
+}
+
+.notice-time {
+    font-size: 1em !important;
+}
+
+@media screen and (max-width: 420px) {
+    .notice-time {
+        font-size: 0.8em !important;
+    }
+}
+
+.assign-c-info-padding
+{
+    margin-bottom: 10px;
+}

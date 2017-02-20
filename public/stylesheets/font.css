@@ -1,0 +1,16 @@
+
+/* 고려대학교 폰트 사용 */
+@font-face {
+    font-family: KoreaUniv;
+    src: url('/public/fonts/KorUL.woff');
+}
+
+@font-face {
+    font-family: KoreaUnivBold;
+    src: url('/public/fonts/KorUB.woff');
+}
+
+@font-face {
+    font-family: Nanum Gothic;
+    @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+}

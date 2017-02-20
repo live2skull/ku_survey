@@ -1,0 +1,81 @@
+//- http://codepen.io/shvffle/pen/bwpAEm
+script(src='/public/javascripts/elements/navbar.js')
+link(rel='stylesheet', href='/public/stylesheets/element/navbar.css')
+
+//- nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller='navbar') fixed!
+nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
+        .container-fluid
+            .navbar-header
+                a.navbar-brand
+                    span#navbar-brand-span
+                        // (style='color: #dcdcdc')
+                        //-
+                            img(src='/public/images/brand.png', alt='brand',
+                            width="25px", height="25px", style='margin-left: 7px; margin-top: -2px;')
+                        img#navbar-brand(src='/public/images/logo-fixed.png', alt='brand')
+                        | &nbsp;&nbsp;고려대학교 세종캠퍼스 온라인 학생설문시스템
+                    //- img.navbar-brand(alt='Marina Marques', src='https://shvvffle.github.io/img/marina_marques_logo.png')
+                    //- img.navbar-brand()
+
+            // TODO : navbar-toggle 버튼을 다른 곳으로 옮기기
+                //button.navbar-toggle(typ`e='button', data-toggle='collapse', data-target='#ResponsiveNav')
+                //    span.icon-bar
+                //    span.icon-bar
+                //    span.icon-bar
+
+            //- https://bootswatch.com/darkly/
+            //- 활성 상태=로 만들기 - .active (class!)
+
+            #ResponsiveNav.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li.navbar-active
+                        a(href='/student/list') 상시상담
+                    li
+                        a(href='/student/statistics') 통계자료
+                    //
+                    //li.dropdown
+                    //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+                    //        | 설문 참여
+                    //        span.caret
+                    //    ul.dropdown-menu(aria-labelledby='themes')
+                    //        li
+                    //            a(href='/student/surveylist') 진행중인 설문
+                    //        li
+                    //            a(href='/student/lastsurveylist') 마감된 설문
+                    //        li.divider
+                    //
+                    //li.dropdown
+                    //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+                    //        | Service
+                    //        span.caret
+                    //    ul.dropdown-menu(aria-labelledby='themes')
+                    //        li
+                    //            a(href='/afreecatv') AfreecaTV
+                    //        li
+                    //            a(href='/popkontv') PopkonTV
+                    //
+                    //li.dropdown
+                    //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+                    //        | Network
+                    //        span.caret
+                    //    ul.dropdown-menu(aria-labelledby='themes')
+                    //        li
+                    //            a(href='/ipregion') IP Region
+                    //        //li.divider
+                    //
+                    //li.dropdown
+                    //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
+                    //        | Deploy
+                    //        span.caret
+                    //    ul.dropdown-menu(aria-labelledby='themes')
+                    //        li
+                    //            a(href='/ipregion') Text CDN
+                    //        //li.divider
+
+
+                //ul.nav.navbar-nav.navbar-right
+                //    li
+                //        a {{ message }}
+
+            //- navbar-collapse
+

@@ -1,0 +1,92 @@
+extends layout
+
+block content
+
+    if (survey_id == undefined)
+        input(type='hidden', value='', id='survey_id')
+    else
+        input(type='hidden', value=survey_id, id='survey_id')
+
+    div#main-container.container(ng-controller='assignController')
+
+        h4
+        h4(style='display: inline') 설문 참여 중 :
+        h4.assign-title &nbsp;{{ survey.title }}
+        hr.assign-hr-top
+
+        i.fa.fa-lightbulb-o.fa-2x
+            i.notice &nbsp;&nbsp;공지사항
+        h5 {{ getNotice() }}
+        //hr.assign-hr-top
+
+        h5 &nbsp;
+        i.fa.fa-address-book-o.fa-2x
+            i.notice &nbsp;&nbsp;기본정보
+
+        div.container-fluid.assign-default-info-container
+            .rows
+                .col-md-3.col-sm-3
+                    div
+                        h4.assign-info-h 이름&nbsp;&nbsp;
+                        input.assign-q-input.assign-default-info(ng-model='survey.hak_name',ng-disabled='true', type='text')
+                .col-md-3.col-sm-3
+                    div
+                        h4.assign-info-h 학번&nbsp;&nbsp;
+                        input.assign-q-input.assign-default-info(ng-model='survey.hak_number',ng-disabled='true', type='text')
+                .col-md-3.col-sm-3
+                    div
+                        h4.assign-info-h 학년&nbsp;&nbsp;
+                        input.assign-q-input.assign-default-info(ng-model='survey.hak_grade', type='number',
+                        style='text-align: right', id='qid-grade', pattern='[0-9]*')
+
+
+        hr.assign-hr-top
+
+        i.fa.fa-edit.fa-2x
+            i.notice &nbsp;&nbsp;질의응답
+
+        //h8 &nbsp;
+        div.assign-list
+            div.assign-q(ng-repeat='quest in survey.questions | orderBy : "order"', id='qid-{{quest.no}}')
+                div.assign-entry
+                    h4.assign-q-title {{ $index + 1 + '. ' + quest.name }}
+                    h4.assign-q-multi(ng-show='quest.type == 2') &nbsp; (복수선택 가능)
+                // 주관식 문항
+                div(ng-show='quest.type == 0')
+                    textarea.assign-q-textarea(ng-model='quest.input', placeholder="최대 200 글자까지 입력 가능")
+                    //textarea.assign-q-textarea(ng-model='quest.input', placeholder="최대 {{ quest.maxLength }} 글자까지 입력 가능")
+
+                //- ng-checked : one-way binding!
+
+                // 객관식 문항 (단일)
+                div(ng-show='quest.type == 1')
+                    div(ng-repeat='option in quest.options')
+                        label.assign-q-lab
+                            //input(type='radio',name='quest.no',
+                            input(type='radio',
+                            ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
+                            | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
+
+                        input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+
+                // 객관식 문항 (다중)
+                div(ng-show='quest.type == 2')
+                    div(ng-repeat='option in quest.options')
+                        label.assign-q-lab
+                            //input(type='checkbox', name='quest.no',
+                            input(type='checkbox',
+                            ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
+                            | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
+
+                        input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+
+                hr.assign-hr
+
+        button.btn.ku-button(type='button', ng-click='click.postSurvey()')
+            i.fa.fa-check.fa-neg.fa-12x &nbsp;응답 제출
+
+
+
+    link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    script(src='/public/javascripts/publicAPI.js')
+    script(src='/public/javascripts/student.js')

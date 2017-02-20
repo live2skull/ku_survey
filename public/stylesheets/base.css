@@ -1,0 +1,103 @@
+* , *:after, *:before{
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing : border-box;
+    -o-box-sizing : border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:root {
+    /*
+    --background-color-start: #76b852;
+    --background-color-end: #8DC26F;
+    */
+    /* --background-color-start: #b88320;
+    --background-color-end: #c26b2f; */
+
+    /*--background-color-start: #6e6c65;*/
+    /*--background-color-start: #5e5c57;*/
+    --ku-crimson-default: #8e0012;
+    --ku-crimson-select: #7c000b;
+    --ku-crimson-btn: #6a000b;
+    --ku-crimson-btn-hover: #400008;
+    --ku-crimson-input: #f3efef;
+    --background-color-start: #c3c3c3;
+    --background-color-end: #a3cbab;
+
+    --blur-background-image: 8px;
+    --grayscale-background-image: 0.8;
+}
+
+.content {
+    /*position: fixed;*/
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    /*margin-left: 20px;*/
+    /*margin-right: 20px;*/
+}
+
+
+.navbar {
+    margin: 0;
+}
+
+.background {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+
+    top: 55px;
+    z-index: -1;
+
+    display: block;
+    /*background-image: url('http://666a658c624a3c03a6b2-25cda059d975d2f318c03e90bcf17c40.r92.cf1.rackcdn.com/unsplash_527bf56961712_1.JPG');*/
+    background-image: url('/public/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    /*width: 1200px;*/
+    /*height: 800px;*/
+
+    width: 100%;
+    height: calc(100% - 55.54px);
+
+    -webkit-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+    -moz-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+    -o-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+    -ms-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+    filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+}
+
+
+body {
+    background: var(--background-color-start); /* fallback for old browsers */
+    /* background: -webkit-linear-gradient(right, var(--background-color-start), var(--background-color-end));
+    background: -moz-linear-gradient(right, var(--background-color-start), var(--background-color-end));
+    background: -o-linear-gradient(right, var(--background-color-start), var(--background-color-end));
+    background: linear-gradient(to left, var(--background-color-start), var(--background-color-end)); */
+    /*font-family: "Roboto", sans-serif;*/
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*font-family: KoreaUniv;*/
+    /*font-family: Nanum Gothic;*/
+    /*letter-spacing: -1pt;*/
+}
+
+.navbar {
+    border-radius: 0;
+}
+
+#application-view {
+    background-color: #dcdcdc;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    box-shadow: 0px 0px 10px 1px rgba(0,0,0, 0.4);
+}
+
+i.notice {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 0.6em;
+    vertical-align: middle; /* center 가 아니고 middle 임 */
+}

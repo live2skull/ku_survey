@@ -1,0 +1,158 @@
+
+.assign-list {
+    margin-top: 20px;
+}
+
+.assign-q {
+    margin-bottom: 20px;
+}
+
+.assign-entry {
+    margin-top : 10px;
+    margin-bottom: 10px;
+}
+
+.assign-title {
+    display: inline;
+    font-weight: 700;
+}
+
+.assign-q-title {
+    display: inline;
+    /*font-family: KoreaUnivBold;*/
+    font-size: 18px;
+    /*font-family: "Nanum Gothic";*/
+    font-weight: bold;
+}
+
+
+.assign-q-multi {
+    /*font-family: KoreaUniv;*/
+    /*font-family: "Nanum Gothic";*/
+    display: inline;
+    /*font-weight: 700;*/
+}
+
+/* textarea (주관식 문항) */
+/* ********************************************************************** */
+.assign-q-textarea {
+    width: 100%;
+    max-width : 900px;
+    min-height: 150px;
+}
+
+.assign-q-textarea {
+    border: 1px solid var(--ku-crimson-btn) !important;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    border-radius: 0;
+    /* background: #f2f2f2; */
+    background: #f3efef;
+    color: #000000;
+    width: 100%;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.assign-q-textarea::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #595959;
+}
+.assign-q-textarea::-moz-placeholder { /* Firefox 19+ */
+    color: #595959;
+}
+.assign-q-textarea:-ms-input-placeholder { /* IE 10+ */
+    color: #595959;
+}
+.assign-q-textarea:-moz-placeholder { /* Firefox 18- */
+    color: #595959;
+}
+/* ********************************************************************** */
+
+/* input text (객관식 문항 - 선택입력) */
+
+.assign-q-input {
+    border: 1px solid var(--ku-crimson-btn) !important;
+    display: block;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    /* background: #f2f2f2; */
+    border-radius: 0;
+    background: #f3efef;
+    color: #000000;
+    width: 70%;
+    max-width : 900px;
+    margin: 0 0 5px 0px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 12px;
+    max-height: 10px;
+
+}
+
+.assign-q-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #595959;
+}
+.assign-q-input::-moz-placeholder { /* Firefox 19+ */
+    color: #595959;
+}
+.assign-q-input:-ms-input-placeholder { /* IE 10+ */
+    color: #595959;
+}
+.assign-q-input:-moz-placeholder { /* Firefox 18- */
+    color: #595959;
+}
+
+@media screen and (max-width: 420px) {
+    .assign-q-input {
+        width: 90%;
+    }
+}
+/* ********************************************************************** */
+
+.assign-info-h {
+    vertical-align: middle;
+    font-weight: 600;
+    display: inline;
+}
+
+.assign-default-info-container {
+    margin-top: 15px;
+    padding-left: 3px;
+}
+
+.assign-default-info {
+    display: inline !important;
+    font-size: inherit;
+    margin-top: 10px;
+    width: 120px;
+}
+
+.assign-q-lab {
+    /*font-family: "Nanum Gothic";*/
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.assign-q-lab:hover {
+    color: var(--ku-crimson-btn);
+}
+
+.assign-hr-top {
+    height: 1px;
+    color: #000000;
+    background-color: #000000;
+}
+
+.assign-hr {
+    /*color: #000000;*/
+    /*height: 0.5px;*/
+    height: 1px;
+    /*background-color: var(--ku-crimson-btn-hover);*/
+}
+
+._assign_selected {
+    font-weight: 600 !important;
+    color: var(--ku-crimson-btn-hover);
+}

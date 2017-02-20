@@ -1,0 +1,37 @@
+.stat-search {
+    margin-top: 15px;
+}
+
+.stat-year {
+    width: 160px;
+}
+
+.stat-survey {
+    width: 400px;
+}
+
+.stat-list {
+    margin-top: 15px;
+}
+
+.stat-list-href {
+    color: var(--ku-crimson-default);
+}
+
+@media screen and (max-width: 480px) {
+    .stat-th-large {
+        font-size: 12px !important;
+    }
+    .stat-th {
+        font-size: 10px !important;
+    }
+
+    .stat-th-body {
+        font-size: 11px !important;
+    }
+}
+
+.stat-piechart {
+    width: 100%;
+    height: 100%;
+}

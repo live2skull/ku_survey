@@ -1,0 +1,56 @@
+//- 로그인 페이지 :: Layout 없이 한꺼번에 구성.
+
+doctype html
+html(ng-app='kudoc')
+    head
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title 고려대학교 세종캠퍼스 온라인 학생설문시스템
+
+        script(src='/public/bower/angular/angular.min.js')
+        //- script(src='/public/bower/angular-route/angular-route.min.js')
+
+        script(src='/public/bower/jquery/dist/jquery.min.js')
+        script(src='/public/bower/bootstrap/dist/js/bootstrap.min.js')
+        link(rel='stylesheet', href='/public/bower/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/public/bower/font-awesome/css/font-awesome.min.css')
+
+        link(rel='stylesheet', href='/public/stylesheets/base.css')
+        link(rel='stylesheet', href='/public/stylesheets/container.css')
+        link(rel='stylesheet', href='/public/stylesheets/fwhelp.css')
+        link(rel='stylesheet', href='/public/stylesheets/gateway.css')
+        link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
+        link(rel='stylesheet', href='/public/stylesheets/font.css')
+
+        script(src='/public/javascripts/kudoc.js')
+        script(src='/public/javascripts/factory/clientapi.js')
+
+    body
+        //include professor/navbar_nologin
+
+        //- div.container-fluid.gateway.image
+
+        div.background
+
+        div.gateway-selection.content
+
+            .gateway-login.container
+
+                .row
+                    .col-md-6.col-sm-6
+
+                        center(style='margin-top: 20px')
+                            img(src='/public/images/logo-fixed-large.png').gateway-splash
+                            h4.ku-htext.ku-htext-main 고려대학교 세종캠퍼스
+                            h4.ku-htext.ku-htext-main 온라인 학생설문시스템
+
+
+                    .col-md-6.col-sm-6
+                        .ku-form
+                            form.login-form
+                                //- input(ng-model='login.email', type='text', placeholder='Email address', ng-pattern='config.emailFormat')
+                                input(ng-model='login.userId', type='text', placeholder='포털 아이디')
+                                input(ng-model='login.userPw', type='password', placeholder='포털 비밀번호')
+                                p.message
+
+                        button.btn.ku-button(type='button', style='width: 100%')
+                            i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인

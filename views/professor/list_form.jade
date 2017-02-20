@@ -1,0 +1,55 @@
+extends layout
+
+block content
+
+    div#main-container.container(ng-controller='listFormController')
+
+        div(style='margin-bottom: -10px')
+            h4(style='display: inline-block') 설문지 양식
+
+        div(style='margin-top: 10px')
+            i.fa.fa-lightbulb-o(style='font-size: 1.5em; !important')
+                i.notice &nbsp;&nbsp;참고사항
+            h5 설문을 활성화하려면 해당 설문 클릭 -> 하단의 설문 활성화 선택.
+
+        hr.assign-hr-top
+        div
+
+            //i.fa.fa-window-restore.fa-2x
+            //    i.notice &nbsp;&nbsp;검색결과
+
+            table.table.stat-list
+                thead
+                    tr
+                        th.stat-th-large 설문 이름
+                        th.stat-th-large 제작 일시
+                        th.stat-th-large 진행 중
+                        //th 부서(학과)
+                        //th.stat-th 참여인원
+                        //th.stat-th 마감여부
+                        //th Share
+                        //th More
+                tbody
+                    tr.stat-th-body(ng-click='click.goEdit(survey.survey_id)', ng-repeat='survey in surveys')
+                        th {{ survey.survey_name}}
+                            //a.stat-list-href {{ submit.hak_name }}
+                        td {{ survey.created_at }}
+                        //td {{ survey. }}
+                        //td {{ submit.created_at }}
+                        //td {{ submit.survey_name }}
+                        //td {{ survey.participants_cnt }} 명
+                        td
+                            i(ng-show='!survey.complete').fa.fa-times
+                            i(ng-show='survey.complete').fa.fa-check-circle-o
+                tfoot
+                    tr
+                        td(colspan='5')
+
+        button.btn.ku-button(type='button', ng-click='click.goCreate()')
+            i.fa.fa-plus.fa-neg.fa-12x &nbsp;설문지 제작
+
+
+    link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign-c.css')
+    script(src='/public/javascripts/publicAPI.js')
+    script(src='/public/javascripts/professor.js')

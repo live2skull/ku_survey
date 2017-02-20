@@ -1,0 +1,28 @@
+doctype html
+html(ng-app='kudoc.student')
+    head
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title 고려대학교 세종캠퍼스 온라인 학생설문시스템
+
+        script(src='/public/bower/angular/angular.min.js')
+        //- script(src='/public/bower/angular-route/angular-route.min.js')
+
+        script(src='/public/bower/jquery/dist/jquery.min.js')
+        script(src='/public/bower/bootstrap/dist/js/bootstrap.min.js')
+        link(rel='stylesheet', href='/public/bower/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/public/bower/font-awesome/css/font-awesome.min.css')
+
+        //script(src='/public/bower/dateformat/dist/dateformat.min.js')
+        script(src='/public/bower/moment/moment.js')
+        script(src='/public/javascripts/live2skull_helper.js')
+
+        link(rel='stylesheet', href='/public/stylesheets/base.css')
+        link(rel='stylesheet', href='/public/stylesheets/container.css')
+        link(rel='stylesheet', href='/public/stylesheets/fwhelp.css')
+        link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
+        link(rel='stylesheet', href='/public/stylesheets/font.css')
+
+    body
+        include navbar
+
+        block content

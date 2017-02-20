@@ -1,0 +1,33 @@
+{
+  "name": "kudoc_renew",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "async": "^2.1.4",
+    "body-parser": "~1.15.2",
+    "bower": "^1.8.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "deepcopy": "^0.6.3",
+    "express": "~4.14.0",
+    "express-session": "^1.14.2",
+    "jade": "~1.11.0",
+    "jquery": "^3.1.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.7.6",
+    "mongoose-auto-increment": "^5.0.1",
+    "morgan": "~1.7.0",
+    "mysql": "^2.12.0",
+    "serve-favicon": "~2.3.0",
+    "url-pattern": "^1.0.3",
+    "url-regex": "^4.0.0"
+  },
+  "main": "app.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
