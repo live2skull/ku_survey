@@ -40,23 +40,24 @@ exports.ssoLogin = function (callback, session, id, pw)
             // var batch = process.env.PWD + '/sso/run.sh ' + ssoToken;
             var batch = process.cwd() + '/sso/run.sh ' + ssoToken;
 
-            child_process.exec(batch, {timeout: 5000, killSignal: 'SIGINT'}, function (err, stdout, stderr) {
+            child_process.exec(batch, {timeout: 5000, killSignal: 'SIGINT', cwd: process.cwd() + '/sso'}, function (err, stdout, stderr) {
                 if (err) {
                     cb(err);
                     return
                 }
 
-                var data = '';
-                try {
-                    data = JSON.parse(stdout);
-                }
-                catch (ex) {
-                    err(ex);
-                }
+                var result = {};
 
-                for (var idx in data)
+                if (stdout.indexOf('verifyToken()') != -1) {cb(-1); return}
+
+                var rows = stdout.split('\n');
+                for (var idx in rows)
                 {
-                    var d = data[idx]; session.idx = d;
+                    var d = rows[idx]; if (d == "") continue;
+                    var s = d.split('-');
+                    result[s[0]] = s[1].replace(';', '');
+                    // result.s[0] = s[1].replace(';', '');
+                    // 존재하지 않는 property 일 경우 브라켓으로 값 설정.
                 }
 
                 cb(null)
