@@ -14,7 +14,7 @@ const DEBUG = require('../config').DEBUG;
 var RES_FORBIDDEN = JSON.stringify({result : false, reason : 'AUTH'});
 var RES_INTERNAL_ERR = JSON.stringify({result : false, reason : 'ERR'});
 
-const api_ssologin = require('./backend/ssologin')
+const api_ssologin = require('./backend/ssologin');
 
 const api_loadform = require('./backend/form/loadform');
 const api_saveform = require('./backend/form/saveform');
@@ -28,13 +28,64 @@ router.post('/SSOLogin', function (req, res, next) {
     var id = req.body.id;
     var pw = req.body.pw;
 
-    var callback = function (result) {
-
-        res.send(JSON.stringify({result : result}));
+    var callback_ssoVerify = function (conn, result) {
+        if (result)
+        {
+            conn.commit(function (err)
+            {
+                conn.release();
+            })
+        }
+        else
+        {
+            conn.rollback(function (err)
+            {
+                conn.release();
+            })
+        }
 
     };
 
-    api_ssologin.ssoLogin(callback, req.session, id, pw);
+    var callback_ssoLogin = function (result, userInfo) {
+
+        if (result)
+        {
+            var hak_number = userInfo.USERID;
+
+            req.session.hak_number = hak_number;
+            req.session.hak_name = userInfo.USERNAME;
+            req.session.user_id = userInfo.UID;
+            req.session.hak_depart = userInfo.DTPNM;
+
+            if (hak_number.length == 6) // 교수
+            {
+                req.session.hak_level = 0;
+            }
+            else if (hak_number.length == 10) // 학샹
+            {
+                req.session.hak_level = 1;
+            }
+            else
+            {
+                console.log('Warning:: Unknown hak_level information.')
+            }
+
+
+            dbms.pool.getConnection(function (err, conn)
+            {
+               conn.beginTransaction(function (err) {
+                   api_ssologin.ssoVerify(conn, callback_ssoVerify, userInfo)
+               });
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({result : false}));
+        }
+
+    };
+
+    api_ssologin.ssoLogin(callback_ssoLogin, req.session, id, pw);
 
 });
 

@@ -5,6 +5,8 @@ const request = require('request');
 
 exports.ssoLogin = function (callback, session, id, pw)
 {
+    var userInfo = {};
+
     var task = [
         function (cb) {
             request.post({
@@ -46,8 +48,6 @@ exports.ssoLogin = function (callback, session, id, pw)
                     return
                 }
 
-                var result = {};
-
                 if (stdout.indexOf('verifyToken()') != -1) {cb(-1); return}
 
                 var rows = stdout.split('\n');
@@ -55,16 +55,15 @@ exports.ssoLogin = function (callback, session, id, pw)
                 {
                     var d = rows[idx]; if (d == "") continue;
                     var s = d.split('-');
-                    result[s[0]] = s[1].replace(';', '');
+                    userInfo[s[0]] = s[1].replace(';', '');
                     // result.s[0] = s[1].replace(';', '');
                     // 존재하지 않는 property 일 경우 브라켓으로 값 설정.
                 }
 
-                cb(null)
+                cb(null);
 
             });
-        },
-
+        }
     ];
 
     async.waterfall(task, function (err) {
@@ -74,7 +73,58 @@ exports.ssoLogin = function (callback, session, id, pw)
         }
         else
         {
-            callback(true);
+            callback(true, userInfo);
         }
     })
 };
+
+// USERNAME, USERID(학번), DTPNM, DEPTCD, GROUPNMLIST, UID
+exports.ssoVerify = function (conn, callback, userInfo)
+{
+    var task = [
+        function (cb)
+        {
+            conn.query({
+                sql : 'select user_id from user where user_id = ?',
+                values : [userInfo.UID]
+            },
+            function (err, rows)
+            {
+                if (err) {cb(err)}
+                else
+                {
+                    cb(null, rows.length)
+                }
+            });
+        },
+
+        function (flag, cb)
+        {
+            if (!flag) { cb(null); return }
+
+            var year = '';
+
+            conn.query({
+                sql : 'insert into user (user_id, year, hak_name, hak_number, hak_depart, hak_level)' +
+                ' values (?, ?, ?, ?, ?, ?)',
+                values : []
+            },
+            function (err, rows)
+            {
+                if (err) cb(err);
+                else cb(null);
+            });
+        }
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err)
+        {
+            callback(false, conn);
+        }
+        else
+        {
+            callback(true, conn);
+        }
+    });
+}
