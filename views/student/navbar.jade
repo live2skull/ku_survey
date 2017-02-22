@@ -27,17 +27,16 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
             //- 활성 상태=로 만들기 - .active (class!)
 
             #ResponsiveNav.collapse.navbar-collapse
-                ul.nav.navbar-nav
-                    li.navbar-active
-                        a(href='/student/list') 상시상담
+                ul.nav.navbar-navli.navbar-active
+                        a(href='/student/list_ordinary') 상시상담
                     li
-                        a(href='/student/statistics') 학과설문
+                        a(href='/student/list_department') 학과설문
                     li
-                        a(href='/student/statistics') 학교설문
+                        a(href='/student/list_university') 학교설문
                     li
                         a(href='/student/statistics') 통계자료
                     li
-                        a(href='/student/statistics') 나의설문
+                        a(href='/student/submits') 나의설문
                     //
                     //li.dropdown
                     //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')

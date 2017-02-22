@@ -18,8 +18,11 @@ const api_ssologin = require('./backend/ssologin');
 
 const api_loadform = require('./backend/form/loadform');
 const api_saveform = require('./backend/form/saveform');
+
 const api_savesubmit = require('./backend/submit/savesubmit');
 const api_loadsubmit = require('./backend/submit/loadsubmit');
+const api_listsurvey = require('./backend/survey/listsurvey');
+
 const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
 
@@ -169,7 +172,7 @@ router.post('/saveform', function (req, res, next) {
 
         });
     });
-});
+}); // OK
 
 // ************************************************************************************
 
@@ -350,6 +353,70 @@ router.post('/savecomment', function (req, res, next) {
 
 // ************************************************************************************
 
+router.post('/listsurvey', function(req, res, next) {
+
+    if (DEBUG)
+    {
+
+    }
+
+    var type = Number(req.body.type);
+    var show_closed = req.body.hide_closed;
+
+    if (type == null || type == undefined)
+    {
+        res.status(500).send(JSON.stringify({result : false}));
+        return;
+    }
+
+    dbms.pool.getConnection(function (err ,conn) {
+
+        var callback = function (result, data)
+        {
+            if (result)
+            {
+                res.send(JSON.stringify({result : true, data : data}))
+            }
+            else
+            {
+                res.send(JSON.stringify({result : false}))
+            }
+        };
+
+        var department = req.session.hak_depart;
+        //var hak_level = req.session.hak_level;
+
+        // hak_level 을 구분한 것은 교수의 경우 closed 된 것을 볼 수 있기 위함 (?)
+        // 그런데 어차피, stat 출력을 위해서는 closed 된 것도 보아야 한다
+        // 그러면 hak_level 이 아닌 closed_list 를 사용하는 것도 방법인 듯?
+        // closed 컬럼을 true, false 가 아닌 시간을 지정하는 것도 방법임.
+        switch (type)
+        {
+            case 0: // 상시상담
+                // 본인 학과에 맞는 설문. 추후 수정할 수 있다.
+                api_listsurvey.listSurvey(conn, callback, 0, department, show_closed);
+                break;
+
+            case 1: // 학과설문
+                api_listsurvey.listSurvey(conn, callback, 1, department, show_closed);
+                break;
+
+            case 2: // 학교설문 :: 그냥 type 이 2 인 전체를 뽑으면 된다. (학교설문이므로 과를 가릴 필요 없음)
+                api_listsurvey.listSurvey(conn, callback, 2, null, show_closed);
+                break;
+
+            default:
+                conn.release();
+                res.send(RES_FORBIDDEN);
+        }
+    });
+
+});
+
+// ************************************************************************************
+
+
+// Malicious!!!
 // 학사구조 불러오기
 router.post('/loadstruct', function (req, res, next) {
     if (!DEBUG)
