@@ -1,5 +1,5 @@
 doctype html
-html(ng-app='kudoc.professor')
+html(ng-app='kudoc')
     head
         meta(name='viewport', content='width=device-width, initial-scale=1')
         title 고려대학교 세종캠퍼스 온라인 학생설문시스템
@@ -21,6 +21,9 @@ html(ng-app='kudoc.professor')
         link(rel='stylesheet', href='/public/stylesheets/fwhelp.css')
         link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
         link(rel='stylesheet', href='/public/stylesheets/font.css')
+
+        script(src='/public/javascripts/kudoc.js')
+        script(src='/public/javascripts/factory/clientapi.js')
 
     body
         include navbar

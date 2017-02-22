@@ -1,4 +1,4 @@
-angular.module('kudoc.clientAPI', [])
+angular.module('kudoc.clientAPI', ['live2skull.helper'])
 
 
 .factory('surveyFormFactory', function ($http, lv2sHelper) {

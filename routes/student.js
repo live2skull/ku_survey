@@ -1,14 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-// const connection = require('../mod/dbms').mongoose_connection;
-// var schema = require('../schema');
-
-//
-// var SurveyModel = connection.model('', schema.surveyModelSchema);
-
-//
-
 
 router.get('/list', function(req, res, next) {
     res.render('student/list')

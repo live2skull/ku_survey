@@ -1,5 +1,5 @@
 //- http://codepen.io/shvffle/pen/bwpAEm
-script(src='/public/javascripts/elements/navbar.js')
+script(src='/public/javascripts/controller/navbar.js')
 link(rel='stylesheet', href='/public/stylesheets/element/navbar.css')
 
 //- nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller='navbar') fixed!
@@ -30,6 +30,10 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
                 ul.nav.navbar-nav
                     li.navbar-active
                         a(href='/student/list') 상시상담
+                    li
+                        a(href='/student/statistics') 학과설문
+                    li
+                        a(href='/student/statistics') 학교설문
                     li
                         a(href='/student/statistics') 통계자료
                     //

@@ -47,7 +47,7 @@ router.get('/list_submit', function (req, res, next) {
 // router.get('/statistics/:surveyId', function (req, res, next) {
 //
 //     var surveyId = Number(req.params.surveyId);
-//     if (isNaN(surveyId)) {res.status(404).send(); return;}
+//     if (isNaN(surveyId)) {res.status(404).send(); return;}-
 //
 //     res.render('student/statistics')
 // });

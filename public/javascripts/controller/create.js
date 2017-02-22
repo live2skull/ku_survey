@@ -52,8 +52,9 @@ angular.module('kudoc')
             // {code: -1, name: '-- 기간 선택 --'},
             {code: 0, name: '주관식'},
             {code: 1, name: '객관식 (단일선택)'},
-            {code: 2, name: '객관식 (다중선택)'}
-        ];
+            {code: 2, name: '객관식 (다중선택)'},
+            {code: 3, name: '객관식 (순위지정)'}
+    ];
     $scope.select.type = $scope.option.type[0];
 
     // $scope.click.updateYear = function () {
@@ -192,27 +193,27 @@ angular.module('kudoc')
         // 0-up, 1-down
         var order_cur = soption.order;
         var order_dst = 99999999;
-        var order_pad = 99999999;
+                var order_pad = 99999999;
 
-        var options = quest.options;
+                var options = quest.options;
 
-        for (var i = 0; i < options.length; i++)
-        {
-            var q = options[i];
-            var pad = order_cur - q.order;
-            switch (direction)
-            {
-                case 0: // 위로 올림 - 본인보다 적은 수
-                    if (pad <= 0) continue;
-                    break;
-                case 1: // 아래로 내림 - 본인보다 큰 수
-                    if (pad >= 0) continue;
-                    break;
-            }
+                for (var i = 0; i < options.length; i++)
+                {
+                    var q = options[i];
+                    var pad = order_cur - q.order;
+                    switch (direction)
+                    {
+                        case 0: // 위로 올림 - 본인보다 적은 수
+                            if (pad <= 0) continue;
+                            break;
+                        case 1: // 아래로 내림 - 본인보다 큰 수
+                            if (pad >= 0) continue;
+                            break;
+                    }
 
-            pad = Math.abs(pad);
-            if (pad < order_pad && pad != 0)
-            {
+                    pad = Math.abs(pad);
+                    if (pad < order_pad && pad != 0)
+                    {
                 order_dst = i;
                 order_pad = pad;
             }

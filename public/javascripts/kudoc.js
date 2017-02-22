@@ -5,3 +5,4 @@ angular.module('kudoc', ['kudoc.clientAPI'])
     $anchorScroll.yOffset = 50;
     console.log('live2skull kudoc AngularJS Loaded!')
 }])
+

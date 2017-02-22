@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 const deepcopy = require('deepcopy');
 const dbms = require('../mod/dbms');
 
@@ -8,10 +9,12 @@ Warning:: Service DEBUG Flag!
 disabled debug flag -> ignore authentication
 */
 
-const DEBUG = require('/config').DEBUG;
+const DEBUG = require('../config').DEBUG;
 
 var RES_FORBIDDEN = JSON.stringify({result : false, reason : 'AUTH'});
 var RES_INTERNAL_ERR = JSON.stringify({result : false, reason : 'ERR'});
+
+const api_ssologin = require('./backend/ssologin')
 
 const api_loadform = require('./backend/form/loadform');
 const api_saveform = require('./backend/form/saveform');
@@ -21,6 +24,16 @@ const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
 
 router.post('/SSOLogin', function (req, res, next) {
+
+    var id = req.body.id;
+    var pw = req.body.pw;
+
+    var callback = function (result) {
+
+    };
+
+    api_ssologin.ssoLogin(callback, id, pw);
+
 
 });
 
