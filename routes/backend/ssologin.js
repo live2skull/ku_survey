@@ -3,7 +3,7 @@ const child_process = require('child_process');
 const deepcopy = require('deepcopy');
 const request = require('request');
 
-exports.ssoLogin = function (callback, id, pw)
+exports.ssoLogin = function (callback, session, id, pw)
 {
     var task = [
         function (cb) {
@@ -25,25 +25,44 @@ exports.ssoLogin = function (callback, id, pw)
                             cb(null, cookie);
                             return;
                         }
-                        cb(-1);
                     }
+                    cb(-1);
                 }
             })
         },
 
-        function (ssoToken, cb)
-        {
+        function (ssoToken, cb) {
             // java -cp SIServerAPI.4.3.jar;. TestSso
 
-            var jarpath = process.env.PWD + '/sso/SIServerAPI.4.3.jar';
-            var ssopath = process.env.PWD + '/sso/TestSso';
+            //var jarpath = process.env.PWD + '/sso/SIServerAPI.4.3.jar';
+            //var ssopath = process.env.PWD + '/sso/TestSso';
 
-            var fullpath = 'java -cp ' + jarpath + ';. ' + ssopath
+            // var batch = process.env.PWD + '/sso/run.sh ' + ssoToken;
+            var batch = process.cwd() + '/sso/run.sh ' + ssoToken;
 
-            child_process.exec(path, {}, function (err, stdout, stderr) {
-                if (err) { cb(err); return }
+            child_process.exec(batch, {timeout: 5000, killSignal: 'SIGINT'}, function (err, stdout, stderr) {
+                if (err) {
+                    cb(err);
+                    return
+                }
+
+                var data = '';
+                try {
+                    data = JSON.parse(stdout);
+                }
+                catch (ex) {
+                    err(ex);
+                }
+
+                for (var idx in data)
+                {
+                    var d = data[idx]; session.idx = d;
+                }
+
+                cb(null)
+
             });
-        }
+        },
 
     ];
 

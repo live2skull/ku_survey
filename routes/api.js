@@ -30,10 +30,11 @@ router.post('/SSOLogin', function (req, res, next) {
 
     var callback = function (result) {
 
+        res.send(JSON.stringify({result : result}));
+
     };
 
-    api_ssologin.ssoLogin(callback, id, pw);
-
+    api_ssologin.ssoLogin(callback, req.session, id, pw);
 
 });
 
