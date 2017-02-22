@@ -78,9 +78,11 @@ exports.ssoLogin = function (callback, session, id, pw)
     })
 };
 
-// USERNAME, USERID(학번), DTPNM, DEPTCD, GROUPNMLIST, UID
+// USERNAME, USERID(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
 exports.ssoVerify = function (conn, callback, userInfo)
 {
+    var hak_level = 0;
+
     var task = [
         function (cb)
         {
@@ -100,14 +102,19 @@ exports.ssoVerify = function (conn, callback, userInfo)
 
         function (flag, cb)
         {
-            if (!flag) { cb(null); return }
+            if (flag) { cb(null); return }
 
-            var year = '';
+            var year = 0; var hak_level = 0;
+            var hak_number = userInfo.USERID;
+            if (hak_number.length == 10) year = Number(hak_number.substring(0, 4));
+            if (hak_number.length == 6) hak_level = 1; // 교수
+            else if (hak_number.length == 10) hak_level = 0; // 학생
 
             conn.query({
-                sql : 'insert into user (user_id, year, hak_name, hak_number, hak_depart, hak_level)' +
-                ' values (?, ?, ?, ?, ?, ?)',
-                values : []
+                sql : 'insert into user (user_id, year, hak_name, hak_number, hak_depart, hak_level, groupnmlist)' +
+                ' values (?, ?, ?, ?, ?, ?, ?)',
+                values : [userInfo.UID, year, userInfo.USERNAME, Number(hak_number),
+                    userInfo.DPTNM, hak_level, userInfo.GROUPNMLIST]
             },
             function (err, rows)
             {
@@ -120,11 +127,11 @@ exports.ssoVerify = function (conn, callback, userInfo)
     async.waterfall(task, function (err) {
         if (err)
         {
-            callback(false, conn);
+            callback(conn, false);
         }
         else
         {
-            callback(true, conn);
+            callback(conn, true, hak_level);
         }
     });
 }

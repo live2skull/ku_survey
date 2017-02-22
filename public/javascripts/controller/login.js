@@ -19,7 +19,16 @@ angular.module('kudoc')
                     alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.')
                 }
                 else {
-                    alert('로그인 성공')
+                    switch (d.hak_level)
+                    {
+                        case 0: // 학생
+                            location.href = '/student/list';
+                            break;
+
+                        case 1: // 교수
+                            location.href = '/professor/list';
+                            break;
+                    }
                 }
             },
 

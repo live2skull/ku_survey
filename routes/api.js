@@ -28,9 +28,10 @@ router.post('/SSOLogin', function (req, res, next) {
     var id = req.body.id;
     var pw = req.body.pw;
 
-    var callback_ssoVerify = function (conn, result) {
+    var callback_ssoVerify = function (conn, result, hak_level) {
         if (result)
         {
+            res.send(JSON.stringify({result : true, hak_level : hak_level}));
             conn.commit(function (err)
             {
                 conn.release();
@@ -38,6 +39,7 @@ router.post('/SSOLogin', function (req, res, next) {
         }
         else
         {
+            res.send(JSON.stringify({result : false}));
             conn.rollback(function (err)
             {
                 conn.release();
@@ -59,11 +61,11 @@ router.post('/SSOLogin', function (req, res, next) {
 
             if (hak_number.length == 6) // 교수
             {
-                req.session.hak_level = 0;
-            }
-            else if (hak_number.length == 10) // 학샹
-            {
                 req.session.hak_level = 1;
+            }
+            else if (hak_number.length == 10) // 학생
+            {
+                req.session.hak_level = 0;
             }
             else
             {
