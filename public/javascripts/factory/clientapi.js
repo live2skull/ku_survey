@@ -109,6 +109,34 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
     }
 })
 
+.factory('statFactory', function ($http) {
+   return {
+       loadStat : function (survey_id, callback) {
+           $http({
+               method : 'POST',
+               url : '/api/loadstat',
+               data : {survey_id : survey_id}
+           }).then(
+           function (data) {
+               var d = data.data;
+               var result = d.result;
+               if (!result) {
+                   callback(false)
+               }
+               else {
+                   callback(true, d.data)
+               }
+
+           },
+
+           function (err)
+           {
+               callback(false)
+           }
+       )}
+   }
+})
+
 .factory('commentManagerFactory', function ($http) {
     return {
         saveComment : function (submit_id, comment, callback) {

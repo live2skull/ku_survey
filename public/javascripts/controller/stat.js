@@ -1,45 +1,59 @@
 angular.module('kudoc')
 
-.controller('statController', function ($scope, $http) {
+.controller('statController', function ($scope, surveyFormFactory, statFactory, chartManager) {
 
     $scope.click = {};
+    $scope.survey = {};
+    // $scope.stat = {};
+
+    function callback_loadStat(result, stat)
+    {
+        if (!result) { alert('통계 데이터를 가져오는데 실패했습니다.'); return; }
+
+        // marshall form data.
+        var survey = $scope.survey;
+        var formats = chartManager.buildChartData(survey, stat);
+
+        if (formats == undefined)
+        {
+            alert('경고! 가져온 데이터가 잘못되었습니다.');
+            return;
+        }
+
+        var d = formats[4];
+        var ctx = $("#testChart");
+        var myPieChart = new Chart(ctx,{
+            type: 'pie',
+            data: d,
+            options: {
+                showAllTooltips : true
+            }
+        });
+
+        //alert(formats);
+    };
+
+    function callback_loadForm(result, form)
+    {
+        if (result)
+        {
+            $scope.survey = form;
+            statFactory.loadStat(form.survey_id, callback_loadStat);
+        }
+        else
+        {
+            alert('설문지 양식을 가져오는데 실패했습니다.')
+        }
+    };
+
     $scope.click.loadStat = function (survey_id)
     {
-
+        surveyFormFactory.loadForm(survey_id, callback_loadForm)
     };
 
     function init()
     {
-        $http({
-            method : 'POST',
-            url : '/api/loadstat',
-            data : {survey_id : 'fcf0498400fe802b1737f18a056e4db4'}
-        }).then(
-            function (data) {
-                var d = data.data;
-                var result = d.result;
-                if (!result) {
-                    alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.')
-                }
-                else {
-                    switch (d.hak_level)
-                    {
-                        case 0: // 학생
-                            location.href = '/student/list_ordinary';
-                            break;
-
-                        case 1: // 교수
-                            location.href = '/professor/list';
-                            break;
-                    }
-                }
-            },
-
-            function (err)
-            {
-                alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.')
-            }
-        )
+        $scope.click.loadStat('157525834b26df1c59a224a38fb3e8d8');
     }
 
     init();
