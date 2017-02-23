@@ -13,7 +13,7 @@ angular.module('kudoc')
         $http({
             method : 'POST',
             url : '/api/loadstat',
-            data : {survey_id : '157525834b26df1c59a224a38fb3e8d8'}
+            data : {survey_id : 'fcf0498400fe802b1737f18a056e4db4'}
         }).then(
             function (data) {
                 var d = data.data;

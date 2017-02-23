@@ -58,7 +58,7 @@ angular.module('kudoc')
                         var opt = quest.options[idx];
                         if (opt.sel_order == undefined || isNaN(opt.sel_order)) continue;
 
-                        if (opt.sel_order > cur_order) opt.sel_order - 1;
+                        if (opt.sel_order > cur_order) opt.sel_order -= 1;
                     }
 
                 }

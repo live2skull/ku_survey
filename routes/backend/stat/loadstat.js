@@ -66,12 +66,12 @@ exports.loadStat = function (conn, callback, survey_id)
 
         function (cb) {
             conn.query({
-                sql : 'select submitType3.`no`, submitType3.`select` from submitType3 ' +
+                sql : 'select submitType3.`no`, submitType3.`select`, submitType3.`order` from submitType3 ' +
                 'inner join submitList on submitList.submit_id = submitType3.submit_id and submitList.survey_id = ?',
                 values : [survey_id]
             }, function (err, rows) {
                 if (err) {cb(err); return}
-                for (var idx in rows) data_type12.push(rows[idx])
+                for (var idx in rows) data_type3.push(rows[idx])
                 cb(null);
             })
         },
@@ -121,8 +121,22 @@ exports.loadStat = function (conn, callback, survey_id)
                     // 각 order 별로 총 몇개 있는지 확인.
                     // order 별로 정리한다.
                     var ord = orders[i];
+                    // 가장 많은 거. [select, count]
+                    var max = 0;
+                    var dsel = 0;
+                    for (var j in selects)
+                    {
+                        var sel = selects[j];
+                        var list = listIdvars(datas, 'select', sel);
+                        var cnt = countIdvars(list, 'order', ord);
 
+                        if (cnt > max)
+                        {
+                            dsel = sel; max = cnt;
+                        }
+                    }
 
+                    dest[ord] = [dsel, max];
                     // var sel = selects[i];
                     // var count = countIdvars(datas, 'select', sel);
 
