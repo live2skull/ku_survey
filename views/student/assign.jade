@@ -16,7 +16,7 @@ block content
 
         i.fa.fa-lightbulb-o.fa-2x
             i.notice &nbsp;&nbsp;공지사항
-        h5 {{ getNotice() }}
+        h5 {{ survey.notice }}
         //hr.assign-hr-top
 
         h5 &nbsp;
@@ -51,6 +51,7 @@ block content
                 div.assign-entry
                     h4.assign-q-title {{ $index + 1 + '. ' + quest.name }}
                     h4.assign-q-multi(ng-show='quest.type == 2') &nbsp; (복수선택 가능)
+                    h4.assign-q-multi(ng-show='quest.type == 3') &nbsp; (복수 선택하여 순위지정)
                 // 주관식 문항
                 div(ng-show='quest.type == 0')
                     textarea.assign-q-textarea(ng-model='quest.input', placeholder="최대 200 글자까지 입력 가능")
@@ -60,7 +61,7 @@ block content
 
                 // 객관식 문항 (단일)
                 div(ng-show='quest.type == 1')
-                    div(ng-repeat='option in quest.options')
+                    div(ng-repeat='option in quest.options | orderBy : "order"')
                         label.assign-q-lab
                             //input(type='radio',name='quest.no',
                             input(type='radio',
@@ -71,7 +72,7 @@ block content
 
                 // 객관식 문항 (다중)
                 div(ng-show='quest.type == 2')
-                    div(ng-repeat='option in quest.options')
+                    div(ng-repeat='option in quest.options | orderBy : "order"')
                         label.assign-q-lab
                             //input(type='checkbox', name='quest.no',
                             input(type='checkbox',
@@ -80,12 +81,57 @@ block content
 
                         input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
 
+                div.container-fluid.no-padding(ng-show='quest.type == 3')
+                    .rows
+                        .col-md-6.col-sm-6.no-padding
+                            div.container-fluid.no-padding(ng-repeat='option in quest.options | orderBy : "sel_order" | filter : {checked : true}')
+                                div.no-padding(style='margin-top: 10px')
+                                    button.btn.ku-button.edit-button(type='button', ng-click='click.sortSelection(0, quest, option)')
+                                        i.fa.fa-arrow-up.fa-neg.fa-05x
+                                    a &nbsp;
+                                    button.btn.ku-button.edit-button(type='button', ng-click='click.sortSelection(1, quest, option)')
+                                        i.fa.fa-arrow-down.fa-neg.fa-05x
+                                    a &nbsp;
+                                    input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                                    //button.btn.ku-button.edit-button(type='button', ng-click='click.removeSelection(quest.options, option.no)')
+                                    //    i.fa.fa-times.fa-neg.fa-05x
+                                    //a &nbsp;
+
+                                    //div(style='display: inline-block; vertical-align: -6px')
+                                    //    label
+                                    //        input(ng-model='option.write', type='checkbox')
+                                    //        | &nbsp;&nbsp;주관식 입력
+
+
+                                div(style='margin-top: -3px')
+                                    h5 {{ $index + 1 + '. ' + option.name  }}&nbsp;
+
+                        .col-md-6.col-sm-6.no-padding
+                            div(ng-repeat='option in quest.options | orderBy : "order"')
+                                label.assign-q-lab
+                                    //input(type='checkbox', name='quest.no',
+                                    input(type='checkbox',
+                                    ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
+                                    | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
+                            //div(style='margin-top: 10px')
+                            //div(style='margin-top: 10px')
+                            //    // TODO : 모바일에서만 살짝 어긋남 -> Chrome 과 safari 의 차이점이 존재하는듯
+                            //    //button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)', style='margin-top: 0px')
+                            //    //button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)')
+                            //    button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)', style='margin-top: 0px; ')
+                            //        i.fa.fa-plus.fa-neg.fa-1x
+                            //    //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important')
+                            //    //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important; display: inline-block')
+                            //    input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; display: inline-block; vertical-align: -1px !important')
+                            //    //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름',)
+
+
                 hr.assign-hr
 
         button.btn.ku-button(type='button', ng-click='click.postSurvey()')
             i.fa.fa-check.fa-neg.fa-12x &nbsp;응답 제출
 
 
-
     script(src='/public/javascripts/controller/assign.js')
     link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign-c.css')

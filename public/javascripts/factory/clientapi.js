@@ -3,12 +3,6 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
 
 .factory('surveyFormFactory', function ($http, lv2sHelper) {
     return {
-        validateForm :
-            function (survey)
-            {
-
-            }
-        ,
         submitForm : function (survey, callback) {
             $http({
                 method : 'POST',

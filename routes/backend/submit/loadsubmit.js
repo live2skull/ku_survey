@@ -108,7 +108,26 @@ exports.loadSubmit = function (conn, callback, submit_id)
 
                 cb(null);
             })
-        }
+        },
+
+        function (cb) {
+            conn.query({
+                sql : 'select * from submitType3 where submit_id = ?',
+                values : [submit_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+
+                for (var idx in rows)
+                {
+                    var row = rows[idx];
+                    delete row.submit_id;
+                    row.type = 3;
+                    form.submit.push(row);
+                }
+
+                cb(null);
+            })
+        },
     ];
 
 

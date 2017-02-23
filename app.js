@@ -12,7 +12,7 @@ var mysql = require('./mod/dbms');
 var app = express();
 app.use(session(
     {
-      secret : 'secret_key',
+      secret : 'QQ_XX_kuvey_good_live2skull!!!',
       cookie : { maxAge : 100000000 }, // set expired date
       saveUninitialized : false,
       resave : true

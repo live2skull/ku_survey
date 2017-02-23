@@ -122,6 +122,41 @@ exports.saveSubmit = function (conn, callback, doc, user_id)
                                 c(null);
                             });
                             break;
+
+                        case 3: // 객관식 (순위지정)
+                        {
+                            var ssql = '';
+
+                            for (var i in q.selects)
+                            {
+                                var sel = q.selects[i];
+                                var inp = q.inputs[i];
+                                var ord = q.orders[i];
+
+                                var sql = 'insert into submitType3 ';
+                                var values = [];
+
+                                sql += '(submit_id, `no`, `select`, `order`, `input`) values (?, ?, ?, ?, ?); ';
+                                values = [submit_id, q.no, sel, ord, inp];
+
+                                ssql += conn.format(sql, values);
+
+                            }
+                            conn.query({
+                                sql : ssql,
+                                // values : values
+                            }, function (err, rows) {
+                                if (err || !rows.affectedRows) {c(err); return}
+                                for (var i in rows) {
+                                    if (!rows[i].affectedRows) {c(0); return}
+                                }
+
+                                c(null);
+                            });
+                            break;
+
+                        }
+
                     }
 
                 },
