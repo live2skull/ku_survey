@@ -26,6 +26,8 @@ const api_listsurvey = require('./backend/survey/listsurvey');
 const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
 
+const api_loadstat = require('./backend/stat/loadstat');
+
 router.post('/SSOLogin', function (req, res, next) {
 
     var id = req.body.id;
@@ -415,6 +417,26 @@ router.post('/listsurvey', function(req, res, next) {
 
 // ************************************************************************************
 
+router.post('/loadstat', function (req, res, next) {
+
+    var survey_id = req.body.survey_id;
+
+    dbms.pool.getConnection(function (err, conn) {
+
+        var callback = function (result, data)
+        {
+            conn.release();
+            if (result) res.send(JSON.stringify({result : result, data : data}));
+            else res.send(JSON.stringify({result : result}))
+        };
+
+        api_loadstat.loadStat(conn, callback, survey_id);
+
+    });
+})
+
+// ************************************************************************************
+
 
 // Malicious!!!
 // 학사구조 불러오기
@@ -434,5 +456,6 @@ router.post('/savestruct', function (req, res, next) {
 });
 
 // ************************************************************************************
+
 
 module.exports = router;
