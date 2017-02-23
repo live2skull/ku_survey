@@ -23,7 +23,7 @@ angular.module('kudoc')
         var d = formats[4];
         var ctx = $("#testChart");
         var myPieChart = new Chart(ctx,{
-            type: 'pie',
+            type: 'doughnut',
             data: d,
             options: {
                 showAllTooltips : true
