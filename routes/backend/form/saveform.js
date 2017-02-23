@@ -22,8 +22,8 @@ exports.saveForm = function (conn, callback, doc, user_id)
             {
                 survey_id = createSurveyId(user_id);
                 conn.query({
-                    sql : 'insert into surveyList (survey_id, professor_id, title, notice, no_idx) values (?, ?, ?, ?, ?)',
-                    values : [survey_id, user_id, doc.title, doc.notice, doc.no_idx]
+                    sql : 'insert into surveyList (survey_id, professor_id, title, notice, no_idx, `type`) values (?, ?, ?, ?, ?, ?)',
+                    values : [survey_id, user_id, doc.title, doc.notice, doc.no_idx, doc.type]
                 }, function (err, rows) {
                     if (err || !rows.affectedRows) {cb(err); return}
                     cb(null);
@@ -83,7 +83,7 @@ exports.saveForm = function (conn, callback, doc, user_id)
                             });
                             break;
 
-                        default: // 객관식
+                        default: // 객관식 (순위지정도 그대로 반영한다.)
                             conn.query({
                                 sql : 'insert into surveyOption (survey_id, `no`, no_idx, `order`, `type`, `name`, options) values (?, ?, ?, ?, ?, ?, ?)',
                                 values : [survey_id, q.no, q.no_idx, q.order, q.type, q.name, JSON.stringify(q.options)]

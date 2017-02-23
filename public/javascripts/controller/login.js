@@ -22,7 +22,7 @@ angular.module('kudoc')
                     switch (d.hak_level)
                     {
                         case 0: // 학생
-                            location.href = '/student/list';
+                            location.href = '/student/list_ordinary';
                             break;
 
                         case 1: // 교수

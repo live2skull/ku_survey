@@ -31,11 +31,29 @@ block content
 
         // h4
         div
-            h4.assign-info-h 설문제목 : &nbsp;
+            h4.assign-info-h 설문제목 &nbsp;
             input.assign-q-input.assign-default-info.assign-c-title(ng-model='survey.title', type='text', placeholder='제목 입력')
+        div
+            h4.assign-info-h 설문종류
+            .rows(style='margin-top: 10px')
+                .col-sm-2.col-md-2
+                    label
+                        input(type='radio', ng-checked='survey.type == 0', ng-value='0', ng-model='survey.type', value='상시상담')
+                        | &nbsp;상시상담
+                .col-sm-2.col-md-2
+                    label
+                        input(type='radio', ng-checked='survey.type == 1', ng-value='1', ng-model='survey.type', value='학과설문')
+                        | &nbsp;학과설문
+                .col-sm-2.col-md-2
+                    label
+                        input(type='radio', ng-checked='survey.type == 2', ng-value='2', ng-model='survey.type', value='학교설문')
+                        | &nbsp;학교설문
+        br
+        br
         div(style='margin-bottom: 10px')
-            h4.assign-info-h 공지사항 :
+            h4.assign-info-h 공지사항
         textarea.assign-q-textarea.assign-c-notice(ng-model='survey.notice', placeholder="최대 200 글자까지 입력 가능")
+
         // h4.assign-title &nbsp;{{ survey.title }}
         hr.assign-hr-top
 
@@ -74,7 +92,7 @@ block content
                 //    textarea.assign-q-textarea(ng-model='quest.write', placeholder="최대 {{ quest.maxLength }} 글자까지 입력 가능")
 
                 //div.container-fluid.no-padding(ng-show='quest.type == 1 || quest.type == 2')
-                div.container-fluid.no-padding(ng-show='quest.type == 1 || quest.type == 2')
+                div.container-fluid.no-padding(ng-show='quest.type == 1 || quest.type == 2 || quest.type == 3')
                     .rows-
                         .col-md-6.col-sm-6.no-padding
                             div.container-fluid.no-padding(ng-repeat='option in quest.options | orderBy : "order"')

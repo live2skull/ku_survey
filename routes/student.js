@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-
-router.get('/list', function(req, res, next) {
-    res.render('student/list')
+router.get('/list_ordinary', function(req, res, next) {
+    res.render('student/list_ordinary')
 });
 
 router.get('/assign/:surveyId', function (req, res, next) {

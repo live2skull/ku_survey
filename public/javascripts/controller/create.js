@@ -1,6 +1,7 @@
 angular.module('kudoc')
 
-// 교수 설문지 만들기  :: /professor/create + /professor/edit/:survey_id
+// TODO 설문지 enable (closed_at 조정 datetimepicker 추가 필요)
+// 교수 설문지 만들기 및 수정 :: /professor/create + /professor/edit/:survey_id
 .controller('createController', function ($scope, surveyFormFactory) {
 
     function getMaxArguments_Question() {
@@ -39,6 +40,7 @@ angular.module('kudoc')
         title : '',
         notice : '',
         no_idx : 0,
+        type : 0,
 
         // undefined - survey_id, professor_id, started_at, created_at, finished_at, modified_at, closed
 
@@ -56,22 +58,6 @@ angular.module('kudoc')
             {code: 3, name: '객관식 (순위지정)'}
     ];
     $scope.select.type = $scope.option.type[0];
-
-    // $scope.click.updateYear = function () {
-    //     $scope.flag.listShow = $scope.select.year.code;
-    //     // alert($scope.select.year.code);
-    // };
-
-    // TODO - module!
-    // $scope.click.goStat = function (survey_id) {
-    //     var curl = window.location.href;
-    //     if (curl[curl.length - 1] != '/') curl += '/';
-    //     curl += survey_id.toString();
-    //
-    //     window.location.href = curl;
-    // };
-
-    // $scope.click.updateYear();
 
     // TODO 데이터 삭제 후 새로 만들 때, 이전 데이터의 무결성 검증
     $scope.click.createQuestion = function () {
@@ -230,6 +216,7 @@ angular.module('kudoc')
     };
 
     $scope.click.postForm = function () {
+        $scope.survey.type = Number($scope.survey.type)
         surveyFormFactory.submitForm($scope.survey, postFormCallback);
         // 새로 만들기
     };

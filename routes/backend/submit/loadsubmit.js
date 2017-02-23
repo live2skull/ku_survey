@@ -1,10 +1,7 @@
 const async = require('async');
-const security = require('../../../mod/security');
 const deepcopy = require('deepcopy');
 
 // loadSubmit, loadStat 과 별도의 라이브러리로 구성.
-
-
 // http://stackoverflow.com/questions/23446377/syntax-error-due-to-using-a-reserved-word-as-a-table-or-column-name-in-mysql
 // TODO no, order, type, name -> MySQL reserved! (`` escape required)
 exports.loadSubmit = function (conn, callback, submit_id)
