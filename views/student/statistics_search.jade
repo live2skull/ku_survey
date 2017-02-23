@@ -2,7 +2,7 @@ extends layout
 
 block content
 
-    div#main-container.container(ng-controller='statisticsSearchController')
+    div#main-container.container(ng-controller='statController')
 
         h4
         h4(style='display: inline') 설문 검색 :
@@ -115,5 +115,4 @@ block content
 
 
     link(rel='stylesheet', href='/public/stylesheets/statistics.css')
-    script(src='/public/javascripts/publicAPI.js')
-    script(src='/public/javascripts/student.js')
+    script(src='/public/javascripts/controller/stat.js')

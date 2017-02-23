@@ -29,7 +29,7 @@ var countIdvars = function (datas, idvar, value)
 {
     var ret = 0;
 
-    for (var idx in data) if (datas[idx][idvar] == value) ret++;
+    for (var idx in datas) if (datas[idx][idvar] == value) ret++;
     return ret;
 };
 
@@ -48,6 +48,7 @@ exports.loadStat = function (conn, callback, survey_id)
             }, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
+                cb(null);
             })
         },
 
@@ -57,8 +58,9 @@ exports.loadStat = function (conn, callback, survey_id)
                 'inner join submitList on submitList.submit_id = submitType2.submit_id and submitList.survey_id = ?',
                 values : [survey_id]
             }, function (err, rows) {
-                if (err) {cb(err); return}
+                 if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
+                cb(null);
             })
         },
 
@@ -70,6 +72,7 @@ exports.loadStat = function (conn, callback, survey_id)
             }, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
+                cb(null);
             })
         },
 
