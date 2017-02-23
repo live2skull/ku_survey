@@ -1,0 +1,47 @@
+const async = require('async');
+
+exports.loadStat = function (conn, callback, survey_id)
+{
+    var submit_ids = [];
+    var data = {};
+
+    var task = [
+        function (cb) {
+            conn.query({
+                sql : 'select submit_id from submitList where survey_id = ?',
+                values : [survey_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+                for (var idx in rows) submit_ids.push(rows[idx]['submit_id']);
+            })
+        },
+
+        function (cb) {
+            var idx = 0;
+            var max = submit_ids.length;
+            async.until(
+                function () {
+                    var f = idx >= max;
+                    if (f) cb(null);
+                    return f;
+                },
+                function (c) {
+                    var submit_id = submit_ids[idx];
+                    
+                }
+            )
+        },
+
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err)
+        {
+            callback(false);
+        }
+        else
+        {
+            callback(true)
+        }
+    })
+};

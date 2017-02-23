@@ -1,0 +1,144 @@
+const async = require('async');
+
+var extractIdvars = function (datas, idvar) {
+    var nos = [];
+
+    for (var idx in datas)
+    {
+        var data = datas[idx];
+        var no = data[idvar];
+        if (nos.indexOf(no) == -1) nos.push(no);
+    }
+
+    return nos;
+};
+
+var listIdvars = function (datas, idvar, value) {
+    var ret = [];
+
+    for (var idx in datas)
+    {
+        var data = datas[idx];
+        if (data[idvar] == value) ret.push(data);
+    }
+
+    return ret;
+};
+
+var countIdvars = function (datas, idvar, value)
+{
+    var ret = 0;
+
+    for (var idx in data) if (datas[idx][idvar] == value) ret++;
+    return ret;
+};
+
+exports.loadStat = function (conn, callback, survey_id)
+{
+    var data_type12 = [];
+    var data_type3 = [];
+    var stat = {};
+
+    var task = [
+        function (cb) {
+            conn.query({
+                sql : 'select submitType1.`no`, submitType1.`select` from submitType1 ' +
+                'inner join submitList on submitList.submit_id = submitType1.submit_id and submitList.survey_id = ?',
+                values : [survey_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+                for (var idx in rows) data_type12.push(rows[idx])
+            })
+        },
+
+        function (cb) {
+            conn.query({
+                sql : 'select submitType2.`no`, submitType2.`select` from submitType2 ' +
+                'inner join submitList on submitList.submit_id = submitType2.submit_id and submitList.survey_id = ?',
+                values : [survey_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+                for (var idx in rows) data_type12.push(rows[idx])
+            })
+        },
+
+        function (cb) {
+            conn.query({
+                sql : 'select submitType3.`no`, submitType3.`select` from submitType3 ' +
+                'inner join submitList on submitList.submit_id = submitType3.submit_id and submitList.survey_id = ?',
+                values : [survey_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+                for (var idx in rows) data_type12.push(rows[idx])
+            })
+        },
+
+        function (cb) {
+            // 객관식 단일, 다중 문항 계산
+            // 1. 전체 넘버 파싱.
+            var nos = extractIdvars(data_type12, 'no');
+
+            // 넘버 단위로 selection 을 뽑아냄
+            for (var idx in nos)
+            {
+                var no = nos[idx];
+                var datas = listIdvars(data_type12, 'no', no); // 해당 넘버를 가진 것만 추출
+                var selects = extractIdvars(datas, 'select'); // 여기서 select 가 총 몇개 있는지 구한다.
+
+                stat[no] = {}; var dest = stat[no];
+                // 이제, 각 select 번호에 따라 총 몇개가 있는지 구함.
+                for (var i in selects)
+                {
+                    var sel = selects[i];
+                    dest[sel] = countIdvars(datas, 'select', sel);
+                }
+            }
+
+            cb(null)
+        },
+
+        function (cb) {
+            // 객관식 순위지정 다중 문항 계산.
+            // 1. 전체 넘버 파싱.
+            var nos = extractIdvars(data_type3, 'no');
+
+            for (var idx in nos)
+            {
+                var no = nos[idx];
+                var datas = listIdvars(data_type3, 'no', no); // 해당 넘버를 가진 것만 추출
+                var orders = extractIdvars(datas, 'order');
+                var selects = extractIdvars(datas, 'select');
+                //var selects = extractIdvars(datas, 'select'); // 여기서 select 가 총 몇개 있는지 구한다.
+
+                stat[no] = {}; var dest = stat[no];
+                // 이제, 각 select 번호에 따라 총 몇개가 있는지 구함.
+                // TODO :: 전체 순위 판별
+                for (var i in orders)
+                {
+                    // 각 order 별로 총 몇개 있는지 확인.
+                    // order 별로 정리한다.
+                    var ord = orders[i];
+
+
+                    // var sel = selects[i];
+                    // var count = countIdvars(datas, 'select', sel);
+
+                    // dest[sel] = countIdvars(datas, 'select', sel);
+                };
+            }
+
+            cb(null)
+        }
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err)
+        {
+            callback(false);
+        }
+        else
+        {
+            callback(true, stat)
+        }
+    })
+};
