@@ -12,7 +12,7 @@ router.get('/assign/:surveyId', function (req, res, next) {
 
 
 router.get('/statistics', function (req, res, next) {
-    res.render('student/statistics_search')
+    res.render('student/statistics')
 });
 
 router.get('/statistics/:surveyId', function (req, res, next) {

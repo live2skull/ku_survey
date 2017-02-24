@@ -18,13 +18,13 @@
 }
 
 /* 브랜드 이름 크기 - 디바이스 크기에 맞게 조절 */
-@media screen and (max-width: 480px) {
+@media all and (max-width: 480px) {
     #navbar-brand-span {
         font-size: 16px;
     }
 }
 
-@media screen and (max-width: 360px) {
+@media all and (max-width: 360px) {
     #navbar-brand-span {
         font-size: 13px;
     }

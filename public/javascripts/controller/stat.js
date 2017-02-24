@@ -4,7 +4,51 @@ angular.module('kudoc')
 
     $scope.click = {};
     $scope.survey = {};
-    // $scope.stat = {};
+    $scope.formats = {};
+
+    $scope.getMeta = function (type)
+    {
+        switch (type)
+        {
+            case 1:
+                return "(단일) "; break;
+            case 2:
+                return "(다중) "; break;
+            case 3:
+                return "(순위) "; break;
+        }
+    }
+
+    function callback_awaitChart()
+    {
+        for (var idx in $scope.formats)
+        {
+            var format = $scope.formats[idx];
+            // http://stackoverflow.com/questions/37608068/chart-js-bar-chart-change-the-label-position-x-axis
+            var ctx = $('#Chart-' + idx);
+
+            new Chart(ctx, {
+                // type : 'doughnut',
+                type : 'doughnut',
+                data : format,
+                options: {showAllTooltips : true, responsive: true,
+                    legend :
+                    {
+                        display : true,
+                        fullWidth : true,
+                        position : 'bottom',
+                        labels : {
+                            boxWidth : 10
+                        }
+                    }
+                    // scale :
+                    // {
+                    //     height: 500
+                    // }
+                }
+            })
+        }
+    }
 
     function callback_loadStat(result, stat)
     {
@@ -20,15 +64,19 @@ angular.module('kudoc')
             return;
         }
 
-        var d = formats[4];
-        var ctx = $("#testChart");
-        var myPieChart = new Chart(ctx,{
-            type: 'doughnut',
-            data: d,
-            options: {
-                showAllTooltips : true
-            }
-        });
+        $scope.formats = formats;
+
+        setTimeout(callback_awaitChart, 500);
+
+        // var d = formats[4];
+        // var ctx = $("#testChart");
+        // var myPieChart = new Chart(ctx,{
+        //     type: 'doughnut',
+        //     data: d,
+        //     options: {
+        //         showAllTooltips : true
+        //     }
+        // });
 
         //alert(formats);
     };

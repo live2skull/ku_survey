@@ -1,3 +1,45 @@
+
+.chart-frame {
+    /*min-width: 400px;*/
+    max-width: 600px;
+    /*margin-right: 20px;*/
+    margin-bottom: 20px;
+    display: inline-block;
+    /*min-height: 400px;*/
+}
+
+@media all and (min-width: 700px) {
+    .chart-frame {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}
+
+
+@media all and (min-width: 375px) {
+    .chart-frame {
+        margin-left: 15px;
+        /*margin-right: 2%;*/
+    }
+}
+
+@media all and (min-width: 414px) {
+    .chart-frame {
+        margin-left: 35px;
+        /*margin-right: 2%;*/
+    }
+}
+
+
+
+.chart-name {
+    font-weight: bold;
+    /*text-align: center;*/
+}
+
+
+
+
 .stat-search {
     margin-top: 15px;
 }

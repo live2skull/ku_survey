@@ -17,7 +17,7 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
                 //- img.navbar-brand(alt='Marina Marques', src='https://shvvffle.github.io/img/marina_marques_logo.png')
                 //- img.navbar-brand()
 
-        // TODO : navbar-toggle 버튼을 다른 곳으로 옮기기
+
             //button.navbar-toggle(type='button', data-toggle='collapse', data-target='#ResponsiveNav')
             //    span.icon-bar
             //    span.icon-bar
@@ -28,15 +28,15 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
 
         #ResponsiveNav.collapse.navbar-collapse
             ul.nav.navbar-nav
-                li.navbar-active
+                li(ng-class='{"navbar-active" : checkURL("/student/list_ordinary")}')
                     a(href='/student/list_ordinary') 상시상담
-                li
+                li(ng-class='{"navbar-active" : checkURL("/student/list_department")}')
                     a(href='/student/list_department') 학과설문
-                li
+                li(ng-class='{"navbar-active" : checkURL("/student/list_university")}')
                     a(href='/student/list_university') 학교설문
-                li
+                li(ng-class='{"navbar-active" : checkURL("/student/statistics")}')
                     a(href='/student/statistics') 통계자료
-                li
+                li(ng-class='{"navbar-active" : checkURL("/student/submits")}')
                     a(href='/student/submits') 나의설문
                 //
                 //li.dropdown
@@ -79,9 +79,9 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
                 //        //li.divider
 
 
-            //ul.nav.navbar-nav.navbar-right
-            //    li
-            //        a {{ message }}
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a {{ message }}
 
         //- navbar-collapse
 
