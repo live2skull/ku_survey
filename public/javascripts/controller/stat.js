@@ -4,7 +4,7 @@ angular.module('kudoc')
 
     $scope.click = {};
     $scope.survey = {};
-    $scope.formats = {};
+    $scope.formats = [];
 
     $scope.getMeta = function (type)
     {
@@ -17,7 +17,7 @@ angular.module('kudoc')
             case 3:
                 return "(순위) "; break;
         }
-    }
+    };
 
     function callback_awaitChart()
     {

@@ -19,6 +19,8 @@ block content
         hr.assign-hr-top
 
 
+        //div(ng-repeat='format in formats | orderBy : "order"').chart-frame
+        //div(ng-repeat='format in formats | toArray : false | orderBy : order').chart-frame
         div(ng-repeat='format in formats | orderBy : "order"').chart-frame
             //h4.chart-name {{ '&nbsp;&nbsp;&nbsp;' + ($index + 1) + '. ' + format.name }}
             h4.chart-name {{ '&nbsp;&nbsp;' + getMeta(format.type) + (format.order + 1) + '. ' + format.name }}
