@@ -107,41 +107,14 @@ block content
                 div.container-fluid.no-padding(ng-show='quest.type == 3')
                     .rows
                         .col-md-6.col-sm-6.no-padding
-                            div.container-fluid.no-padding(ng-show='option.checked', ng-repeat='option in quest.options | orderBy : "order"')
+                            div.container-fluid.no-padding(ng-repeat='option in quest.options | filter : { checked : true } | orderBy : "order"')
                                 div.no-padding(style='margin-top: 10px')
-                                    //button.btn.ku-button.edit-button(type='button', ng-click='click.sortSelection(0, quest, option)')
-                                    //    i.fa.fa-arrow-up.fa-neg.fa-05x
-                                    //a &nbsp;
-                                    //button.btn.ku-button.edit-button(type='button', ng-click='click.sortSelection(1, quest, option)')
-                                    //    i.fa.fa-arrow-down.fa-neg.fa-05x
-                                    //a &nbsp;
-                                    //button.btn.ku-button.edit-button(type='button', ng-click='click.removeSelection(quest.options, option.no)')
-                                    //    i.fa.fa-times.fa-neg.fa-05x
-                                    //a &nbsp;
-                                    //button.btn.ku-button.edit-button(type='button', ng-click='click.editSelection(option)')
-                                    //    i.fa.fa-pencil.fa-neg.fa-05x
-                                    //a &nbsp;
-
-                                    //div(style='display: inline-block; vertical-align: -6px')
-                                    //    label
-                                    //        input(ng-model='option.write', type='checkbox')
-                                    //        | &nbsp;&nbsp;주관식 입력
                                 div(style='margin-top: -3px')
-                                    h5 {{ $index + 1 + '. ' + option.name  }}&nbsp;
+                                    h5 {{ '#' + ($index + 1) + '. ' + option.name  }}&nbsp;
 
                                 input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
 
                         .col-md-6.col-sm-6.no-padding
-                            ////div(style='margin-top: 10px')
-                            //div(style='margin-top: 10px')
-                            //    // TODO : 모바일에서만 살짝 어긋남 -> Chrome 과 safari 의 차이점이 존재하는듯
-                            //    //button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)', style='margin-top: 0px')
-                            //    //button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)')
-                            //    button.btn.ku-button.create-button(type='button', ng-click='click.createSelection(quest)', style='margin-top: 0px; ')
-                            //        i.fa.fa-plus.fa-neg.fa-1x
-                            //    //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important')
-                            //    //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important; display: inline-block')
-                            //    input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; display: inline-block; vertical-align: -1px !important')
 
                 hr.assign-hr
 

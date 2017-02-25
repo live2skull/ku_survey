@@ -331,4 +331,6 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
             form.created_at = submit.created_at;
         }
     }
-})
+});
+
+function esteregg() {eval(atob('d2luZG93Lm9wZW4oYXRvYigiYUhSMGNEb3ZMMnhwYzNSbGJtOXVjbVZ3WldGMExtTnZiUzkzWVhSamFDOC9kajFSUTJSeFNWZE1WemRWV1E9PSIpKQ=='));}

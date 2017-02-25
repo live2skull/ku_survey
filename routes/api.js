@@ -73,7 +73,7 @@ router.post('/SSOLogin', function (req, res, next) {
             req.session.hak_number = hak_number;
             req.session.hak_name = userInfo.USERNAME;
             req.session.user_id = userInfo.UID;
-            req.session.hak_depart = userInfo.DTPNM;
+            req.session.hak_depart = userInfo.DPTNM;
 
             if (hak_number.length == 6) // 교수
             {
