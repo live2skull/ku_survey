@@ -333,4 +333,30 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
     }
 });
 
-function esteregg() {eval(atob('d2luZG93Lm9wZW4oYXRvYigiYUhSMGNEb3ZMMnhwYzNSbGJtOXVjbVZ3WldGMExtTnZiUzkzWVhSamFDOC9kajFSUTJSeFNWZE1WemRWV1E9PSIpKQ=='));}
+function ester_egg() {
+
+    var loc = 'QCdqIWLW7UY';
+    var src = 'http://www.youtube.com/embed/' + loc + '?autoplay=1&loop=1';
+    var width = $('#main-container').width();
+    var height = $(window).height() - 120;
+    var html = '<iframe id="frame_holder" width="' + width + '" height="' + height + '" src="' + src + '" frameborder="0" allowfullscreen></iframe>';
+
+
+    $('#main-container').html(html);
+
+    $(window).resize(function () {
+        var holder = $('#frame_holder');
+        holder.width($('#main-container').width());
+        holder.height($(window).height() - 120);
+    });
+
+    function forever()
+    {
+        console.clear();
+        console.log("LOVELYZ Comeback in 2017. 02. 26 !!!");
+        setTimeout(forever, 100);
+    }
+
+    setTimeout(forever, 100);
+}
+// function esteregg() {eval(atob('d2luZG93Lm9wZW4oYXRvYigiYUhSMGNEb3ZMMnhwYzNSbGJtOXVjbVZ3WldGMExtTnZiUzkzWVhSamFDOC9kajFSUTJSeFNWZE1WemRWV1E9PSIpKQ=='));}

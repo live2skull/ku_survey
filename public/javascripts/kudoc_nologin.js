@@ -7,5 +7,5 @@ angular.module('kudoc', ['kudoc.clientAPI'])
     console.log('%c개발자 : 고려대학교 세종캠퍼스 전자및정보공학과 양해찬 (live2skull@gmail.com)', 'color: #000000; font-size: 12px; font-weight: 600');
     console.log('---------------------------------------------------------------------');
 
-    // console.log('...Hey, do you know about "ester_egg()" ?')
+    // console.log('Code omitted.');
 }]);
