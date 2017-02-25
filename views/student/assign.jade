@@ -50,8 +50,8 @@ block content
             div.assign-q(ng-repeat='quest in survey.questions | orderBy : "order"', id='qid-{{quest.no}}')
                 div.assign-entry
                     h4.assign-q-title {{ $index + 1 + '. ' + quest.name }}
-                    h4.assign-q-multi(ng-show='quest.type == 2') &nbsp; (복수선택 가능)
-                    h4.assign-q-multi(ng-show='quest.type == 3') &nbsp; (복수 선택하여 순위지정)
+                    h4.assign-q-multi(ng-show='quest.type == 2') &nbsp; (복수 선택가능)
+                    h4.assign-q-multi(ng-show='quest.type == 3') &nbsp; (복수 선택가능, 순위지정)
                 // 주관식 문항
                 div(ng-show='quest.type == 0')
                     textarea.assign-q-textarea(ng-model='quest.input', placeholder="최대 200 글자까지 입력 가능")
@@ -94,7 +94,7 @@ block content
                                     a &nbsp;
                                     //button.btn.ku-button.edit-button(type='button', ng-click='click.removeSelection(quest.options, option.no)')
                                     //    i.fa.fa-times.fa-neg.fa-05x
-                                    a &nbsp;
+                                    input.assign-q-input(style='display: inline-block', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
 
                                     //div(style='display: inline-block; vertical-align: -6px')
                                     //    label

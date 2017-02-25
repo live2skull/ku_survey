@@ -21,8 +21,9 @@ block content
             thead
                 tr
                     th 제목
-                    th 담당자(교수)
+                    th 교수
                     th 부서(학과)
+                    th 참여자
                     //th 완료
                     //th Share
                     //th More
@@ -31,12 +32,14 @@ block content
                     th
                         a {{ survey.title }}
                     //td {{ survey.closed_at }}
-                    td {{ survey.professor }}
-                    td {{ survey.department }}
-                    //td {{ survey.participants_cnt }} 명
-                    //td
-                    //    i(ng-show='!survey.complete').fa.fa-times
-                    //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                    td {{ survey.hak_name }}
+                    td {{ survey.hak_depart }}
+                    td {{ survey.participants_cnt }} 명
+                    td
+                        //i(ng-show='!survey.complete').fa.fa-times
+                        //i(ng-show='survey.complete').fa.fa-check-circle-o
+                        //i.fa.fa-check-circle-o
+                        //    | df
             tfoot
                 tr
                     td(colspan='7')

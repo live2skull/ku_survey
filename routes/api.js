@@ -28,6 +28,17 @@ const api_loadcomment = require('./backend/comment/loadcomment');
 
 const api_loadstat = require('./backend/stat/loadstat');
 
+// INFO
+/*
+
+hak_number 학번
+hak_name 이름
+hak_depart 학과
+hak_level 0 학생 1 교수
+user_id Portal ID
+
+* */
+
 router.post('/SSOLogin', function (req, res, next) {
 
     var id = req.body.id;
@@ -359,11 +370,12 @@ router.post('/listsurvey', function(req, res, next) {
 
     if (DEBUG)
     {
-
+        req.session.hak_depart = '전자및정보공학과';
     }
 
     var type = Number(req.body.type);
     var show_closed = req.body.hide_closed;
+    var pagnation = req.body.pagnation;
 
     if (type == null || type == undefined)
     {
@@ -396,15 +408,15 @@ router.post('/listsurvey', function(req, res, next) {
         {
             case 0: // 상시상담
                 // 본인 학과에 맞는 설문. 추후 수정할 수 있다.
-                api_listsurvey.listSurvey(conn, callback, 0, department, show_closed);
+                api_listsurvey.listSurvey(conn, callback, 0, department, show_closed, pagnation);
                 break;
 
             case 1: // 학과설문
-                api_listsurvey.listSurvey(conn, callback, 1, department, show_closed);
+                api_listsurvey.listSurvey(conn, callback, 1, department, show_closed, pagnation);
                 break;
 
             case 2: // 학교설문 :: 그냥 type 이 2 인 전체를 뽑으면 된다. (학교설문이므로 과를 가릴 필요 없음)
-                api_listsurvey.listSurvey(conn, callback, 2, null, show_closed);
+                api_listsurvey.listSurvey(conn, callback, 2, null, show_closed, pagnation);
                 break;
 
             default:

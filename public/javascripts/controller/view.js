@@ -87,7 +87,9 @@ angular.module('kudoc')
 
             // TODO :: 교수, 학생 모드에 맞추어야 함.
             delete $scope.tmp;
-            commentManagerFactory.loadComment($scope.submit_id, loadCommentCallback)
+
+            // !! - 강제로 시도해도 서버단에서 권한 체크함.
+            if ($scope.viewMode == 1) commentManagerFactory.loadComment($scope.submit_id, loadCommentCallback)
         }
         else {
             alert("오류 : 설문지 양식을 불러오는데 실패했습니다. 다시 시도해 주세요.");
@@ -113,6 +115,11 @@ angular.module('kudoc')
     function init() {
         var submit_id = $("#submit_id").val();
         $scope.submit_id = submit_id;
+
+        var url = location.href;
+        if (url.indexOf('student') != -1) $scope.viewMode = 0;
+        if (url.indexOf('professor') != -1) $scope.viewMode = 1;
+
         submitFormFactory.loadSubmit(submit_id, loadSubmitCallback);
     }
 

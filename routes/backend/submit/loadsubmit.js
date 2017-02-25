@@ -128,6 +128,24 @@ exports.loadSubmit = function (conn, callback, submit_id)
                 cb(null);
             })
         },
+
+        // 학생 기본정보 가져오기.
+        function (cb) {
+            conn.query({
+                sql : 'select user.hak_name, user.hak_depart, user.hak_number from user ' +
+                'inner join submitList on submitList.submit_id = ? and submitList.student_id = user.user_id',
+                values : [submit_id]
+            }, function (err, rows) {
+                if (!rows.length) {cb(-1); return }
+                if (err) {cb(err); return}
+                var d = rows[0];
+
+                form.hak_name = d.hak_name;
+                form.hak_depart = d.hak_depart;
+                form.hak_number = d.hak_number;
+                cb(null);
+            })
+        }
     ];
 
 

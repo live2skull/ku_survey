@@ -10,20 +10,26 @@ router.get('/assign/:surveyId', function (req, res, next) {
     res.render('student/assign', {survey_id : survey_id})
 });
 
-
+// 통계 자료 보기 - 설문 리스트 보기
 router.get('/statistics', function (req, res, next) {
     res.render('student/statistics')
 });
 
+// 통계 자료 보기
 router.get('/statistics/:surveyId', function (req, res, next) {
 
-    var surveyId = Number(req.params.surveyId);
-    if (isNaN(surveyId)) {res.status(404).send(); return;}
-
+    var surveyId = req.params.surveyId;
     res.render('student/statistics')
 });
 
+router.get('/submits', function (req, res, next) {
 
+});
+
+router.get('/submits/:submitId', function (req, res, next) {
+    var submitId = req.params.submitId;
+    res.render('student/view', {submit_id : submitId})
+});
 
 module.exports = router;
 

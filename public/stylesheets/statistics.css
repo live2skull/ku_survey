@@ -8,6 +8,10 @@
     /*min-height: 400px;*/
 }
 
+.chart-name {
+    font-size: 16px;
+}
+
 @media all and (min-width: 700px) {
     .chart-frame {
         margin-left: 2%;

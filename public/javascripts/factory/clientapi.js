@@ -71,7 +71,7 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     else
                     {
                         // convert datetime object.
-                        // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(true, d.submit_id);
                     }
                 },
@@ -96,8 +96,39 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     else
                     {
                         // convert datetime object.
-                        // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(true, d.form);
+                    }
+                },
+                function ()
+                {
+                    callback(false);
+                }
+            )
+        }
+    }
+})
+
+.factory('surveyListFactory', function ($http)
+{
+    return {
+        listSurvey : function (type, show_closed, pagnation, callback)
+        {
+            $http({
+                method : 'POST',
+                url : '/api/listsurvey',
+                data : {type : type, show_closed : show_closed, pagnation : pagnation}
+            }).then(
+                function (data)
+                {
+                    var d = data.data;
+                    var result = d.result;
+                    if (!result) callback(d.result);
+                    else
+                    {
+                        // convert datetime object.
+                        // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        callback(true, d.data);
                     }
                 },
                 function ()
@@ -279,12 +310,25 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                         break;
 
                     default:
+                        // o - form (option)
+                        // s - submit
                         var o = search_o(q.options, s.select);
                         o.checked = true;
                         o.input = s.input;
+
+                        if (type == 3)
+                        {
+                            o.order = s.order;
+                        }
                         break;
                 }
             }
+
+            form.hak_name = submit.hak_name;
+            form.grade = submit.grade; 
+            form.hak_number = submit.hak_number; 
+            form.hak_depart = submit.hak_depart;
+            form.created_at = submit.created_at;
         }
     }
 })
