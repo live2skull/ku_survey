@@ -3,7 +3,6 @@ const deepcopy = require('deepcopy');
 
 exports.listSubmit_Professor = function (conn, callback, user_id)
 {
-    var data = {};
     var surveys = [];
 
     var task = [
@@ -11,18 +10,22 @@ exports.listSubmit_Professor = function (conn, callback, user_id)
         function (cb)
         {
             conn.query({
-
+                sql : 'select * from surveyList where professor_id = ?',
+                values : [user_id]
             }, function (err, rows)
             {
                 if (err) { cb(err); return }
                 surveys = deepcopy(rows);
+                cb(null);
             })
         },
 
         function (cb)
         {
             var idx = 0;
-            var max = data.length;
+            var max = surveys.length;
+
+            if (idx == 0) { cb(null); return }
             async.until(
                 function () {
                     if (idx >= max) {
@@ -63,7 +66,7 @@ exports.listSubmit_Professor = function (conn, callback, user_id)
         }
         else
         {
-            callback(true, data);
+            callback(true, surveys);
         }
     })
 

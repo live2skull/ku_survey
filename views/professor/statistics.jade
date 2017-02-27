@@ -1,0 +1,45 @@
+extends layout
+
+block content
+
+    if (survey_id == undefined)
+        input(type='hidden', value='', id='survey_id')
+    else
+        input(type='hidden', value=survey_id, id='survey_id')
+
+    div#main-container.container(ng-controller='statController')
+
+        h4
+        h4(style='display: inline') 통계 자료 :&nbsp;
+        h4.assign-title &nbsp;{{ survey.title }}
+        br
+        br
+
+        i.fa.fa-lightbulb-o.fa-2x
+            i.notice &nbsp;&nbsp;참고사항
+        h5
+        | 순위 지정 그래프는 각 순위별로 가장 많이 선택된 항목을 표시하며, 라벨을 선택하면 해당 항목을 제외할 수 있습니다.
+        //| 순위 지정 그래프는 각 순위별로 가장 많이 선택된 항목을 표시하며, 그래프 상단의 라벨을 클릭하여 해당 항목을 숨길 수 있습니다.
+
+        hr.assign-hr-top
+
+
+        //div(ng-repeat='format in formats | orderBy : "order"').chart-frame
+        //div(ng-repeat='format in formats | toArray : false | orderBy : order').chart-frame
+        div(ng-repeat='format in formats | orderBy : "order"').chart-frame
+            //h4.chart-name {{ '&nbsp;&nbsp;&nbsp;' + ($index + 1) + '. ' + format.name }}
+            h4.chart-name {{ '&nbsp;&nbsp;' + getMeta(format.type) + (format.order + 1) + '. ' + format.name }}
+            canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block', height=320)
+            h4(style='display: hidden') {{ click.createChart(format, $index) }}
+            //canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block')
+
+
+    link(rel='stylesheet', href='/public/stylesheets/statistics.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign-c.css')
+
+    // Chart.js 파일 추가
+    script(src='/public/bower/chart.js/dist/Chart.bundle.min.js')
+    //script(src='/public/javascripts/oldChart.min.js')
+    script(src='/public/javascripts/controller/stat.js')
+    script(src='/public/javascripts/factory/chartManager.js')

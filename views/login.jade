@@ -21,10 +21,10 @@ html(ng-app='kudoc')
         link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
         link(rel='stylesheet', href='/public/stylesheets/font.css')
 
-        script(src='/public/javascripts/kudoc.js')
+        script(src='/public/javascripts/kudoc_guest.js')
         script(src='/public/javascripts/controller/login.js')
         script(src='/public/javascripts/live2skull_helper.js')
-        script(src='/public/javascripts/factory/clientapi.js')
+        script(src='/public/javascripts/loginMod.js')
 
     body
         //include professor/navbar_nologin
@@ -56,3 +56,7 @@ html(ng-app='kudoc')
 
                         button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
                             i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인
+
+        footer.footer
+            .container
+                p.text-muted Place sticky footer content here.

@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cors = require('cors');
 
 var mysql = require('./mod/dbms');
 // https://www.npmjs.com/package/url-pattern (Extract parameters)
@@ -18,6 +19,23 @@ app.use(session(
       resave : true
     }
 ));
+
+// https://benjaminhorn.io/code/setting-cors-cross-origin-resource-sharing-on-apache-with-correct-response-headers-allowing-everything-through/
+// var allowCORS = function (req, res, next) {
+//     res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//     res.header("Access-Control-Max-Age", "1000");
+//     // res.header("Access-Control-Allow-Headers", "x-requested-with");
+//     // res.header("Access-Control-Allow-Headers", "Content-Type");
+//     // res.header("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, accept, client-security-token");
+//     res.header("Access-Control-Allow-Headers", "*");
+//     // res.header("Access-Control-Allow-Origin", "portal.korea.ac.kr");
+//     res.header("Access-Control-Allow-Origin", "*");
+//     next();
+// };
+
+// app.use(allowCORS);
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

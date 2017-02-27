@@ -42,9 +42,6 @@ user_id Portal ID
 
 router.post('/SSOLogin', function (req, res, next) {
 
-    var id = req.body.id;
-    var pw = req.body.pw;
-
     var callback_ssoVerify = function (conn, result, hak_level) {
         if (result)
         {
@@ -93,7 +90,7 @@ router.post('/SSOLogin', function (req, res, next) {
             dbms.pool.getConnection(function (err, conn)
             {
                conn.beginTransaction(function (err) {
-                   api_ssologin.ssoVerify(conn, callback_ssoVerify, userInfo)
+                   api_ssologin.ssoSave(conn, callback_ssoVerify, userInfo)
                });
             });
         }
@@ -104,8 +101,25 @@ router.post('/SSOLogin', function (req, res, next) {
 
     };
 
-    api_ssologin.ssoLogin(callback_ssoLogin, req.session, id, pw);
+    var id = req.body.id;
+    var pw = req.body.pw;
+    var secure = req.body.secure;
 
+    switch (secure)
+    {
+        case true:
+            // var ssoCookie = req.cookies.ssoToken;
+            var ssoCookie = req.body.ssoToken; // 이름 주의!
+            if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : false}));
+            else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
+            break;
+
+        case false:
+            if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
+            else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
+            else res.send(JSON.stringify({result : false}));
+            break;
+    }
 });
 
 // ************************************************************************************

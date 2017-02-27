@@ -63,7 +63,15 @@ router.get('/statistics', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/statistics_search')
+    res.render('professor/list_stat')
+});
+
+router.get('/statistics/:surveyId', function (req, res, next) {
+    if (DEBUG) DBG_MakeUserStudent(req, res);
+    if (!CHK_UserAuth(req, res)) return;
+
+    var survey_id = req.params.surveyId;
+    res.render('professor/statistics', { survey_id : survey_id })
 });
 
 router.get('/list_form', function (req, res, next) {
