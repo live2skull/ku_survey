@@ -7,7 +7,7 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
     .container-fluid
         .navbar-header
             a.navbar-brand
-                span#navbar-brand-span
+                span#navbar-brand-span.navbar-brand-span
                     // (style='color: #dcdcdc')
                     //-
                         img(src='/public/images/brand.png', alt='brand',
@@ -18,16 +18,16 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
                 //- img.navbar-brand()
 
 
-            //button.navbar-toggle(type='button', data-toggle='collapse', data-target='#ResponsiveNav')
-            //    span.icon-bar
-            //    span.icon-bar
-            //    span.icon-bar
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='#ResponsiveNav')
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
 
         //- https://bootswatch.com/darkly/
         //- 활성 상태로 만들기 - .active (class!)
 
         #ResponsiveNav.collapse.navbar-collapse
-            ul.nav.navbar-nav
+            ul.nav.navbar-nav.navbar-effect
                 li(ng-class='{"navbar-active" : checkURL("/student/list_ordinary")}')
                     a(href='/student/list_ordinary') 상시상담
                 li(ng-class='{"navbar-active" : checkURL("/student/list_department")}')
@@ -80,8 +80,11 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
 
 
             ul.nav.navbar-nav.navbar-right
-                li
-                    a {{ message }}
+                //<p class="navbar-text">Logged in as</p>
+                p.navbar-text.navbar-message 로그인됨 : {{ user }}
+                //li
+                //    //a {{ message }}
+                //    a 양해찬
 
         //- navbar-collapse
 

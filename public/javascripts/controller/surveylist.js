@@ -15,6 +15,10 @@ angular.module('kudoc')
         return null;
     }
 
+    $scope.checkValidateShow = function () {
+        return $(window).width() > 480;
+    };
+
     $scope.click.goAssign = function (survey_id)
     {
         location.href = '/student/assign/' + survey_id;

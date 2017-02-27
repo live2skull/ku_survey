@@ -21,7 +21,7 @@ html(ng-app='kudoc')
         link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
         link(rel='stylesheet', href='/public/stylesheets/font.css')
 
-        script(src='/public/javascripts/kudoc_nologin.js')
+        script(src='/public/javascripts/kudoc.js')
         script(src='/public/javascripts/controller/login.js')
         script(src='/public/javascripts/live2skull_helper.js')
         script(src='/public/javascripts/factory/clientapi.js')
@@ -50,8 +50,8 @@ html(ng-app='kudoc')
                         .ku-form
                             form.login-form
                                 //- input(ng-model='login.email', type='text', placeholder='Email address', ng-pattern='config.emailFormat')
-                                input(ng-model='login.id', type='text', placeholder='포털 아이디')
-                                input(ng-model='login.pw', type='password', placeholder='포털 비밀번호')
+                                input#login_id(ng-model='login.id', type='text', placeholder='포털 아이디')
+                                input#login_pw(ng-model='login.pw', type='password', placeholder='포털 비밀번호')
                                 p.message
 
                         button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')

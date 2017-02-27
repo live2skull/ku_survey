@@ -1,1 +1,1 @@
-exports.DEBUG = false;
+exports.DEBUG = true;

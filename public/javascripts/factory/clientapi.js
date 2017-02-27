@@ -333,14 +333,14 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
     }
 });
 
-function ester_egg() {
+function esteregg() {
 
+    var message = '러블리즈(Lovelyz) "R U Ready?" Album Preview';
     var loc = 'QCdqIWLW7UY';
-    var src = 'http://www.youtube.com/embed/' + loc + '?autoplay=1&loop=1';
+    var src = 'http://www.youtube.com/embed/' + loc + '?playlist=' + loc + '&autoplay=1&loop=1';
     var width = $('#main-container').width();
     var height = $(window).height() - 120;
     var html = '<iframe id="frame_holder" width="' + width + '" height="' + height + '" src="' + src + '" frameborder="0" allowfullscreen></iframe>';
-
 
     $('#main-container').html(html);
 
@@ -350,13 +350,17 @@ function ester_egg() {
         holder.height($(window).height() - 120);
     });
 
-    function forever()
-    {
-        console.clear();
-        console.log("LOVELYZ Comeback in 2017. 02. 26 !!!");
-        setTimeout(forever, 100);
-    }
 
-    setTimeout(forever, 100);
+    $('#ResponsiveNav').html('');
+    $('#navbar-brand-span').html('<img id="navbar-brand" width="40" src="/public/images/logo-hidden.png" alt="brand">&nbsp;&nbsp;' + message);
+    $('#navbar-brand-span').addClass("navbar-another");
+    $('#navbar-brand-span').removeClass('navbar-brand-span');
+    $('#application-navbar').removeClass('navbar-inverse');
+    $('#application-navbar').addClass('navbar-2');
+
+    $("body").css("background-color","#d4c052");
+    $('#main-container').css('background-color', "#000000");
+
+    console.clear();
 }
-// function esteregg() {eval(atob('d2luZG93Lm9wZW4oYXRvYigiYUhSMGNEb3ZMMnhwYzNSbGJtOXVjbVZ3WldGMExtTnZiUzkzWVhSamFDOC9kajFSUTJSeFNWZE1WemRWV1E9PSIpKQ=='));}
+

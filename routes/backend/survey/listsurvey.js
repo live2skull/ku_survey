@@ -1,7 +1,9 @@
 const async = require('async');
 const deepcopy = require('deepcopy');
 
+// 이거 나중에 구현해도 됨!
 var pagnation_offset = 10;
+
 
 exports.listSurvey = function (conn, callback, type, department, hide_closed, pagnation)
 {
@@ -28,9 +30,18 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
                     values : [type]
                 };
 
+            // 데이터 관련
+            /*
+            * 1. 좀있다 들고갈꺼
+            * 폼 양식 열기 닫기 (시간지정)
+            *
+            * 2.
+            * 폼 양식 수정 시 이미 있는지 체크 (validataion)
+            * */
             if (hide_closed)
             {
-                qd.sql += ' where date(surveyList.closed_at) >= date(now()) '
+                // 부등호를 반대로 하면 -> 현재 진행중인 설문이 됨.
+                qd.sql += ' where date(surveyList.closed_at) >= date(now()) and date(surveyList.started_at) <= date(now()) '
             }
 
             if (pagnation)

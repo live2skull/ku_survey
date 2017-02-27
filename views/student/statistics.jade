@@ -25,6 +25,7 @@ block content
             //h4.chart-name {{ '&nbsp;&nbsp;&nbsp;' + ($index + 1) + '. ' + format.name }}
             h4.chart-name {{ '&nbsp;&nbsp;' + getMeta(format.type) + (format.order + 1) + '. ' + format.name }}
             canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block', height=320)
+            h4(style='display: hidden') {{ click.createChart(format, $index) }}
             //canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block')
 
 

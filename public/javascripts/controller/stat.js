@@ -2,6 +2,7 @@ angular.module('kudoc')
 
 .controller('statController', function ($scope, surveyFormFactory, statFactory, chartManager) {
 
+
     $scope.click = {};
     $scope.survey = {};
     $scope.formats = [];
@@ -19,12 +20,8 @@ angular.module('kudoc')
         }
     };
 
-    function callback_awaitChart()
+    $scope.click.createChart = function(format, idx)
     {
-        for (var idx in $scope.formats)
-        {
-            var format = $scope.formats[idx];
-            // http://stackoverflow.com/questions/37608068/chart-js-bar-chart-change-the-label-position-x-axis
             var ctx = $('#Chart-' + idx);
 
             new Chart(ctx, {
@@ -46,9 +43,9 @@ angular.module('kudoc')
                     //     height: 500
                     // }
                 }
-            })
-        }
-    }
+            });
+        // }
+    };
 
     function callback_loadStat(result, stat)
     {
@@ -66,19 +63,8 @@ angular.module('kudoc')
 
         $scope.formats = formats;
 
-        setTimeout(callback_awaitChart, 500);
+        // setTimeout(callback_awaitChart, 500);
 
-        // var d = formats[4];
-        // var ctx = $("#testChart");
-        // var myPieChart = new Chart(ctx,{
-        //     type: 'doughnut',
-        //     data: d,
-        //     options: {
-        //         showAllTooltips : true
-        //     }
-        // });
-
-        //alert(formats);
     };
 
     function callback_loadForm(result, form)

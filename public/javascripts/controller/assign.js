@@ -216,6 +216,11 @@ angular.module('kudoc')
     {
         if (result) {
             $scope.survey = form;
+
+            $scope.survey.hak_name = decodeURIComponent(getCookie('hak_name'));
+            $scope.survey.hak_number = getCookie('hak_number');
+            // $scope.survey.hak_number = decodeURIComponent(getCookie());
+            // $scope.survey.hak_name = decodeURIComponent(getCookie());
         }
         else {
             alert("오류 : 설문지 양식을 불러오는데 실패했습니다. 다시 시도해 주세요.");

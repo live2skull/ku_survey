@@ -3,9 +3,11 @@ angular.module('kudoc')
 .controller('loginController', function ($scope, $http) {
 
     $scope.login = {};
-
     $scope.click = {};
+
     $scope.click.startLogin = function () {
+
+        if ($scope.login.id == '' && $scope.login.pw == '') return;
 
         $http({
             method : 'POST',
@@ -31,13 +33,30 @@ angular.module('kudoc')
                     }
                 }
             },
-
             function (err)
             {
                 alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.')
             }
-        )
+        )};
 
+    function init()
+    {
+        $("#login_id").keyup(function(event){
+            if(event.keyCode == 13){
+                $scope.click.startLogin();
+            }
+        });
+
+        $("#login_pw").keyup(function(event){
+            if(event.keyCode == 13){
+                $scope.click.startLogin();
+            }
+        });
+
+        $scope.login.id = '';
+        $scope.login.pw = '';
     }
 
-})
+    init();
+
+});

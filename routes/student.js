@@ -3,12 +3,20 @@ var router = express.Router();
 
 const DEBUG = require('../config').DEBUG;
 
-function DBG_MakeUserStudent(req) {
+function DBG_MakeUserStudent(req, res) {
+    // session set
     req.session.hak_number = 2016270501;
     req.session.hak_name = '양해찬';
     req.session.user_id = 'l2ttlebit';
     req.session.hak_depart = '전자및정보공학과';
     req.session.hak_level = 0;
+
+    // cookie set
+    res.cookie('hak_number', 2016270501);
+    res.cookie('hak_name' , '양해찬');
+    res.cookie('user_id', 'l2ttlebit');
+    res.cookie('hak_depart', '전자및정보공학과');
+    res.cookie('hak_level', 0)
 }
 function CHK_UserAuth(req, res) {
     var hak_level = req.session.hak_level;
@@ -27,7 +35,7 @@ function CHK_UserAuth(req, res) {
 }
 
 router.get('/list_ordinary', function(req, res, next) {
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
     res.render('student/list_ordinary')
@@ -36,7 +44,7 @@ router.get('/list_ordinary', function(req, res, next) {
 // ************************************************************************************
 
 router.get('/assign/:surveyId', function (req, res, next) {
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
     var survey_id = req.params.surveyId;
@@ -48,7 +56,7 @@ router.get('/assign/:surveyId', function (req, res, next) {
 
 // 통계 자료 보기 - 설문 리스트 보기
 router.get('/statistics', function (req, res, next) {
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
     res.render('student/statistics')
@@ -56,7 +64,7 @@ router.get('/statistics', function (req, res, next) {
 
 // 통계 자료 보기
 router.get('/statistics/:surveyId', function (req, res, next) {
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
     var surveyId = req.params.surveyId;
@@ -66,12 +74,14 @@ router.get('/statistics/:surveyId', function (req, res, next) {
 // ************************************************************************************
 
 router.get('/submits', function (req, res, next) {
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
+
+    res.render('student/list_all')
 });
 
 router.get('/submits/:submitId', function (req, res, next) { // OK!
-    if (DEBUG) DBG_MakeUserStudent(req);
+    if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
     var submitId = req.params.submitId;

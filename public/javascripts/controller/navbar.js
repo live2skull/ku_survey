@@ -12,8 +12,14 @@ angular.module('kudoc')
         return url.indexOf(chk) != -1
     };
 
+    $scope.click.logout = function () {
+
+    };
+
     function init()
     {
-
+        $scope.user = decodeURIComponent(getCookie('hak_name'));
     }
+
+    init();
 });

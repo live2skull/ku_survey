@@ -42,7 +42,7 @@ exports.ssoLogin = function (callback, session, id, pw)
             // var batch = process.env.PWD + '/sso/run.sh ' + ssoToken;
             var batch = process.cwd() + '/sso/run.sh ' + ssoToken;
 
-            child_process.exec(batch, {timeout: 5000, killSignal: 'SIGINT', cwd: process.cwd() + '/sso'}, function (err, stdout, stderr) {
+            child_process.exec(batch, {timeout: 5000, killSignal: 'SIGKILL', cwd: process.cwd() + '/sso'}, function (err, stdout, stderr) {
                 if (err) {
                     cb(err);
                     return
