@@ -28,7 +28,7 @@ function CHK_UserAuth(req, res) {
     }
     else if (hak_level == 1)
     {
-        res.redirect('/list_submit');
+        res.redirect('/list_ordinary');
         return false;
     }
     return true;
@@ -48,7 +48,6 @@ router.get('/assign/:surveyId', function (req, res, next) {
     if (!CHK_UserAuth(req, res)) return;
 
     var survey_id = req.params.surveyId;
-
     res.render('student/assign', {survey_id : survey_id, hak_name : req.session.hak_name, hak_number : req.session.hak_number})
 });
 
@@ -59,7 +58,7 @@ router.get('/statistics', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/statistics')
+    res.render('student/list_stat')
 });
 
 // 통계 자료 보기
@@ -67,8 +66,8 @@ router.get('/statistics/:surveyId', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    var surveyId = req.params.surveyId;
-    res.render('student/statistics')
+    var survey_id = req.params.surveyId;
+    res.render('student/statistics', { survey_id : survey_id })
 });
 
 // ************************************************************************************

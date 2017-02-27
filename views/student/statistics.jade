@@ -2,6 +2,11 @@ extends layout
 
 block content
 
+    if (survey_id == undefined)
+        input(type='hidden', value='', id='survey_id')
+    else
+        input(type='hidden', value=survey_id, id='survey_id')
+
     div#main-container.container(ng-controller='statController')
 
         h4

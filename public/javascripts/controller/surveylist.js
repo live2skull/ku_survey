@@ -11,6 +11,7 @@ angular.module('kudoc')
         if (url.indexOf('list_ordinary') != -1) return 0;
         if (url.indexOf('list_department') != -1) return 1;
         if (url.indexOf('list_university') != -1) return 2;
+        if (url.indexOf('statistics') != 1) return 3; // ALL! - 동작 방식은 동일합니다.
 
         return null;
     }
@@ -22,6 +23,22 @@ angular.module('kudoc')
     $scope.click.goAssign = function (survey_id)
     {
         location.href = '/student/assign/' + survey_id;
+    };
+
+    $scope.click.goStat = function (survey_id)
+    {
+        var level = Number(getCookie('hak_level'));
+
+        switch (level)
+        {
+            case 0:
+                location.href = '/student/statistics/' + survey_id;
+                break;
+
+            case 1:
+                location.href = '/professor/statistics/' + survey_id;
+                break;
+        }
     };
 
     function callback_surveyList(result, data)

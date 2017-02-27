@@ -28,14 +28,12 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
 
             #ResponsiveNav.collapse.navbar-collapse
                 ul.nav.navbar-nav
-                    li.navbar-active
+                    li(ng-class='{"navbar-active" : checkURL("/professor/list_submit")}')
                         a(href='/professor/list_submit') 설문열람
-                    li
+                    li(ng-class='{"navbar-active" : checkURL("/professor/list_form")}')
                         a(href='/professor/list_form') 설문제작
-                    //li
-                    //    a(href='/student/find') 학교설문
-                    li
-                        a(href='/student/find') 통계자료
+                    li(ng-class='{"navbar-active" : checkURL("/professor/statistics")}')
+                        a(href='/professor/statistics') 통계자료
                     //
                     //li.dropdown
                     //    a#themes.dropdown-toggle(data-toggle='dropdown', href='#', aria-expanded='false')
@@ -77,9 +75,11 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
                     //        //li.divider
 
 
-                //ul.nav.navbar-nav.navbar-right
-                //    li
-                //        a {{ message }}
-
+                ul.nav.navbar-nav.navbar-right
+                    //<p class="navbar-text">Logged in as</p>
+                    p.navbar-text.navbar-message 로그인됨 : {{ user }}
+                    //li
+                    //    //a {{ message }}
+                    //    a 양해찬
             //- navbar-collapse
 

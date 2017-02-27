@@ -45,7 +45,7 @@ angular.module('kudoc')
                 }
             });
         // }
-    };
+    }
 
     function callback_loadStat(result, stat)
     {
@@ -87,7 +87,8 @@ angular.module('kudoc')
 
     function init()
     {
-        $scope.click.loadStat('157525834b26df1c59a224a38fb3e8d8');
+        var survey_id = $("#survey_id").val();
+        $scope.click.loadStat(survey_id);
     }
 
     init();

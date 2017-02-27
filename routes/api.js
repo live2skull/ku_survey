@@ -22,6 +22,7 @@ const api_saveform = require('./backend/form/saveform');
 const api_savesubmit = require('./backend/submit/savesubmit');
 const api_loadsubmit = require('./backend/submit/loadsubmit');
 const api_listsurvey = require('./backend/survey/listsurvey');
+const api_listsubmit = require('./backend/submit/listsubmit');
 
 const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
@@ -419,12 +420,35 @@ router.post('/listsurvey', function(req, res, next) {
                 api_listsurvey.listSurvey(conn, callback, 2, null, show_closed, pagnation);
                 break;
 
+            case 3:
+                api_listsurvey.listSurvey(conn, callback, 3, null, null, null);
+                break;
+
             default:
                 conn.release();
                 res.send(RES_FORBIDDEN);
         }
     });
 
+});
+
+router.post('/listsubmit', function (req, res, next)
+{
+    dbms.pool.getConnection(function (err ,conn) {
+
+        var callback = function (result, data) {
+            conn.release();
+            if (result) {
+                res.send(JSON.stringify({result: true, data: data}))
+            }
+            else {
+                res.send(JSON.stringify({result: false}))
+            }
+        };
+
+        var user_id = req.session.user_id;
+        api_listsubmit.listSubmit_Professor(conn, callback, user_id);
+    });
 });
 
 // ************************************************************************************
@@ -445,7 +469,7 @@ router.post('/loadstat', function (req, res, next) {
         api_loadstat.loadStat(conn, callback, survey_id);
 
     });
-})
+});
 
 // ************************************************************************************
 

@@ -1,0 +1,95 @@
+extends layout
+
+block content
+
+    div#main-container.container(ng-controller='listSubmitController')
+
+        div(style='margin-bottom: -10px')
+            h4(style='display: inline-block') 학번 / 학과
+            h5(style='display: inline-block') &nbsp;&nbsp; ** 학과개편 이전 학생은 개편된 학과로 검색.
+        .container-fluid.no-padding
+            .rows
+                .col-sm-2.col-md-2(style='margin-top: 5px')
+                    div
+                        .ku-select.create-type.quest-type(style='width: 120px')
+                            select(ng-model='select.hak', ng-options='data as data.name for data in option.hak',
+                            ng-change='click.changeColleage()')
+
+                .col-sm-3.col-md-3(style='margin-top: 5px')
+                    div
+                        //div(style='display: inline; padding-top: 10px')
+                        //    h4.assign-info-h(style='margin-top: 10px') 대학&nbsp;&nbsp;
+                        .ku-select.create-type.quest-type(style='width: 170px')
+                            select(ng-model='select.colleage', ng-options='data as data.name for data in option.colleage',
+                            ng-change='click.changeColleage()')
+
+                    //a &nbsp;&nbsp;&nbsp;
+
+                .col-sm-4.col-md-4(style='margin-top: 5px')
+                    div
+                        //h4.assign-info-h 학과/학부&nbsp;&nbsp;
+                        .ku-select.create-type.quest-type(style='width: 210px')
+                            select(ng-model='select.department', ng-options='data as data.name for data in option.department',
+                            ng-change='')
+
+                //.col-sm-3.col-md-3(style='margin-top: 5px')
+                //    button.btn.ku-button(style='height: 33px', type='button', ng-click='click.postSurvey()')
+                //        i.fa.fa-search.fa-neg.fa-1x &nbsp;검색
+
+
+        div(style='margin-top: 20px; margin-bottom: -7px')
+            h4(style='display: inline-block') 이름
+            //h5(style='display: inline-block') &nbsp;&nbsp; ** 학과개편 이전 학생은 개편된 학과로 검색.
+        .container-fluid.no-padding
+            .rows
+                .col-sm-9.col-md-9(style='margin-top: 5px')
+                    div
+                        //h4.assign-info-h 이름&nbsp;&nbsp;
+                        input.assign-q-input.assign-default-info(style='margin-bottom: -12px; width: 150px', placeholder='학생 이름 입력..', ng-model='survey.hak_name', type='text')
+
+                .col-sm-3.col-md-3(style='margin-top: 5px')
+                    button.btn.ku-button(style='height: 33px', type='button', ng-click='click.searchList()')
+                        i.fa.fa-search.fa-neg.fa-1x &nbsp;검색
+
+        hr.assign-hr-top
+        div#qid-search_result(ng-show='flag.listShow')
+
+            i.fa.fa-window-restore.fa-2x
+                i.notice &nbsp;&nbsp;검색결과
+
+            table.table.stat-list
+                thead
+                    tr
+                        th.stat-th-large 이름
+                        th.stat-th-large 학번
+                        th.stat-th-large 학부
+                        th.stat-th-large 참여일자
+                        th.stat-th-large 설문지명
+                        //th 부서(학과)
+                        //th.stat-th 참여인원
+                        //th.stat-th 마감여부
+                        //th Share
+                        //th More
+                tbody
+                    tr.stat-th-body(ng-click='click.goAssign(submit.submit_id)', ng-repeat='submit in submits')
+                        th {{ submit.hak_name }}
+                            //a.stat-list-href {{ submit.hak_name }}
+                        td {{ submit.hak_number }}
+                        td {{ submit.department }}
+                        td {{ submit.created_at }}
+                        td {{ submit.survey_name }}
+                        //td {{ survey.participants_cnt }} 명
+                        //td
+                        //    i(ng-show='!survey.complete').fa.fa-times
+                        //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                tfoot
+                    tr
+                        td(colspan='5')
+
+
+
+
+    link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign-c.css')
+    script(src='/public/javascripts/publicAPI.js')
+    script(src='/public/javascripts/professor.js')

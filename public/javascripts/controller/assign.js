@@ -234,4 +234,4 @@ angular.module('kudoc')
         surveyFormFactory.loadForm(survey_id, loadFormCallback)
     }
 
-})
+});

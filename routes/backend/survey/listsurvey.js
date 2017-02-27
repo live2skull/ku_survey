@@ -4,7 +4,7 @@ const deepcopy = require('deepcopy');
 // 이거 나중에 구현해도 됨!
 var pagnation_offset = 10;
 
-
+// 이게 설문지 양식을 불러오는거임
 exports.listSurvey = function (conn, callback, type, department, hide_closed, pagnation)
 {
     var data = {};
@@ -22,12 +22,19 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
                     'and surveyList.`type` = ? ',
                     values : [department, type]
                 };
-            else
+            else if (type == 2)
                 qd =
                 {
                     sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title from surveyList ' +
                     'inner join user on user.user_id = surveyList.professor_id and surveyList.`type` = ? ',
                     values : [type]
+                };
+            else if (type == 3)
+                qd =
+                {
+                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.`type` from surveyList ' +
+                    'inner join user on user.user_id = surveyList.professor_id ',
+                    values : []
                 };
 
             // 데이터 관련

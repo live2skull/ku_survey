@@ -20,27 +20,32 @@ block content
         table#survey-list.table
             thead
                 tr
-                    th 제목
-                    th 담당자(교수)
-                    th 부서(학과)
+                    th(width="50%") 제목
+                    th(width="20%") 교수
+                    th(width="30%") 부서
+                    th(ng-show='checkValidateShow()', width="10%")
+                        i.fa.fa-users
+                    //th(ng-show='getScreenWidth() < 480', width="10%")
+                    //    i.fa.fa-users
                     //th 완료
                     //th Share
                     //th More
             tbody
-                tr(ng-click='click.goAssign(survey.survey_id)', ng-repeat='survey in surveys')
+                tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys')
                     th
                         a {{ survey.title }}
                     //td {{ survey.closed_at }}
                     td {{ survey.hak_name }}
                     td {{ survey.hak_depart }}
-                    //td {{ survey.participants_cnt }} 명
-                    //td
-                    //    i(ng-show='!survey.complete').fa.fa-times
-                    //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                    td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
+                    td
+                        //i(ng-show='!survey.complete').fa.fa-times
+                        //i(ng-show='survey.complete').fa.fa-check-circle-o
+                        //i.fa.fa-check-circle-o
+                        //    | df
             tfoot
                 tr
                     td(colspan='7')
 
+    script(src='/public/javascripts/controller/surveylist.js')
     link(rel='stylesheet', href='/public/stylesheets/survey.css')
-    script(src='/public/javascripts/publicAPI.js')
-    script(src='/public/javascripts/student.js')
