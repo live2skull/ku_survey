@@ -45,7 +45,8 @@ angular.module('kudoc')
         }
         else
         {
-            alert('회원가입 중 문제가 발생했습니다.\n관리자에게 문의하세요.')
+            alert('회원가입 중 문제가 발생했습니다.\n관리자에게 문의하세요.');
+            history.back();
         }
     }
 

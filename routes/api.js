@@ -48,7 +48,26 @@ router.post('/SSOAgree', function (req, res, next) {
 
     var callback_ssoSave = function (conn, result) {
         conn.release();
-        if (result) res.send(JSON.stringify({result : true}));
+        if (result)
+        {
+            var hak_number = userInfo.USERID;
+            req.session.hak_number = hak_number; res.cookie('hak_number', hak_number);
+            req.session.hak_name = userInfo.USERNAME; res.cookie('hak_name', userInfo.USERNAME);
+            req.session.user_id = userInfo.UID; res.cookie('user_id', userInfo.UID);
+            req.session.hak_depart = userInfo.DPTNM; res.cookie('hak_depart', userInfo.DPTNM);
+
+            if (hak_number.length == 6) // 교수
+            {
+                req.session.hak_level = 1;
+                res.cookie('hak_level', '1');
+            }
+            else if (hak_number.length == 10) // 학생
+            {
+                req.session.hak_level = 0;
+                res.cookie('hak_level', '0');
+            }
+            res.send(JSON.stringify({result : true}));
+        }
         else res.send(JSON.stringify({result : false}));
     };
 
@@ -95,19 +114,20 @@ router.post('/SSOLogin', function (req, res, next) {
             case 1:
                 // userInfo = deepcopy(uInfo);
                 var hak_number = userInfo.USERID;
-
-                req.session.hak_number = hak_number;
-                req.session.hak_name = userInfo.USERNAME;
-                req.session.user_id = userInfo.UID;
-                req.session.hak_depart = userInfo.DPTNM;
+                req.session.hak_number = hak_number; res.cookie('hak_number', hak_number);
+                req.session.hak_name = userInfo.USERNAME; res.cookie('hak_name', userInfo.USERNAME);
+                req.session.user_id = userInfo.UID; res.cookie('user_id', userInfo.UID);
+                req.session.hak_depart = userInfo.DPTNM; res.cookie('hak_depart', userInfo.DPTNM);
 
                 if (hak_number.length == 6) // 교수
                 {
                     req.session.hak_level = 1;
+                    res.cookie('hak_level', '1');
                 }
                 else if (hak_number.length == 10) // 학생
                 {
                     req.session.hak_level = 0;
+                    res.cookie('hak_level', '0');
                 }
                 res.send(JSON.stringify({result : 1}));
                 break;
@@ -119,7 +139,6 @@ router.post('/SSOLogin', function (req, res, next) {
 
     // 로그인 시도 결과
     var callback_ssoLogin = function (result, uInfo) {
-
         if (result)
         {
             userInfo = deepcopy(uInfo);
