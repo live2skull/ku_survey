@@ -32,6 +32,9 @@ angular.module('live2skull.helper', [])
    }
 });
 
+function deleteCookie(c_name) {
+    document.cookie = encodeURIComponent(c_name) + "=deleted; expires=" + new Date(0).toUTCString();
+}
 
 function getCookie(cname){
     var name = cname + "=";

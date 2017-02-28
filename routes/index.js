@@ -4,7 +4,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 
   // cors require 하여 사용
- // SSO 로그인을 사용 가능하도록 헤더 조작.
+  // SSO 로그인을 사용 가능하도록 헤더 조작.
   // res.set({
   //   "Access-Control-Allow-Methods" : "POST, GET, OPTIONS, DELETE",
   //   "Access-Control-Max-Age": "3600",

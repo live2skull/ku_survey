@@ -21,21 +21,22 @@ app.use(session(
 ));
 
 // https://benjaminhorn.io/code/setting-cors-cross-origin-resource-sharing-on-apache-with-correct-response-headers-allowing-everything-through/
-// var allowCORS = function (req, res, next) {
-//     res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-//     res.header("Access-Control-Max-Age", "1000");
-//     // res.header("Access-Control-Allow-Headers", "x-requested-with");
-//     // res.header("Access-Control-Allow-Headers", "Content-Type");
-//     // res.header("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, accept, client-security-token");
-//     res.header("Access-Control-Allow-Headers", "*");
-//     // res.header("Access-Control-Allow-Origin", "portal.korea.ac.kr");
-//     res.header("Access-Control-Allow-Origin", "*");
-//     next();
-// };
+var allowCORS = function (req, res, next) {
+    res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+    res.header("Access-Control-Max-Age", "1000");
+    // res.header("Access-Control-Allow-Headers", "x-requested-with");
+    // res.header("Access-Control-Allow-Headers", "Content-Type");
+    // res.header("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, accept, client-security-token");
+    res.header("Access-Control-Allow-Headers", "x-requested-with, x-requested-by");
+    res.header("Access-Control-Allow-Origin", "https://portal.korea.ac.kr");
+    res.header('Access-Control-Allow-Credentials' ,'true');
+    // res.header("Access-Control-Allow-Origin", "*");
+    next();
+};
 
-// app.use(allowCORS);
+app.use(allowCORS);
 
-app.use(cors());
+// app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,0 +1,53 @@
+extends layout
+
+block content
+
+    //div#main-container.container(ng-controller='surveylistController')
+    div#main-container.container(ng-controller='surveylistController')
+
+        h3 아직 참여한 설문이 없습니다.
+        //button.btn.ku-button(type='button', style='width: 100%')
+        //    i.fa.fa-neg.fa-12x 상시상담
+        //button.btn.ku-button(type='button', style='width: 100%')
+        //    i.fa.fa-neg.fa-12x 학과설문
+        //button.btn.ku-button(type='button', style='width: 100%')
+        //    i.fa.fa-neg.fa-12x 학교설문
+
+        //h2 &nbsp현재 진행중인 설문
+        //- https://codepen.io/mfissehaye/pen/kXoNQB
+
+        //- i.fa.fa-check-circle-o - PASS
+        //- i.fa.fa-times
+        //
+        //table#survey-list.table
+        //    thead
+        //        tr
+        //            th(width="50%") 제목
+        //            th(width="20%") 교수
+        //            th(width="30%") 부서
+        //            th(ng-show='checkValidateShow()', width="10%")
+        //                i.fa.fa-users
+        //            //th(ng-show='getScreenWidth() < 480', width="10%")
+        //            //    i.fa.fa-users
+        //            //th 완료
+        //            //th Share
+        //            //th More
+        //    tbody
+        //        tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys')
+        //            th
+        //                a {{ survey.title }}
+        //            //td {{ survey.closed_at }}
+        //            td {{ survey.hak_name }}
+        //            td {{ survey.hak_depart }}
+        //            td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
+        //            td
+        //                //i(ng-show='!survey.complete').fa.fa-times
+        //                //i(ng-show='survey.complete').fa.fa-check-circle-o
+        //                //i.fa.fa-check-circle-o
+        //                //    | df
+        //    tfoot
+        //        tr
+        //            td(colspan='7')
+
+    //script(src='/public/javascripts/controller/surveylist.js')
+    link(rel='stylesheet', href='/public/stylesheets/survey.css')

@@ -41,7 +41,7 @@ user_id Portal ID
 * */
 
 router.post('/SSOAgree', function (req, res, next) {
-    var agreement = req.body.argeement;
+    var agreement = req.body.agreement;
     var userInfo = {};
 
     if (!agreement) { res.redirect('/'); return }
@@ -86,7 +86,7 @@ router.post('/SSOLogin', function (req, res, next) {
 
         switch (result)
         {
-            // 동의하지 않음.
+            // 아직 동의하지 않음.
             case 0:
                 res.send(JSON.stringify({result : 0}));
                 break;
@@ -154,6 +154,9 @@ router.post('/SSOLogin', function (req, res, next) {
             else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
             else res.send(JSON.stringify({result : -1}));
             break;
+
+        default:
+            res.send(JSON.stringify({result : -1}));
     }
 });
 

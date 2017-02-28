@@ -95,6 +95,7 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
 
 exports.ssoCheck = function (conn, callback, userInfo)
 {
+    var count = 0;
     var task = [
         function (cb)
         {
@@ -107,7 +108,8 @@ exports.ssoCheck = function (conn, callback, userInfo)
                     if (err) {cb(err)}
                     else
                     {
-                        cb(rows.length)
+                        count = rows.length;
+                        cb(null);
                     }
                 });
         }
@@ -120,7 +122,7 @@ exports.ssoCheck = function (conn, callback, userInfo)
         }
         else
         {
-            callback(conn, err); // err is Number!
+            callback(conn, count); // err is Number!
         }
     });
 };
