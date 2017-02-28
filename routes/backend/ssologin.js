@@ -93,6 +93,24 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
     })
 };
 
+exports.ssoLoad = function (conn, callback, userInfo)
+{
+    var task = [
+
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err)
+        {
+            callback(conn, false);
+        }
+        else
+        {
+            callback(conn, true, hak_level);
+        }
+    });
+}
+
 // USERNAME, USERID(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
 exports.ssoSave = function (conn, callback, userInfo)
 {

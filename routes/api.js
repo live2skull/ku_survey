@@ -40,6 +40,12 @@ user_id Portal ID
 
 * */
 
+router.post('/SSOAgree', function (req, res, next) {
+    var agreement = req.body.argeement;
+
+
+})
+
 router.post('/SSOLogin', function (req, res, next) {
 
     var callback_ssoVerify = function (conn, result, hak_level) {
@@ -108,8 +114,8 @@ router.post('/SSOLogin', function (req, res, next) {
     switch (secure)
     {
         case true:
-            // var ssoCookie = req.cookies.ssoToken;
-            var ssoCookie = req.body.ssoToken; // 이름 주의!
+            var ssoCookie = req.cookies.ssotoken;
+            // var ssoCookie = req.body.ssotoken; // 이름 주의!
             if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : false}));
             else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
             break;
