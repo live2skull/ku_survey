@@ -20,9 +20,44 @@ angular.module('kudoc')
         }
     };
 
-    $scope.click.createChart = function(format, idx)
+    $scope.click.setChartIdx = function (format, idx) {
+        format.idx = idx;
+    };
+    //
+    // $scope.click.createChart = function(format, idx)
+    // {
+    //         var ctx = $('#Chart-' + idx);
+    //
+    //         new Chart(ctx, {
+    //             // type : 'doughnut',
+    //             type : 'doughnut',
+    //             data : format,
+    //             options: {showAllTooltips : true, responsive: true,
+    //                 legend :
+    //                 {
+    //                     display : true,
+    //                     fullWidth : true,
+    //                     position : 'bottom',
+    //                     labels : {
+    //                         boxWidth : 10
+    //                     }
+    //                 }
+    //                 // scale :
+    //                 // {
+    //                 //     height: 500
+    //                 // }
+    //             }
+    //         });
+    //     // }
+    // };
+
+    function callback_awaitChart()
     {
-            var ctx = $('#Chart-' + idx);
+        for (var idx in $scope.formats)
+        {
+            var format = $scope.formats[idx];
+
+            var ctx = $('#Chart-' + format.idx);
 
             new Chart(ctx, {
                 // type : 'doughnut',
@@ -44,7 +79,7 @@ angular.module('kudoc')
                     // }
                 }
             });
-        // }
+        }
     }
 
     function callback_loadStat(result, stat)
@@ -63,7 +98,7 @@ angular.module('kudoc')
 
         $scope.formats = formats;
 
-        // setTimeout(callback_awaitChart, 500);
+        setTimeout(callback_awaitChart, 500);
 
     };
 
