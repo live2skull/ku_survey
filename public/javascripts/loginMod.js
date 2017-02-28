@@ -28,7 +28,8 @@ angular.module('KU_SSO', [])
             $http({
                method: 'POST',
                url: '/api/SSOLogin',
-               data: {secure: true, ssoToken: ssoToken}
+               // data: {secure: true, ssoToken: ssoToken}
+               data: {secure: true}
             }).then(
              function (data) {
                 var d = data.data;
@@ -54,6 +55,21 @@ angular.module('KU_SSO', [])
             sendSsoToken(ssotoken);
 
          });
+      },
+
+      doAgreement : function (callback) {
+         $http({
+            method: 'POST',
+            url: '/api/SSOAgree',
+            data: {agreement : true}
+         }).then(
+             function (data) {
+                var d = data.data;
+                callback(d.result);
+             },
+             function () {
+                return false;
+             });
       }
    }
 });

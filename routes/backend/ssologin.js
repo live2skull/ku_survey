@@ -93,23 +93,39 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
     })
 };
 
-exports.ssoLoad = function (conn, callback, userInfo)
+exports.ssoCheck = function (conn, callback, userInfo)
 {
     var task = [
-
+        function (cb)
+        {
+            conn.query({
+                    sql : 'select user_id from user where user_id = ?',
+                    values : [userInfo.UID]
+                },
+                function (err, rows)
+                {
+                    if (err) {cb(err)}
+                    else
+                    {
+                        cb(rows.length)
+                    }
+                });
+        }
     ];
 
     async.waterfall(task, function (err) {
-        if (err)
+        if (isNaN(err))
         {
             callback(conn, false);
         }
         else
         {
-            callback(conn, true, hak_level);
+            callback(conn, err); // err is Number!
         }
     });
-}
+};
+
+
 
 // USERNAME, USERID(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
 exports.ssoSave = function (conn, callback, userInfo)
@@ -164,7 +180,7 @@ exports.ssoSave = function (conn, callback, userInfo)
         }
         else
         {
-            callback(conn, true, hak_level);
+            callback(conn, true);
         }
     });
 }

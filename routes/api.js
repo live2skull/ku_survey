@@ -42,71 +42,100 @@ user_id Portal ID
 
 router.post('/SSOAgree', function (req, res, next) {
     var agreement = req.body.argeement;
+    var userInfo = {};
 
+    if (!agreement) { res.redirect('/'); return }
 
-})
-
-router.post('/SSOLogin', function (req, res, next) {
-
-    var callback_ssoVerify = function (conn, result, hak_level) {
-        if (result)
-        {
-            res.send(JSON.stringify({result : true, hak_level : hak_level}));
-            conn.commit(function (err)
-            {
-                conn.release();
-            })
-        }
-        else
-        {
-            res.send(JSON.stringify({result : false}));
-            conn.rollback(function (err)
-            {
-                conn.release();
-            })
-        }
-
+    var callback_ssoSave = function (conn, result) {
+        conn.release();
+        if (result) res.send(JSON.stringify({result : true}));
+        else res.send(JSON.stringify({result : false}));
     };
 
-    var callback_ssoLogin = function (result, userInfo) {
-
+    var callback_ssoLogin = function (result, uInfo) {
         if (result)
         {
-            var hak_number = userInfo.USERID;
-
-            req.session.hak_number = hak_number;
-            req.session.hak_name = userInfo.USERNAME;
-            req.session.user_id = userInfo.UID;
-            req.session.hak_depart = userInfo.DPTNM;
-
-            if (hak_number.length == 6) // 교수
-            {
-                req.session.hak_level = 1;
-            }
-            else if (hak_number.length == 10) // 학생
-            {
-                req.session.hak_level = 0;
-            }
-            else
-            {
-                console.log('Warning:: Unknown hak_level information.')
-            }
-
-
+            userInfo = deepcopy(uInfo);
             dbms.pool.getConnection(function (err, conn)
             {
-               conn.beginTransaction(function (err) {
-                   api_ssologin.ssoSave(conn, callback_ssoVerify, userInfo)
-               });
+                api_ssologin.ssoSave(conn, callback_ssoSave, userInfo);
             });
         }
         else
         {
-            res.send(JSON.stringify({result : false}));
+            res.send(JSON.stringify({result : -1}));
         }
-
     };
 
+    var ssoCookie = req.cookies.ssotoken;
+    // var ssoCookie = req.body.ssotoken; // 이름 주의!
+    if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : false}));
+    else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
+
+});
+
+router.post('/SSOLogin', function (req, res, next) {
+
+
+    var userInfo = {};
+
+    // DB 에 사용자 정보가 들어 있는가?
+    var callback_ssoCheck = function (conn, result) {
+
+        conn.release();
+
+        switch (result)
+        {
+            // 동의하지 않음.
+            case 0:
+                res.send(JSON.stringify({result : 0}));
+                break;
+
+            // 이미 동의함.
+            case 1:
+                // userInfo = deepcopy(uInfo);
+                var hak_number = userInfo.USERID;
+
+                req.session.hak_number = hak_number;
+                req.session.hak_name = userInfo.USERNAME;
+                req.session.user_id = userInfo.UID;
+                req.session.hak_depart = userInfo.DPTNM;
+
+                if (hak_number.length == 6) // 교수
+                {
+                    req.session.hak_level = 1;
+                }
+                else if (hak_number.length == 10) // 학생
+                {
+                    req.session.hak_level = 0;
+                }
+                res.send(JSON.stringify({result : 1}));
+                break;
+
+            default:
+                res.send(JSON.stringify({result : -1}));
+        }
+    };
+
+    // 로그인 시도 결과
+    var callback_ssoLogin = function (result, uInfo) {
+
+        if (result)
+        {
+            userInfo = deepcopy(uInfo);
+
+            dbms.pool.getConnection(function (err, conn)
+            {
+                api_ssologin.ssoCheck(conn, callback_ssoCheck, userInfo);
+            });
+        }
+        else
+        {
+            res.send(JSON.stringify({result : -1}));
+        }
+    };
+
+    // 로그인 시도
     var id = req.body.id;
     var pw = req.body.pw;
     var secure = req.body.secure;
@@ -116,14 +145,14 @@ router.post('/SSOLogin', function (req, res, next) {
         case true:
             var ssoCookie = req.cookies.ssotoken;
             // var ssoCookie = req.body.ssotoken; // 이름 주의!
-            if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : false}));
+            if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : -1}));
             else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
             break;
 
         case false:
             if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
             else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-            else res.send(JSON.stringify({result : false}));
+            else res.send(JSON.stringify({result : -1}));
             break;
     }
 });
