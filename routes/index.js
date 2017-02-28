@@ -3,7 +3,6 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
 
-
   // cors require 하여 사용
  // SSO 로그인을 사용 가능하도록 헤더 조작.
   // res.set({
@@ -15,6 +14,13 @@ router.get('/', function(req, res, next) {
 
   res.render('login.jade')
 
+});
+
+// https://www.privacy.go.kr/a3sc/per/inf/perInfStep01.do
+
+router.get('/join', function(req, res, next) {
+
+  res.render('join.jade')
 });
 
 

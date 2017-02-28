@@ -9,7 +9,7 @@ html {
 }
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 80px;
+    margin-bottom: 60px;
 }
 
 .footer {
@@ -52,7 +52,15 @@ body {
 .container .text-muted {
     margin: 20px 0;
     color : #ffffff;
+    /*font-size: 12px;*/
     /*float : left;*/
+}
+
+
+@media all and (max-width: 414px) {
+    .container .text-muted {
+        font-size: 12px;
+    }
 }
 
 .footer > .container {

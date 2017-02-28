@@ -10,23 +10,24 @@ angular.module('kudoc')
     var FORCE_USE_LOGIN_UNSECURE_MODE = false;
 
     function callback_login(result) {
-        if (!result)
-        {
-            alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.')
-        }
-        else
-        {
-            var hak_level = Number(getCookie('hak_level'));
-            switch (hak_level)
-            {
-                case 0:
-                    location.href = '/student/list_ordinary';
-                    break;
 
-                case 1:
-                    location.href = '/professor/list';
-                    break;
-            }
+        switch (result)
+        {
+            case -1: alert('로그인에 실패했습니다.\n아이디와 비밀번호를 확인해 주세요.'); break;
+            case 0: break;
+            case 1:
+                var hak_level = Number(getCookie('hak_level'));
+                switch (hak_level)
+                {
+                    case 0:
+                        location.href = '/student/list_ordinary';
+                        break;
+
+                    case 1:
+                        location.href = '/professor/list';
+                        break;
+                }
+                break;
         }
     }
 
@@ -42,6 +43,10 @@ angular.module('kudoc')
 
 
         // http://stackoverflow.com/questions/9177252/detecting-a-redirect-in-jquery-ajax
+
+    };
+
+    $scope.click.testLogin = function () {
 
     };
 

@@ -1,0 +1,35 @@
+//- http://codepen.io/shvffle/pen/bwpAEm
+//script(src='/public/javascripts/controller/navbar.js')
+link(rel='stylesheet', href='/public/stylesheets/element/navbar.css')
+
+//- nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller='navbar') fixed!
+nav.navbar.navbar-inverse#application-navbar
+    .container-fluid
+        .navbar-header
+            a.navbar-brand
+                span#navbar-brand-span.navbar-brand-span
+                    // (style='color: #dcdcdc')
+                    //-
+                        img(src='/public/images/brand.png', alt='brand',
+                        width="25px", height="25px", style='margin-left: 7px; margin-top: -2px;')
+                    img#navbar-brand(src='/public/images/logo-fixed.png', alt='brand')
+                    | &nbsp;&nbsp;고려대학교 세종캠퍼스 온라인 학생설문시스템
+                //- img.navbar-brand(alt='Marina Marques', src='https://shvvffle.github.io/img/marina_marques_logo.png')
+                //- img.navbar-brand()
+
+            //
+            //button.navbar-toggle(type='button', data-toggle='collapse', data-target='#ResponsiveNav')
+            //    span.icon-bar
+            //    span.icon-bar
+            //    span.icon-bar
+
+        //- https://bootswatch.com/darkly/
+        //- 활성 상태로 만들기 - .active (class!)
+
+        #ResponsiveNav.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-effect
+
+            ul.nav.navbar-nav.navbar-right
+
+        //- navbar-collapse
+
