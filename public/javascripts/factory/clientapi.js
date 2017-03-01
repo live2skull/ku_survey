@@ -114,7 +114,12 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     if (!result) callback(d.result);
                     else
                     {
-                        // convert datetime object.
+                        // var forms = d.form;
+                        // for (var idx in forms)
+                        // {
+                        //     var form = forms[idx];
+                        //     lv2sHelper.recv_tIso2Stirng(form, ['created_at', 'modified_at'], true);
+                        // }
                         lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(true, d.form);
                     }
@@ -159,10 +164,10 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
     }
 })
 
-.factory('submitListFactory', function ($http)
+.factory('submitListFactory', function ($http, lv2sHelper)
 {
     return {
-        listSubmitprof : function (callback)
+        listSubmitProf : function (callback)
         {
             $http({
                 method : 'POST',
@@ -183,7 +188,37 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                 },
                 function ()
                 {
+                    callback(false);
+                }
+            )
+        },
 
+        listSubmitStud : function (callback)
+        {
+            $http({
+                method : 'POST',
+                url : '/api/listsubmit',
+                data : {},
+            }).then(
+                function (data)
+                {
+                    var d = data.data;
+                    var result = d.result;
+                    if (!result) callback(d.result);
+                    else
+                    {
+                        var submits = d.data;
+                        for (var idx in submits)
+                        {
+                            var submit = submits[idx];
+                            lv2sHelper.recv_tIso2Stirng(submit, ['created_at'], true);
+                        }
+                        callback(true, d.data);
+                    }
+                },
+                function ()
+                {
+                    callback(false);
                 }
             )
         }

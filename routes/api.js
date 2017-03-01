@@ -549,7 +549,21 @@ router.post('/listsubmit', function (req, res, next) {
         };
 
         var user_id = req.session.user_id;
-        api_listsubmit.listSubmit_Professor(conn, callback, user_id);
+        var hak_level = Number(req.cookies.hak_level);
+
+        switch (hak_level)
+        {
+            case 0:
+                api_listsubmit.listSubmit_Student(conn, callback, user_id);
+                break;
+
+            case 1:
+                api_listsubmit.listSubmit_Professor(conn, callback, user_id);
+                break;
+
+            default:
+                res.send(JSON.stringify({result: false}))
+        }
     });
 });
 

@@ -26,7 +26,7 @@ block content
 
         //div(ng-repeat='format in formats | orderBy : "order"').chart-frame
         //div(ng-repeat='format in formats | toArray : false | orderBy : order').chart-frame
-        div(ng-repeat='format in formats | orderBy : "order"').chart-frame
+        div(ng-repeat='format in formats | orderBy : "order"', ng-show="flag.statAvaliable").chart-frame
             //h4.chart-name {{ '&nbsp;&nbsp;&nbsp;' + ($index + 1) + '. ' + format.name }}
             h4.chart-name {{ '&nbsp;&nbsp;' + getMeta(format.type) + (format.order + 1) + '. ' + format.name }}
             canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block', height=320)
@@ -34,9 +34,18 @@ block content
             //canvas(ng-attr-id='{{ "Chart-" + $index }}', style='width: 50%; display: inline-block')
 
 
+        div.notify-nothing(ng-show="!flag.statAvaliable")
+            br
+            h4 아직 데이터가 없거나, 모두 주관식 문항인 설문입니다.
+            br
+            button.btn.ku-button(type='button', ng-click='click.goBack()')
+                i.fa.fa-arrow-right.fa-neg.fa-12x &nbsp;뒤로 가기
+            h4 &nbsp;
+
     link(rel='stylesheet', href='/public/stylesheets/statistics.css')
     link(rel='stylesheet', href='/public/stylesheets/assign.css')
     link(rel='stylesheet', href='/public/stylesheets/assign-c.css')
+    link(rel='stylesheet', href='/public/stylesheets/survey.css')
 
     // Chart.js 파일 추가
     script(src='/public/bower/Chart.js/dist/Chart.bundle.min.js')

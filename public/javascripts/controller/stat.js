@@ -6,6 +6,10 @@ angular.module('kudoc')
     $scope.click = {};
     $scope.survey = {};
     $scope.formats = [];
+    $scope.ctxs = [];
+
+    $scope.flag = {};
+    $scope.flag.statAvaliable = true;
 
     $scope.getMeta = function (type)
     {
@@ -23,43 +27,23 @@ angular.module('kudoc')
     $scope.click.setChartIdx = function (format, idx) {
         format.idx = idx;
     };
-    //
-    // $scope.click.createChart = function(format, idx)
-    // {
-    //         var ctx = $('#Chart-' + idx);
-    //
-    //         new Chart(ctx, {
-    //             // type : 'doughnut',
-    //             type : 'doughnut',
-    //             data : format,
-    //             options: {showAllTooltips : true, responsive: true,
-    //                 legend :
-    //                 {
-    //                     display : true,
-    //                     fullWidth : true,
-    //                     position : 'bottom',
-    //                     labels : {
-    //                         boxWidth : 10
-    //                     }
-    //                 }
-    //                 // scale :
-    //                 // {
-    //                 //     height: 500
-    //                 // }
-    //             }
-    //         });
-    //     // }
-    // };
+
+    $scope.click.goBack = function () {
+        history.back();
+    };
 
     function callback_awaitChart()
     {
+        var ctxIdx = -1;
         for (var idx in $scope.formats)
         {
             var format = $scope.formats[idx];
 
-            var ctx = $('#Chart-' + format.idx);
+            // var ctx = $('#Chart-' + format.idx);
+            ctxIdx++;
+            $scope.ctxs.push($('#Chart-' + format.idx));
 
-            new Chart(ctx, {
+            new Chart($scope.ctxs[ctxIdx], {
                 // type : 'doughnut',
                 type : 'doughnut',
                 data : format,
@@ -73,10 +57,6 @@ angular.module('kudoc')
                             boxWidth : 10
                         }
                     }
-                    // scale :
-                    // {
-                    //     height: 500
-                    // }
                 }
             });
         }
@@ -88,19 +68,24 @@ angular.module('kudoc')
 
         // marshall form data.
         var survey = $scope.survey;
-        var formats = chartManager.buildChartData(survey, stat);
 
-        if (formats == undefined)
+        if (!Object.keys(stat).length)
         {
-            alert('경고! 가져온 데이터가 잘못되었습니다.');
-            return;
+            $scope.flag.statAvaliable = false;
         }
 
-        $scope.formats = formats;
-
-        setTimeout(callback_awaitChart, 500);
-
-    };
+        else
+        {
+            var formats = chartManager.buildChartData(survey, stat);
+            if (formats == undefined)
+            {
+                alert('경고! 가져온 데이터가 잘못되었습니다.');
+                return;
+            }
+            $scope.formats = formats;
+            setTimeout(callback_awaitChart, 500);
+        }
+    }
 
     function callback_loadForm(result, form)
     {
@@ -113,7 +98,7 @@ angular.module('kudoc')
         {
             alert('설문지 양식을 가져오는데 실패했습니다.')
         }
-    };
+    }
 
     $scope.click.loadStat = function (survey_id)
     {
