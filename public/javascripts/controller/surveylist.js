@@ -1,9 +1,14 @@
 angular.module('kudoc')
 
+// Using :: list_ordinary_department_university, statistics
 .controller('surveylistController', function ($scope, surveyListFactory) {
 
     $scope.click = {};
+    $scope.func = {};
     $scope.surveys = [];
+    $scope.flag = {};
+    $scope.flag.showList = false;
+    $scope.flag.showNothing = false;
 
     function getType()
     {
@@ -16,6 +21,22 @@ angular.module('kudoc')
         return null;
     }
 
+    $scope.func.getHeader = function () {
+        var dmsg = "진행중인 ";
+        switch (getType())
+        {
+            case 0:
+                return dmsg + "상시상담 설문";
+                break;
+            case 1:
+                return dmsg + "학과 설문";
+                break;
+            case 2:
+                return dmsg + "학교 설문";
+                break;
+        }
+    };
+
     $scope.checkValidateShow = function () {
         return $(window).width() > 480;
     };
@@ -25,8 +46,7 @@ angular.module('kudoc')
         location.href = '/student/assign/' + survey_id;
     };
 
-    $scope.click.goStat = function (survey_id)
-    {
+    $scope.click.goStat = function (survey_id) {
         var level = Number(getCookie('hak_level'));
 
         switch (level)
@@ -45,7 +65,15 @@ angular.module('kudoc')
     {
         if (result)
         {
-            $scope.surveys = data;
+            if (data.length)
+            {
+                $scope.surveys = data;
+                $scope.flag.showList = true;
+            }
+            else
+            {
+                $scope.flag.showNothing = true;
+            }
         }
         else
         {
@@ -53,11 +81,13 @@ angular.module('kudoc')
         }
     }
 
+    // TODO : FUTURE UPDATE
+    // 학과설문 (1) 다른 학과 데이터 불러오지 않음. (추후 지원 예정)
     $scope.click.getSurveyList = function (pagnation, department) {
         var type = getType();
         if (type == null) { alert('Warning! page URL Information ERR!'); return }
         if (type == 0 || type == 1) pagnation = 0;
-
+        // pagnation => 추후 해당 기능 지원 예정.
         surveyListFactory.listSurvey(type, false, pagnation, callback_surveyList);
     };
 

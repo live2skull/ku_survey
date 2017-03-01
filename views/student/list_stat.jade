@@ -4,19 +4,12 @@ block content
 
     div#main-container.container(ng-controller='surveylistController')
 
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 상시상담
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 학과설문
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 학교설문
+        i.fa.fa-wpforms.fa-2x(style="margin-top: 20px")
+            i.notice &nbsp;&nbsp;통계 자료 검색
 
-        //h2 &nbsp현재 진행중인 설문
-        //- https://codepen.io/mfissehaye/pen/kXoNQB
+        h5 집계된 통계 자료를 그래프로 열람하실 수 있습니다. (객관식, 순위지정 문항에 한함)
+        hr
 
-        //- i.fa.fa-check-circle-o - PASS
-        //- i.fa.fa-times
-        //
         table#survey-list.table
             thead
                 tr

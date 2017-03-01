@@ -5,6 +5,23 @@ const deepcopy = require('deepcopy');
 var pagnation_offset = 10;
 
 // 이게 설문지 양식을 불러오는거임
+// LIST ORDINAL
+// 1. 현재 진행중인 설문 리스트 (설문 참여)
+// 2. 진행중이거나 마감된 설문 리스트
+// 3. 전체 (시작되지 않은 설문 리스트)
+
+/*
+
+type :: search option (상시상담 : 0, 학과설문 : 1, 학교설문 : 2)
+department :: 검색하고 싶은 학과
+
+hide_closed :: 닫힌 항목 보여주지 않음.
+
+pagnation :: -
+
+*/
+
+
 exports.listSurvey = function (conn, callback, type, department, hide_closed, pagnation)
 {
     var data = {};
@@ -14,6 +31,8 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
         function (cb) {
             var qd = {};
 
+            // 상시, 학과
+            // TODO :: 나중에 학과의 경우 각 학과에 따른 검색을 할 수 있도록 지정 (지원 예정)
             if (type == 0 || type == 1)
                 qd =
                 {
@@ -22,6 +41,7 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
                     'and surveyList.`type` = ? ',
                     values : [department, type]
                 };
+            // 학교
             else if (type == 2)
                 qd =
                 {
@@ -29,6 +49,7 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
                     'inner join user on user.user_id = surveyList.professor_id and surveyList.`type` = ? ',
                     values : [type]
                 };
+            // 전체
             else if (type == 3)
                 qd =
                 {
@@ -36,6 +57,8 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
                     'inner join user on user.user_id = surveyList.professor_id ',
                     values : []
                 };
+
+
 
             // 데이터 관련
             /*

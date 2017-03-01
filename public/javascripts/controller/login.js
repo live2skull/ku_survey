@@ -4,10 +4,13 @@ angular.module('kudoc')
 
     $scope.login = {};
     $scope.click = {};
-
     // False 로 설정
     // 실제 서비스 운영 시에는 안전하지 않은 로그인 API 는 서버에서 제거됨!
     var FORCE_USE_LOGIN_UNSECURE_MODE = false;
+    var LOGIN_DEBUG_MODE = true;
+
+    $scope.login.id = 'l2ttlebit';
+    $scope.login.pw = 'Qazdr116!!^';
 
     function goHome()
     {
@@ -66,11 +69,11 @@ angular.module('kudoc')
     };
 
     $scope.click.testLogin = function () {
-        alert('웹 서비스 검수를 위해 로그인을 임시로 생략하였습니다.\n ' +
-            '실제 서비스 시 포탈 SSO 연동으로 로그인하며, 처음 로그인 할 경우\n' +
-            '/join 페이지에서 동의 및 거부를 할 수 있습니다.');
-        window.open('/join');
-        location.href = '/student/list_ordinary'
+        // alert('웹 서비스 검수를 위해 로그인을 임시로 생략하였습니다.\n ' +
+        //     '실제 서비스 시 포탈 SSO 연동으로 로그인하며, 처음 로그인 할 경우\n' +
+        //     '/join 페이지에서 동의 및 거부를 할 수 있습니다.');
+        // window.open('/join');
+        location.href = '/professor/debug_entry';
     };
 
     $scope.click.applyAgreement = function () {
@@ -95,8 +98,11 @@ angular.module('kudoc')
             }
         });
 
-        $scope.login.id = '';
-        $scope.login.pw = '';
+        if (!LOGIN_DEBUG_MODE)
+        {
+            $scope.login.id = '';
+            $scope.login.pw = '';
+        }
     }
 
     init();

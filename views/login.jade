@@ -49,6 +49,7 @@ html(ng-app='kudoc')
                             h4.ku-htext.ku-htext-main 온라인 학생설문시스템
 
 
+                    //- WARNING:: 서버 업로드 시 계정 정보 지울 것
                     .col-md-6.col-sm-6
                         .ku-form
                             form.login-form
@@ -59,7 +60,7 @@ html(ng-app='kudoc')
 
                         button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
                             i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인 (SSO)
-                        //button.btn.ku-button(ng-click='click.testLogin()', type='button', style='width: 100%')
-                        //    i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;테스트 모드 (데모)
+                        button.btn.ku-button(ng-click='click.testLogin()', type='button', style='width: 100%')
+                            i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;교수 테스트 모드 (데모)
 
         include footer

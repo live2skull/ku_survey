@@ -42,7 +42,7 @@ router.get('/list_ordinary', function(req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/list_ordinary')
+    res.render('student/list_surveys');
 });
 
 // TODO 수정 필요.
@@ -50,14 +50,14 @@ router.get('/list_department', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/list_department');
+    res.render('student/list_surveys');
 });
 
 router.get('/list_university', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/list_university');
+    res.render('student/list_surveys');
 });
 
 // ************************************************************************************
@@ -95,7 +95,7 @@ router.get('/submits', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('student/list_all')
+    res.render('student/mysubmit')
 });
 
 router.get('/submits/:submitId', function (req, res, next) { // OK!

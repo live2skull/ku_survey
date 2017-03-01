@@ -3,6 +3,10 @@ angular.module('kudoc')
 // 학생 설문 참여 :: /student/assign
 .controller('assignController', function ($scope, $location, $anchorScroll, surveyFormFactory, submitFormFactory)
 {
+    /*
+    !!! TODO ( FUTURE UPDATE )
+    Pagnation (2017. 03. 02 배포판에 적용되지 않음)
+     */
     $scope.moveAnchor = function (qid) {
         var aid = 'qid-' + qid;
         if ($location.hash() !== aid) {
@@ -70,7 +74,7 @@ angular.module('kudoc')
                 break;
 
             default:
-                alert('Warning: checkQuestion function _ invalid quest type.')
+                alert('Warning: checkQuestion function _ inva[id quest type.')
         }
     };
 

@@ -34,6 +34,12 @@ function CHK_UserAuth(req, res) {
     return true;
 }
 
+router.get('/debug_entry', function (req, res, next) {
+    DBG_MakeUserStudent(req, res);
+    res.redirect('/professor/list_form');
+});
+
+
 router.get('/create', function(req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;

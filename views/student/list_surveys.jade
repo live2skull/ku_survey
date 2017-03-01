@@ -4,20 +4,10 @@ block content
 
     div#main-container.container(ng-controller='surveylistController')
 
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 상시상담
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 학과설문
-        //button.btn.ku-button(type='button', style='width: 100%')
-        //    i.fa.fa-neg.fa-12x 학교설문
+        i.fa.fa-wpforms.fa-2x(style="margin-top: 20px")
+            i.notice &nbsp;&nbsp;{{ func.getHeader() }}
 
-        //h2 &nbsp현재 진행중인 설문
-        //- https://codepen.io/mfissehaye/pen/kXoNQB
-
-        //- i.fa.fa-check-circle-o - PASS
-        //- i.fa.fa-times
-        //
-        table#survey-list.table
+        table#survey-list.table(ng-show="flag.showList")
             thead
                 tr
                     th(width="50%") 제목
@@ -46,6 +36,11 @@ block content
             tfoot
                 tr
                     td(colspan='7')
+
+        div.container-fluid.no-padding.notify-nothing(ng-show="flag.showNothing")
+            br
+            h3 진행중인 설문이 없습니다!
+            br
 
     script(src='/public/javascripts/controller/surveylist.js')
     link(rel='stylesheet', href='/public/stylesheets/survey.css')
