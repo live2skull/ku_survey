@@ -71,7 +71,7 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     else
                     {
                         // convert datetime object.
-                        lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(true, d.submit_id);
                     }
                 },
@@ -105,6 +105,10 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     callback(false);
                 }
             )
+        },
+
+        checkAssignedSubmit : function (survey_id, callback) {
+
         }
     }
 })
@@ -362,38 +366,23 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
             form.created_at = submit.created_at;
         }
     }
+})
+
+.factory('sessionFactory', function ($http) {
+    return {
+        doLogout : function (callback) {
+            $http({
+                method: 'POST',
+                url: '/api/logout',
+                data: {}
+            }).then(
+                function (data) {
+                    var d = data.data;
+                    callback(d.result);
+                },
+                function () {
+                    callback(false);
+                });
+        }
+    }
 });
-
-
-
-// function esteregg() {
-//
-//     var message = '러블리즈(Lovelyz) "R U Ready?" Album Preview';
-//     var loc = 'QCdqIWLW7UY';
-//     var src = 'http://www.youtube.com/embed/' + loc + '?playlist=' + loc + '&autoplay=1&loop=1';
-//     var width = $('#main-container').width();
-//     var height = $(window).height() - 120;
-//     var html = '<iframe id="frame_holder" width="' + width + '" height="' + height + '" src="' + src + '" frameborder="0" allowfullscreen></iframe>';
-//
-//     $('#main-container').html(html);
-//
-//     $(window).resize(function () {
-//         var holder = $('#frame_holder');
-//         holder.width($('#main-container').width());
-//         holder.height($(window).height() - 120);
-//     });
-//
-//
-//     $('#ResponsiveNav').html('');
-//     $('#navbar-brand-span').html('<img id="navbar-brand" width="40" src="/public/images/logo-hidden.png" alt="brand">&nbsp;&nbsp;' + message);
-//     $('#navbar-brand-span').addClass("navbar-another");
-//     $('#navbar-brand-span').removeClass('navbar-brand-span');
-//     $('#application-navbar').removeClass('navbar-inverse');
-//     $('#application-navbar').addClass('navbar-2');
-//
-//     $("body").css("background-color","#d4c052");
-//     $('#main-container').css('background-color', "#000000");
-//
-//     console.clear();
-// }
-

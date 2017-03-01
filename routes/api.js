@@ -10,6 +10,8 @@ disabled debug flag -> ignore authentication
 */
 
 const DEBUG = require('../config').DEBUG;
+// temporary disabled!s
+// const SSO_UNSECURE = require('../config').SSO_UNSECURE;
 
 var RES_FORBIDDEN = JSON.stringify({result : false, reason : 'AUTH'});
 var RES_INTERNAL_ERR = JSON.stringify({result : false, reason : 'ERR'});
@@ -23,6 +25,7 @@ const api_savesubmit = require('./backend/submit/savesubmit');
 const api_loadsubmit = require('./backend/submit/loadsubmit');
 const api_listsurvey = require('./backend/survey/listsurvey');
 const api_listsubmit = require('./backend/submit/listsubmit');
+const api_checksubmit = require('./backend/submit/checksubmit');
 
 const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
@@ -39,6 +42,11 @@ hak_level 0 학생 1 교수
 user_id Portal ID
 
 * */
+
+router.post('/logout', function (req, res, next) {
+    if (!DEBUG) req.session.destroy();
+    res.send(JSON.stringify({result : true}));
+});
 
 router.post('/SSOAgree', function (req, res, next) {
     var agreement = req.body.agreement;
@@ -331,7 +339,8 @@ router.post('/savesubmit', function (req, res, next) {
                 }
                 else
                 {
-                    res.send(JSON.stringify({result : false}));
+                    if (isNaN(submit_id)) res.send(JSON.stringify({result : false}));
+                    else res.send(JSON.stringify({result : false, reason : err}));
                     conn.rollback(function (err) {
                         conn.release();
                     })
@@ -343,6 +352,29 @@ router.post('/savesubmit', function (req, res, next) {
         });
     });
 }); // OK
+
+// 이미 설문에 참여했는지 검증하기 - NON DEBUG
+router.post('/checkassignedsubmit', function (req, res, next) {
+
+    var user_id = req.session.user_id;
+    if (user_id == undefined) { res.send(JSON.stringify({result : false}; return }
+
+    var survey_id = req.body.survey_id;
+
+    dbms.pool.getConnection(function (err, conn) {
+
+       function callback(result)
+       {
+           conn.release();
+           res.send(JSON.stringify({result : false}))
+       }
+
+      if (err) res.send(JSON.stringify({result : false}));
+
+       api_checksubmit.checkAssignedSubmit(callback, user_id, survey_id);
+
+   });
+});
 
 // ************************************************************************************
 
@@ -503,8 +535,7 @@ router.post('/listsurvey', function(req, res, next) {
 
 });
 
-router.post('/listsubmit', function (req, res, next)
-{
+router.post('/listsubmit', function (req, res, next) {
     dbms.pool.getConnection(function (err ,conn) {
 
         var callback = function (result, data) {

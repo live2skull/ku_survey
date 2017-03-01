@@ -1,0 +1,11 @@
+.iframe-wrapper {
+    width : 100%;
+    height : 250px;
+    /*overflow-y: scroll;*/
+    overflow: auto;
+    /*-webkit-overflow-scrolling: touch;*/
+}
+
+.iframe-content {
+    -webkit-overflow-scrolling: touch;
+}

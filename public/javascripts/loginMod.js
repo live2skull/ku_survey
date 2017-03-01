@@ -16,7 +16,7 @@ angular.module('KU_SSO', [])
                 callback(d.result);
              },
              function () {
-                return false;
+                callback(d.result);
              });
       },
 
@@ -68,12 +68,12 @@ angular.module('KU_SSO', [])
               loginWindow.close();
               callback(-1);
             }
-            else setTimeout(callback_loaded, 1250);
+            else setTimeout(callback_loaded, 200);
          }
 
          var loginWindow = window.open('https://portal.korea.ac.kr/common/Login.kpd?id=' +
              encodeURIComponent(userInfo.id)  + '&pw=' + encodeURIComponent(userInfo.pw));
-         setTimeout(callback_loaded, 500);
+         setTimeout(callback_loaded, 1000);
       },
 
       doAgreement : function (callback) {
@@ -91,4 +91,4 @@ angular.module('KU_SSO', [])
              });
       }
    }
-});
+})

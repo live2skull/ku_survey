@@ -19,6 +19,18 @@ exports.saveSubmit = function (conn, callback, doc, user_id)
 
     var task = [
         function (cb) {
+            // 이미 설문에 참여했는지 검증합니다.
+            conn.query({
+                sql : 'select submit_id from submitList where student_id = ? and survey_id = ?',
+                values : [user_id, doc.survey_id]
+            }, function (err, rows) {
+                if (err) {cb(err); return}
+                else if (rows.length) {cb(2); return} // rows.length != 0
+                else cb(null);
+            })
+        },
+
+        function (cb) {
 
             conn.query({
                 sql: 'insert into submitList (submit_id, survey_id, student_id, grade) values (?, ?, ?, ?)',
@@ -184,7 +196,7 @@ exports.saveSubmit = function (conn, callback, doc, user_id)
     async.waterfall(task, function (err) {
         if (err)
         {
-            callback(false);
+            callback(false, err);
         }
         else
         {

@@ -1,6 +1,6 @@
 angular.module('kudoc')
 
-.controller('navbarCtrl', function ($scope) {
+.controller('navbarCtrl', function ($scope, sessionFactory) {
 
     $scope.click = {};
     $scope.checkURL = function (chk)
@@ -12,13 +12,17 @@ angular.module('kudoc')
         return url.indexOf(chk) != -1
     };
 
-    $scope.click.logout = function () {
+    function callback_logout () {
+        location.href = '/';
+    }
 
+    $scope.click.logout = function () {
+        if (confirm('로그아웃 하시겠습니까?')) sessionFactory.doLogout(callback_logout)
     };
 
     function init()
     {
-        $scope.user = decodeURIComponent(getCookie('hak_name'));
+        $scope.user = decodeURIComponent(getCookie('hak_ ame'));
     }
 
     init();

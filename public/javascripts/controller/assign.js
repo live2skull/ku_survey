@@ -18,6 +18,9 @@ angular.module('kudoc')
 
     $scope.survey = {};
     $scope.click = {};
+    $scope.flag = {};
+    $scope.flag.submitOK = false;
+    $scope.flag.assigned = false;
 
     init();
 
@@ -197,6 +200,9 @@ angular.module('kudoc')
         submitFormFactory.saveSubmit(forms, saveSubmitCallback);
         // 데이터 전송 (다른 모듈로 구현)
     };
+    $scope.click.goMySurvey = function () {
+        location.href = '/student/submits';
+    };
     /* ********************************************************************************** */
 
     /* Callback */
@@ -204,12 +210,10 @@ angular.module('kudoc')
     {
         if (result)
         {
-            alert('귀하의 설문이 성공적으로 저장되었으며, 설문 번호는 ' + submit_id + ' 입니다.');
+            $scope.flag.submitOK = true;
+            $scope.flag.submit_id = submit_id;
         }
-        else
-        {
-            alert('설문 저장에 실패했습니다.');
-        }
+        else alert('오류 : 설문 저장에 실패했거나, 이미 참여한 설문입니다.\n잠시후 다시 시도해 주세요.');
     }
 
     function loadFormCallback(result, form)

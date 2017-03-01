@@ -41,7 +41,7 @@ nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
 
             ul.nav.navbar-nav.navbar-right
                 //<p class="navbar-text">Logged in as</p>
-                p.navbar-text.navbar-message 로그인됨 : {{ user }}
+                p.navbar-text.navbar-message(ng-click='click.logout()') 로그인됨 : {{ user }}
                 //li
                 //    //a {{ message }}
                 //    a 양해찬
