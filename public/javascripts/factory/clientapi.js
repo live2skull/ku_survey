@@ -51,6 +51,25 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     callback()
                 }
             )
+        },
+
+        checkAssignedSubmit : function (survey_id, callback) {
+            $http({
+                method : 'POST',
+                url : '/api/checkassignedsubmit',
+                data : {survey_id : survey_id}
+            }).then(
+                function (data)
+                {
+                    var d = data.data;
+                    var result = d.result;
+                    callback(result);
+                },
+                function ()
+                {
+                    callback(false);
+                }
+            )
         }
     }
 })
@@ -105,10 +124,6 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     callback(false);
                 }
             )
-        },
-
-        checkAssignedSubmit : function (survey_id, callback) {
-
         }
     }
 })

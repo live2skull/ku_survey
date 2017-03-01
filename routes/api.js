@@ -357,7 +357,7 @@ router.post('/savesubmit', function (req, res, next) {
 router.post('/checkassignedsubmit', function (req, res, next) {
 
     var user_id = req.session.user_id;
-    if (user_id == undefined) { res.send(JSON.stringify({result : false}; return }
+    if (user_id == undefined) { res.send(JSON.stringify({result : false})); return }
 
     var survey_id = req.body.survey_id;
 
@@ -366,12 +366,12 @@ router.post('/checkassignedsubmit', function (req, res, next) {
        function callback(result)
        {
            conn.release();
-           res.send(JSON.stringify({result : false}))
+           res.send(JSON.stringify({result : result}))
        }
 
       if (err) res.send(JSON.stringify({result : false}));
 
-       api_checksubmit.checkAssignedSubmit(callback, user_id, survey_id);
+       api_checksubmit.checkAssignedSubmit(conn, callback, user_id, survey_id);
 
    });
 });

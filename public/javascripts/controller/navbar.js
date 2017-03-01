@@ -22,7 +22,7 @@ angular.module('kudoc')
 
     function init()
     {
-        $scope.user = decodeURIComponent(getCookie('hak_ ame'));
+        $scope.user = decodeURIComponent(getCookie('hak_name'));
     }
 
     init();

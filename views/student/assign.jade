@@ -14,7 +14,7 @@ block content
         h4.assign-title &nbsp;{{ survey.title }}
         hr.assign-hr-top
 
-        div#sumbit_form.container-fluid.no-padding(ng-show="!flag.submitOK")
+        div#sumbit_form.container-fluid.no-padding(ng-show="flag.showSubmit")
             i.fa.fa-lightbulb-o.fa-2x
                 i.notice &nbsp;&nbsp;공지사항
             h5 {{ survey.notice }}
@@ -133,7 +133,7 @@ block content
 
 
 
-        div#submit_result(ng-show='flag.submitOK')
+        div#submit_result(ng-show='flag.showResult')
             h5 &nbsp;
                 i.fa.fa-check-square.fa-2x
                     i.notice &nbsp;&nbsp;설문 저장 완료
@@ -142,7 +142,17 @@ block content
             h5 작성한 설문은 "나의설문" 메뉴에서 확인이 가능합니다.
 
             button.btn.ku-button(type='button', ng-click='click.goMySurvey()')
-                i.fa.fa-check.fa-neg.fa-12x &nbsp;나의 설문 보기
+                i.fa.fa-arrow-right.fa-neg.fa-12x &nbsp;나의 설문 보기
+
+        div#submit_assigned(ng-show="flag.showAssigned")
+            h5 &nbsp;
+                i.fa.fa-check-square.fa-2x
+                    i.notice &nbsp;&nbsp;이미 참여한 설문입니다.
+
+            h5 귀하는 이미 이 설문에 참여하셨습니다.
+            button.btn.ku-button(type='button', ng-click='click.goMySurvey()')
+                i.fa.fa-arrow-right.fa-neg.fa-12x &nbsp;나의 설문 보기
+
 
 
     script(src='/public/javascripts/controller/assign.js')

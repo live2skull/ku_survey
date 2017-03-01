@@ -19,8 +19,9 @@ angular.module('kudoc')
     $scope.survey = {};
     $scope.click = {};
     $scope.flag = {};
-    $scope.flag.submitOK = false;
-    $scope.flag.assigned = false;
+    $scope.flag.showSubmit = true;
+    $scope.flag.showAssigned = false;
+    $scope.flag.showResult = false;
 
     init();
 
@@ -210,11 +211,24 @@ angular.module('kudoc')
     {
         if (result)
         {
-            $scope.flag.submitOK = true;
+            $scope.survey = null;
+            $scope.flag.showSubmit = false;
+            $scope.flag.showResult = true;
             $scope.flag.submit_id = submit_id;
         }
         else alert('오류 : 설문 저장에 실패했거나, 이미 참여한 설문입니다.\n잠시후 다시 시도해 주세요.');
     }
+
+    function checkAssignCallback(result)
+    {
+        if (result) {}
+        else
+        {
+            $scope.flag.showSubmit = false;
+            $scope.flag.showAssigned = true;
+        }
+    }
+
 
     function loadFormCallback(result, form)
     {
@@ -223,6 +237,7 @@ angular.module('kudoc')
 
             $scope.survey.hak_name = decodeURIComponent(getCookie('hak_name'));
             $scope.survey.hak_number = getCookie('hak_number');
+            surveyFormFactory.checkAssignedSubmit($scope.survey_id, checkAssignCallback);
             // $scope.survey.hak_number = decodeURIComponent(getCookie());
             // $scope.survey.hak_name = decodeURIComponent(getCookie());
         }
@@ -235,7 +250,8 @@ angular.module('kudoc')
 
     function init() {
         var survey_id = $("#survey_id").val();
-        surveyFormFactory.loadForm(survey_id, loadFormCallback)
+        $scope.survey_id = survey_id;
+        surveyFormFactory.loadForm(survey_id, loadFormCallback);
     }
 
 });
