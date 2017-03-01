@@ -29,7 +29,6 @@ exports.listSubmit_Professor = function (conn, callback, user_id)
             var idx = 0;
             var max = surveys.length;
 
-            if (idx == 0) { cb(null); return }
             async.until(
                 function () {
                     if (idx >= max) {
@@ -39,7 +38,7 @@ exports.listSubmit_Professor = function (conn, callback, user_id)
                 },
                 function (c)
                 {
-                    var s = surveys[idx];
+                    var s = surveys[idx]; idx++;
                     conn.query({
                         sql : 'select user.hak_name, user.hak_number, user.hak_depart, submitList.created_at from user ' +
                         'inner join submitList on user.user_id = submitList.student_id where submitList.survey_id = ?',
@@ -83,7 +82,7 @@ exports.listSubmit_Student = function (conn, callback, user_id) {
         function (cb) {
             conn.query({
                 // sql : 'select * from submitList where student_id = ?',
-                sql : 'select submitList.submit_id, submitList.survey_id, submitList.created_at, surveyList.title from submitList ' +
+                sql : 'select submitList.submit_id, submitList.survey_id, submitList.created_at, surveyList.title, surveyList.professor_id from submitList ' +
                 'inner join surveyList on submitList.survey_id = surveyList.survey_id where submitList.student_id = ? order by created_at DESC',
                 values : [user_id]
             }, function (err, rows) {
@@ -91,6 +90,44 @@ exports.listSubmit_Student = function (conn, callback, user_id) {
                 submits = deepcopy(rows);
                 cb(null);
             })
+        },
+
+        function (cb) {
+
+            var idx = 0;
+            var max = submits.length;
+
+            async.until(
+                function () {
+                    if (idx >= max) {
+                        cb(null);
+                    }
+                    return idx >= max;
+                },
+                function (c)
+                {
+                    var s = submits[idx]; idx++;
+                    conn.query({
+                        // sql : 'select user.hak_name, user.hak_number, user.hak_depart, submitList.created_at from user ' +
+                        // 'inner join submitList on user.user_id = submitList.student_id where submitList.survey_id = ?',
+                        sql : 'select hak_depart, hak_name from user where user_id = ?',
+                        values : [s.professor_id]
+                    }, function (err, rows) {
+                        if (err) { c(err); return }
+                        try {
+                            var row = rows[0];
+                            s.hak_depart = row.hak_depart;
+                            s.hak_name = row.hak_name;
+                        }
+                        catch (ex) {c(ex); return;}
+                        delete s.professor_id; // 교수 아이디 유출 방지
+                        c(null)
+                    })
+                },
+                function (err) {
+                    if (err) cb(err);
+                }
+            );
         }
     ];
 

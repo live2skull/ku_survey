@@ -215,7 +215,7 @@ angular.module('kudoc')
     {
         if (result)
         {
-            $scope.survey = null;
+            // $scope.survey = null;
             $scope.flag.showSubmit = false;
             $scope.flag.showResult = true;
             $scope.flag.submit_id = submit_id;

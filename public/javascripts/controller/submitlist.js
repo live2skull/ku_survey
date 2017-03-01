@@ -25,6 +25,10 @@ angular.module('kudoc')
         }
     }
 
+    $scope.checkValidateShow = function () {
+        return $(window).width() > 480;
+    };
+
     // TODO :: 교수 버전 지원
     // stat 과 같이 학생, 교수의 API 파일을 통일합니다.
     $scope.click.getSurveyList = function () {

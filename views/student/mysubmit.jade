@@ -9,10 +9,9 @@ block content
             thead
                 tr
                     th(width="50%") 제목
+                    th(ng-show='checkValidateShow()', width="20%") 참여
+                    th(width="20%") 부서
                     th(width="20%") 교수
-                    th(width="30%") 부서
-                    th(ng-show='checkValidateShow()', width="10%")
-                        i.fa.fa-users
                     //th(ng-show='getScreenWidth() < 480', width="10%")
                     //    i.fa.fa-users
                     //th 완료
@@ -23,8 +22,9 @@ block content
                     th
                         a {{ submit.title }}
                     //td {{ survey.closed_at }}
-                    td {{ submit.created_at }}
-                    td {{ survey.hak_depart }}
+                    td(ng-show='checkValidateShow()') {{ submit.created_at }}
+                    td {{ submit.hak_depart }}
+                    td {{ submit.hak_name }}
                     //td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
                     //td
                         //i(ng-show='!survey.complete').fa.fa-times
