@@ -91,7 +91,7 @@ router.get('/list_submit', function (req, res, next) {
     if (DEBUG) DBG_MakeUserStudent(req, res);
     if (!CHK_UserAuth(req, res)) return;
 
-    res.render('professor/list_submit')
+    res.render('professor/list_student_submit')
 });
 
 // router.get('/statistics/:surveyId', function (req, res, next) {

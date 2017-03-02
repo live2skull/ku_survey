@@ -1,4 +1,16 @@
 
+.professor-search {
+    margin-top: -20px;
+    width: 50% !important;
+}
+
+@media all and (max-width: 840px) {
+    .professor-search
+    {
+        width: 90% !important;
+    }
+}
+
 .assign-list {
     margin-top: 20px;
 }
