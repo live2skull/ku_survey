@@ -1,0 +1,22 @@
+.table-container {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+
+    border-style: solid;
+    border-width: 1px;
+
+}
+
+.table-setwidth {
+    width: 100%;
+}
+
+.setheight-userlist {
+    height: calc(100vh - 340px);
+    /*max-height: calc(100vh - 340px);*/
+    /*max-height: 250px;*/
+}
+
+.setheight-surveylist {
+    height: calc(100vh - 302px);
+}

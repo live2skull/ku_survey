@@ -35,8 +35,8 @@ exports.saveForm = function (conn, callback, doc, user_id)
                 flag_edit = true;
 
                 conn.query({
-                    sql : 'update surveyList SET title = ?, notice = ?, no_idx = ?, modified_at = now() where survey_id = ?',
-                    values : [doc.title, doc.notice, doc.no_idx, survey_id]
+                    sql : 'update surveyList SET title = ?, notice = ?, no_idx = ?, `type` = ?, modified_at = now() where survey_id = ?',
+                    values : [doc.title, doc.notice, doc.no_idx, doc.type, survey_id]
                 }, function (err, rows) {
                     if (err || !rows.affectedRows) {cb(err); return}
                     cb(null);

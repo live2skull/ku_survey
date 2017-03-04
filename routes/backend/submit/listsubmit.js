@@ -5,62 +5,74 @@ const deepcopy = require('deepcopy');
 // Do more stuff in here!
 // listSubmit 인데 surveys 를 반환?
 // TODO 수정 필요.
-exports.listSubmit_Professor = function (conn, callback, user_id)
+exports.listSubmit_Professor = function (conn, callback, user_id, survey_id)
 {
-    var surveys = [];
+    var submits = [];
 
     var task = [
-
         function (cb)
         {
             conn.query({
-                sql : 'select * from surveyList where professor_id = ?',
-                values : [user_id]
-            }, function (err, rows)
-            {
-                if (err) { cb(err); return }
-                surveys = deepcopy(rows);
-                cb(null);
-            })
+                sql : 'select submitList.submit_id, user.hak_name, user.hak_number, submitList.grade, user.hak_depart, submitList.created_at from user ' +
+                'inner join submitList on submitList.student_id = user.user_id where submitList.survey_id = ?',
+                values : [survey_id]
+            }, function (err, rows) {
+                if (err) { cb(err); return; }
+                submits = deepcopy(rows);
+                cb(err);
+            });
         },
-
-        function (cb)
-        {
-            var idx = 0;
-            var max = surveys.length;
-
-            async.until(
-                function () {
-                    if (idx >= max) {
-                        cb(null);
-                    }
-                    return idx >= max;
-                },
-                function (c)
-                {
-                    var s = surveys[idx]; idx++;
-                    conn.query({
-                        sql : 'select user.hak_name, user.hak_number, user.hak_depart, submitList.created_at from user ' +
-                        'inner join submitList on user.user_id = submitList.student_id where submitList.survey_id = ?',
-                        values : [s.survey_id]
-                    }, function (err, rows) {
-                        if (err) { c(err); return }
-                        for (var idx in rows)
-                        {
-                            var r = rows[idx];
-                            s.hak_name = r.hak_name;
-                            s.hak_number = r.hak_number;
-                            s.hak_depart = r.hak_depart;
-                            s.created_at = r.created_at;
-                            c(null);
-                        }
-                    })
-                },
-                function (err) {
-                    if (err) cb(err);
-                }
-            );
-        }
+        //
+        // function (cb)
+        // {
+        //     conn.query({
+        //         sql : 'select * from surveyList where professor_id = ?',
+        //         values : [user_id]
+        //     }, function (err, rows)
+        //     {
+        //         if (err) { cb(err); return }
+        //         submits = deepcopy(rows);
+        //         cb(null);
+        //     })
+        // },
+        //
+        // function (cb)
+        // {
+        //     var idx = 0;
+        //     var max = submits.length;
+        //
+        //     async.until(
+        //         function () {
+        //             if (idx >= max) {
+        //                 cb(null);
+        //             }
+        //             return idx >= max;
+        //         },
+        //         function (c)
+        //         {
+        //             var s = submits[idx]; idx++;
+        //             conn.query({
+        //                 sql : 'select user.hak_name, user.hak_number, user.hak_depart, submitList.created_at from user ' +
+        //                 'inner join submitList on user.user_id = submitList.student_id where submitList.survey_id = ?',
+        //                 values : [s.survey_id]
+        //             }, function (err, rows) {
+        //                 if (err) { c(err); return }
+        //                 for (var idx in rows)
+        //                 {
+        //                     var r = rows[idx];
+        //                     s.hak_name = r.hak_name;
+        //                     s.hak_number = r.hak_number;
+        //                     s.hak_depart = r.hak_depart;
+        //                     s.created_at = r.created_at;
+        //                     c(null);
+        //                 }
+        //             })
+        //         },
+        //         function (err) {
+        //             if (err) cb(err);
+        //         }
+        //     );
+        // }
     ];
 
     async.waterfall(task, function (err) {
@@ -69,7 +81,7 @@ exports.listSubmit_Professor = function (conn, callback, user_id)
         }
         else
         {
-            callback(true, surveys);
+            callback(true, submits);
         }
     })
 

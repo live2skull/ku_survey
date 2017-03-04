@@ -22,7 +22,7 @@ pagnation :: -
 */
 
 
-exports.listSurvey = function (conn, callback, type, department, hide_closed, pagnation)
+exports.listSurveyStudent = function (conn, callback, type, department, hide_closed, pagnation)
 {
     var data = {};
 
@@ -129,4 +129,33 @@ exports.listSurvey = function (conn, callback, type, department, hide_closed, pa
             callback(true, data)
         }
     })
+};
+
+exports.listSurveyProfessor = function (conn, callback, type, user_id) {
+
+    var surveys = [];
+
+    var task = [
+        function (cb)
+        {
+            var qd = {
+                sql : 'select * from surveyList where professor_id = ? and type = ? order by created_at desc',
+                values : [user_id, type]
+            };
+
+            // isAvaliable 사용이 필요한가? 교수 버전에서는 필요없을 것 같음.
+
+            conn.query(qd, function (err, rows) {
+                if (err) { cb(err); return; }
+                surveys = deepcopy(rows);
+                cb(null);
+            })
+        }
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err) callback(false);
+        else callback(true, surveys);
+    })
+
 };

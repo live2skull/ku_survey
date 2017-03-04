@@ -133,9 +133,10 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
     }
 })
 
-.factory('surveyListFactory', function ($http)
+.factory('surveyListFactory', function ($http, lv2sHelper)
 {
     return {
+        // 통계 자료 출력 및 학생 전용
         listSurvey : function (type, show_closed, pagnation, callback)
         {
             $http({
@@ -161,18 +162,15 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                 }
             )
         },
-    }
-})
 
-.factory('submitListFactory', function ($http, lv2sHelper)
-{
-    return {
-        listSubmitProf : function (callback)
+        // pagnation -- not used
+        // 교수 본인이 작성한 설문지 양식 불러오기.
+        listProfessorSurvey : function (callback, type, pagnation)
         {
             $http({
                 method : 'POST',
-                url : '/api/listsubmit',
-                data : {},
+                url : '/api/listsurvey',
+                data : {type : type, pagnation : pagnation}
             }).then(
                 function (data)
                 {
@@ -182,6 +180,58 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     else
                     {
                         // convert datetime object.
+                        var datas = d.data;
+                        for (var idx in datas)
+                        {
+                            // var form = forms[idx];
+                            lv2sHelper.recv_tIso2Stirng(datas[idx], ['created_at', 'modified_at', 'started_at', 'closed_at'], true);
+                        }
+                        // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        callback(true, d.data);
+                    }
+                },
+                function ()
+                {
+                    callback(false);
+                }
+            )
+        }
+
+    }
+})
+
+.factory('submitListFactory', function ($http, lv2sHelper)
+{
+    return {
+        // 이건 설문 데이터 가져오기
+        // 전체 설문 데이터?
+        listSubmitProf : function (callback, survey_id)
+        {
+            $http({
+                method : 'POST',
+                url : '/api/listsubmit',
+                data : {survey_id : survey_id},
+            }).then(
+                function (data)
+                {
+                    var d = data.data;
+                    var result = d.result;
+                    if (!result) callback(d.result);
+                    else
+                    {
+                        var submits = d.data;
+                        for (var idx in submits)
+                        {
+                            var submit = submits[idx];
+                            lv2sHelper.recv_tIso2Stirng(submit, ['created_at'], true);
+                        }
+                        // convert datetime object.
+                        // var data = d.data;
+                        // for (var idx in data)
+                        // {
+                        //     var da = data[idx];
+                        //     lv2sHelper.recv_tIso2Stirng(da, ['created_at', 'modified_at', 'closed_at'], true);
+                        // }
                         // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(true, d.data);
                     }
@@ -193,6 +243,7 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
             )
         },
 
+        // 본인이 설문한 데이터만 모두 불러온다.
         listSubmitStud : function (callback)
         {
             $http({

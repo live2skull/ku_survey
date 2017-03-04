@@ -22,7 +22,7 @@ angular.module('kudoc')
                 break;
 
             case 1:
-                location.href = '/professor/list';
+                location.href = '/professor/list_submit';
                 break;
         }
     }

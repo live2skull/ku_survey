@@ -2,69 +2,126 @@ extends layout
 
 block content
 
-    div#main-container.container(ng-controller='searchSubmitListController')
+    div#main-container.container-fluid(ng-controller='searchSubmitListController')
+        h5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"검색" 탭에서 제작한 설문지명을 선택, 설문에 참여한 작성자를 선택하여 설문을 봅니다.
 
-        i.fa.fa-search.fa-2x(style="margin-top: 10px; margin-bottom: 10px")
-            i.notice &nbsp;&nbsp;검색
+        .rows
+            .col-sm-5.col-md-5
+                i.fa.fa-search.fa-2x(style="margin-top: 10px; margin-bottom: 10px")
+                    i.notice &nbsp;&nbsp;검색
 
-        div.container-fluid.no-padding
-            div
-                .rows(style='margin-top: 20px')
-                    .col-sm-2.col-md-2
+                div.container-fluid.no-padding
+                    div(style='margin-top : 5px')
+                        //br
                         label
                             input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 0', ng-value='0', ng-model='survey_type', value='상시상담')
-                            | &nbsp;상시상담
-                    .col-sm-2.col-md-2
+                            | &nbsp;상시상담&nbsp;&nbsp;&nbsp;
                         label
                             input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 1', ng-value='1', ng-model='survey_type', value='학과설문')
-                            | &nbsp;학과설문
-                    .col-sm-2.col-md-2
+                            | &nbsp;학과설문&nbsp;&nbsp;&nbsp;
                         label
                             input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 2', ng-value='2', ng-model='survey_type', value='학교설문')
-                            | &nbsp;학교설문
+                            | &nbsp;학교설문&nbsp;&nbsp;&nbsp;
+                        //br
 
-                    .ku-select.create-type.quest-type.professor-search
-                        select(ng-model='quest.type_select', ng-options='data as data.name for data in option.type',
-                        ng-change='click.changeQuestionType(quest)')
+                div.table-container.setheight-surveylist
+                    table.table.stat-list.table-setwidth(ng-show="surveys.length != 0")
+                        thead
+                            tr
+                                th.stat-th-large 설문지명
+                                th.stat-th-large 종류
+                                th.stat-th-large 종료일자
+                                //th.stat-th-large 참여일자
+                                //th.stat-th-large 설문지명
+                                //th 부서(학과)
+                                //th.stat-th 참여인원
+                                //th.stat-th 마감여부
+                                //th Share
+                                //th More
+                        tbody
+                            tr.stat-th-body(ng-click='click.setSurvey("(" + solve.getType(survey.type) + ")" + survey.title, survey.survey_id)', ng-repeat='survey in surveys')
+                                th {{ survey.title}}
+                                    //a.stat-list-href {{ submit.hak_name }}
+                                td {{ solve.getType(survey.type) }}
+                                td {{ solve.getClosed(survey.closed_at) }}
+                                //td {{ submit.survey_name }}
+                                //td {{ survey.participants_cnt }} 명
+                                //td
+                                //    i(ng-show='!survey.complete').fa.fa-times
+                                //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                        tfoot
+                            tr
+                                td(colspan='3')
+
+                    div(ng-show="surveys.length == 0")
+                        br
+                        h4(style="text-align: center") 생성한 설문이 없습니다!
+                        br
 
 
-        hr
+                //.ku-select.create-type.quest-type.professor-search
+                    //    select(ng-model='quest.type_select', ng-options='data as data.name for data in option.type',
+                    //    ng-change='click.changeQuestionType(quest)')
 
-        div#qid-search_result
-            i.fa.fa-window-restore.fa-2x(style="margin-top: 10px; margin-bottom: 20px")
-                i.notice &nbsp;&nbsp;설문지 작성자
 
-            table.table.stat-list
-                thead
-                    tr
-                        th.stat-th-large 이름
-                        th.stat-th-large 학번
-                        th.stat-th-large 학부
-                        th.stat-th-large 참여일자
-                        //th.stat-th-large 설문지명
-                        //th 부서(학과)
-                        //th.stat-th 참여인원
-                        //th.stat-th 마감여부
-                        //th Share
-                        //th More
-                tbody
-                    tr.stat-th-body(ng-click='click.goAssign(submit.submit_id)', ng-repeat='submit in submits')
-                        th {{ submit.hak_name }}
-                            //a.stat-list-href {{ submit.hak_name }}
-                        td {{ submit.hak_number }}
-                        td {{ submit.department }}
-                        td {{ submit.created_at }}
-                        //td {{ submit.survey_name }}
-                        //td {{ survey.participants_cnt }} 명
-                        //td
-                        //    i(ng-show='!survey.complete').fa.fa-times
-                        //    i(ng-show='survey.complete').fa.fa-check-circle-o
-                tfoot
-                    tr
-                        td(colspan='5')
+            .col-sm-7.col-md-7
+                div#qid-search_result
+                    i.fa.fa-window-restore.fa-2x(style="margin-top: 10px; margin-bottom: 10px")
+                        i.notice &nbsp;&nbsp;설문지 작성자
+
+                    div
+                        h4.assign-info-h &nbsp;선택한 설문&nbsp;&nbsp;&nbsp;
+                        h4.assign-info-h {{ select.survey_title }}
+
+                    div
+                        h4.assign-info-h &nbsp;이름 찾기 ...&nbsp;&nbsp;
+                        input.assign-q-input.assign-default-info(style="width: 200px !important; text-align: right", ng-model='searchFilter', type='text')
+
+                        button.btn.ku-button(style="margin-left: 10px; height: 33px !important; margin-top: -2px !important;", type='button', ng-click='click.resetFilter()')
+                            i.fa.fa-refresh.fa-neg.fa-12x &nbsp;초기화
+
+                    div.table-container.setheight-userlist
+                        //table.table.stat-list(style="margin-top: 16px;")
+                        table.table.stat-list.table-setwidth(ng-show="submits.length != 0")
+                            thead
+                                tr
+                                    th.stat-th-large 이름
+                                    th.stat-th-large 학번
+                                    th.stat-th-large 학년
+                                    th.stat-th-large 학부
+                                    th.stat-th-large 참여일자
+                                    //th.stat-th-large 설문지명
+                                    //th 부서(학과)
+                                    //th.stat-th 참여인원
+                                    //th.stat-th 마감여부
+                                    //th Share
+                                    //th More
+                            tbody
+                                // http://stackoverflow.com/questions/14733136/ng-repeat-filter-by-single-field
+                                tr.stat-th-body(ng-click='click.goView(submit.submit_id)', ng-repeat='submit in submits | filter : { hak_name : searchFilter }')
+                                    th {{ submit.hak_name }}
+                                        //a.stat-list-href {{ submit.hak_name }}
+                                    td {{ submit.hak_number }}
+                                    td {{ submit.grade }}
+                                    td {{ submit.hak_depart }}
+                                    td {{ submit.created_at }}
+                                    //td {{ submit.survey_name }}
+                                    //td {{ survey.participants_cnt }} 명
+                                    //td
+                                    //    i(ng-show='!survey.complete').fa.fa-times
+                                    //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                            tfoot
+                                tr
+                                    td(colspan='5')
+
+                        div(ng-show="submits.length == 0")
+                            br
+                            h4(style="text-align: center") 설문 작성자가 없습니다!
+                            br
 
 
 
     script(src='/public/javascripts/controller/searchsubmit.js')
+    link(rel='stylesheet', href='/public/stylesheets/popens.css')
     link(rel='stylesheet', href='/public/stylesheets/assign.css')
     link(rel='stylesheet', href='/public/stylesheets/assign-c.css')

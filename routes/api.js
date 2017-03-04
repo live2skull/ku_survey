@@ -102,8 +102,6 @@ router.post('/SSOAgree', function (req, res, next) {
 });
 
 router.post('/SSOLogin', function (req, res, next) {
-
-
     var userInfo = {};
 
     // DB 에 사용자 정보가 들어 있는가?
@@ -478,7 +476,7 @@ router.post('/listsurvey', function(req, res, next) {
     }
 
     var type = Number(req.body.type);
-    var show_closed = req.body.hide_closed;
+    var show_closed = req.body.show_closed;
     var pagnation = req.body.pagnation;
 
     if (type == null || type == undefined)
@@ -502,35 +500,49 @@ router.post('/listsurvey', function(req, res, next) {
         };
 
         var department = req.session.hak_depart;
-        //var hak_level = req.session.hak_level;
+        var hak_level = req.session.hak_level;
+        var user_id = req.session.user_id;
 
         // hak_level 을 구분한 것은 교수의 경우 closed 된 것을 볼 수 있기 위함 (?)
         // 그런데 어차피, stat 출력을 위해서는 closed 된 것도 보아야 한다
         // 그러면 hak_level 이 아닌 closed_list 를 사용하는 것도 방법인 듯?
         // closed 컬럼을 true, false 가 아닌 시간을 지정하는 것도 방법임.
-        switch (type)
+        if (hak_level == 0)
         {
-            case 0: // 상시상담
-                // 본인 학과에 맞는 설문. 추후 수정할 수 있다.
-                api_listsurvey.listSurvey(conn, callback, 0, department, show_closed, pagnation);
-                break;
+            switch (type)
+            {
+                case 0: // 상시상담
+                    // 본인 학과에 맞는 설문. 추후 수정할 수 있다.
+                    api_listsurvey.listSurveyStudent(conn, callback, 0, department, show_closed, pagnation);
+                    break;
 
-            case 1: // 학과설문
-                api_listsurvey.listSurvey(conn, callback, 1, department, show_closed, pagnation);
-                break;
+                case 1: // 학과설문
+                    api_listsurvey.listSurveyStudent(conn, callback, 1, department, show_closed, pagnation);
+                    break;
 
-            case 2: // 학교설문 :: 그냥 type 이 2 인 전체를 뽑으면 된다. (학교설문이므로 과를 가릴 필요 없음)
-                api_listsurvey.listSurvey(conn, callback, 2, null, show_closed, pagnation);
-                break;
+                case 2: // 학교설문 :: 그냥 type 이 2 인 전체를 뽑으면 된다. (학교설문이므로 과를 가릴 필요 없음)
+                    api_listsurvey.listSurveyStudent(conn, callback, 2, null, show_closed, pagnation);
+                    break;
 
-            case 3:
-                api_listsurvey.listSurvey(conn, callback, 3, null, null, null);
-                break;
+                case 3:
+                    api_listsurvey.listSurveyStudent(conn, callback, 3, null, null, null); // ALL!
+                    break;
 
-            default:
-                conn.release();
-                res.send(RES_FORBIDDEN);
+                default:
+                    conn.release();
+                    res.send(RES_FORBIDDEN);
+            }
         }
+        else if (hak_level == 1)
+        {
+            api_listsurvey.listSurveyProfessor(conn, callback, type, user_id, null, null);
+        }
+        else
+        {
+            conn.release();
+            res.send(RES_FORBIDDEN);
+        }
+
     });
 
 });
@@ -554,11 +566,16 @@ router.post('/listsubmit', function (req, res, next) {
         switch (hak_level)
         {
             case 0:
+                // 내가 지금까지 설문한 전체 데이터
                 api_listsubmit.listSubmit_Student(conn, callback, user_id);
                 break;
 
             case 1:
-                api_listsubmit.listSubmit_Professor(conn, callback, user_id);
+                // TODO :: 사용 용도 ???
+                // 본인이 작성한 설문에 대한 전체 데이터 ->>> 사용 안함!
+                // >>> 사용함. survey_id 추가.
+                var survey_id = req.body.survey_id;
+                api_listsubmit.listSubmit_Professor(conn, callback, user_id, survey_id);
                 break;
 
             default:

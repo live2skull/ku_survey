@@ -1,0 +1,70 @@
+extends layout
+
+block content
+
+    div#main-container.container(ng-controller='searchSubmitListController')
+
+        i.fa.fa-search.fa-2x(style="margin-top: 10px; margin-bottom: 10px")
+            i.notice &nbsp;&nbsp;검색
+
+        div.container-fluid.no-padding
+            div
+                .rows(style='margin-top: 20px')
+                    .col-sm-2.col-md-2
+                        label
+                            input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 0', ng-value='0', ng-model='survey_type', value='상시상담')
+                            | &nbsp;상시상담
+                    .col-sm-2.col-md-2
+                        label
+                            input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 1', ng-value='1', ng-model='survey_type', value='학과설문')
+                            | &nbsp;학과설문
+                    .col-sm-2.col-md-2
+                        label
+                            input(ng-change="click.changeType()", type='radio', ng-checked='survey_type == 2', ng-value='2', ng-model='survey_type', value='학교설문')
+                            | &nbsp;학교설문
+
+                    .ku-select.create-type.quest-type.professor-search
+                        select(ng-model='quest.type_select', ng-options='data as data.name for data in option.type',
+                        ng-change='click.changeQuestionType(quest)')
+
+
+        hr
+
+        div#qid-search_result
+            i.fa.fa-window-restore.fa-2x(style="margin-top: 10px; margin-bottom: 20px")
+                i.notice &nbsp;&nbsp;설문지 작성자
+
+            table.table.stat-list
+                thead
+                    tr
+                        th.stat-th-large 이름
+                        th.stat-th-large 학번
+                        th.stat-th-large 학부
+                        th.stat-th-large 참여일자
+                        //th.stat-th-large 설문지명
+                        //th 부서(학과)
+                        //th.stat-th 참여인원
+                        //th.stat-th 마감여부
+                        //th Share
+                        //th More
+                tbody
+                    tr.stat-th-body(ng-click='click.goAssign(submit.submit_id)', ng-repeat='submit in submits')
+                        th {{ submit.hak_name }}
+                            //a.stat-list-href {{ submit.hak_name }}
+                        td {{ submit.hak_number }}
+                        td {{ submit.department }}
+                        td {{ submit.created_at }}
+                        //td {{ submit.survey_name }}
+                        //td {{ survey.participants_cnt }} 명
+                        //td
+                        //    i(ng-show='!survey.complete').fa.fa-times
+                        //    i(ng-show='survey.complete').fa.fa-check-circle-o
+                tfoot
+                    tr
+                        td(colspan='5')
+
+
+
+    script(src='/public/javascripts/controller/searchsubmit.js')
+    link(rel='stylesheet', href='/public/stylesheets/assign.css')
+    link(rel='stylesheet', href='/public/stylesheets/assign-c.css')

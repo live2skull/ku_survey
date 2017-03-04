@@ -9,6 +9,12 @@ block content
 
     div#main-container.container(ng-controller='viewController')
 
+        div(style='margin-bottom: 10px; margin-top: 10px')
+            div(style='display: inline-block; vertical-align: top')
+                i.fa.fa-clock-o.fa-size-create
+                    //i.notice &nbsp;&nbsp;질의응답 작성
+            i.notice-time.notice &nbsp; 참여 : {{ survey.created_at }}
+
         // TODO : 설문 가리기
         h4
         h4(style='display: inline') 설문지 열람 중 :
@@ -32,7 +38,7 @@ block content
 
                 .col-md-2.col-sm-2.assign-c-info-padding
                     h4.assign-info-h 학년&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 50px;', ng-readonly='true', ng-model='survey.hak_grade',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 50px;', ng-readonly='true', ng-model='survey.grade',ng-disabled='true', type='text')
 
                 .col-md-3.col-sm-3.assign-c-info-padding
                     h4.assign-info-h 학번&nbsp;&nbsp;
@@ -40,7 +46,7 @@ block content
 
                 .col-md-4.col-sm-4.assign-c-info-padding
                     h4.assign-info-h 학과&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 220px;', ng-readonly='true', ng-model='survey.hak_department',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 220px;', ng-readonly='true', ng-model='survey.hak_depart',ng-disabled='true', type='text')
 
                 //.col-md-3.col-sm-3
                 //    div
