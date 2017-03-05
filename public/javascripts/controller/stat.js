@@ -3,6 +3,7 @@ angular.module('kudoc')
 .controller('statController', function ($scope, surveyFormFactory, statFactory, chartManager) {
 
 
+    $scope.survey_id = '';
     $scope.click = {};
     $scope.survey = {};
     $scope.formats = [];
@@ -100,15 +101,28 @@ angular.module('kudoc')
         }
     }
 
-    $scope.click.loadStat = function (survey_id)
+    function callback_loadStatMeta(result, data)
     {
-        surveyFormFactory.loadForm(survey_id, callback_loadForm)
+        if (result)
+        {
+            surveyFormFactory.loadForm($scope.survey_id, callback_loadForm)
+        }
+        else
+        {
+            alert('설문 데이터를 가져오는데 실패했습니다.')
+        }
+    }
+
+    $scope.click.loadStatMeta = function (survey_id)
+    {
+        statFactory.loadStatMeta(survey_id, callback_loadStatMeta)
     };
 
     function init()
     {
         var survey_id = $("#survey_id").val();
-        $scope.click.loadStat(survey_id);
+        $scope.survey_id = survey_id;
+        $scope.click.loadStatMeta(survey_id);
     }
 
     init();

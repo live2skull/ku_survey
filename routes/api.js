@@ -32,6 +32,7 @@ const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
 
 const api_loadstat = require('./backend/stat/loadstat');
+const api_loadstatmeta = require('./backend/stat/statmeta');
 
 // INFO
 /*
@@ -594,6 +595,8 @@ router.post('/listsubmit', function (req, res, next) {
 router.post('/loadstat', function (req, res, next) {
 
     var survey_id = req.body.survey_id;
+    var filter_year = req.body.filter_year;
+    var filter_grade = req.body.filter_grade;
 
     dbms.pool.getConnection(function (err, conn) {
 
@@ -604,7 +607,7 @@ router.post('/loadstat', function (req, res, next) {
             else res.send(JSON.stringify({result : result}))
         };
 
-        api_loadstat.loadStat(conn, callback, survey_id);
+        api_loadstat.loadStat(conn, callback, survey_id, filter_year, filter_grade);
 
     });
 });
@@ -629,6 +632,23 @@ router.post('/surveytime', function (req, res, next) {
         if (reset) api_surveytime.setSurveyTime(conn, callback_surveytime, survey_id, reset);
         else api_surveytime.setSurveyTime(conn, callback_surveytime, survey_id, false, req.body.started_at, req.body.closed_at);
     });
+})
+
+router.post('/loadstatmeta', function (req, res, next) {
+
+    dbms.pool.getConnection(function (err, conn) {
+
+        function callback_getMeta(result, data) {
+            conn.release();
+            if (result) res.send(JSON.stringify({result : true, data : data}));
+            else res.send(JSON.stringify({result : false}));
+        }
+
+        if (err) { conn.release(); res.send(JSON.stringify({result : false})); }
+
+        var survey_id = req.body.survey_id;
+        api_loadstatmeta.loadStatMeta(conn, callback_getMeta, survey_id);
+    })
 })
 
 

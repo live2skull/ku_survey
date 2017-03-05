@@ -300,11 +300,11 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
 
 .factory('statFactory', function ($http) {
    return {
-       loadStat : function (survey_id, callback) {
+       loadStat : function (survey_id, callback, filter_year, filter_grade) {
            $http({
                method : 'POST',
                url : '/api/loadstat',
-               data : {survey_id : survey_id}
+               data : {survey_id : survey_id, filter_year : filter_year, filter_grade : filter_grade}
            }).then(
            function (data) {
                var d = data.data;
@@ -322,7 +322,32 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
            {
                callback(false)
            }
-       )}
+       )},
+
+       loadStatMeta : function (survey_id, callback)
+       {
+           $http({
+               method : 'POST',
+               url : '/api/loadstatmeta',
+               data : {survey_id : survey_id}
+           }).then(
+               function (data) {
+                   var d = data.data;
+                   var result = d.result;
+                   if (!result) {
+                       callback(false)
+                   }
+                   else {
+                       callback(true, d.data)
+                   }
+
+               },
+
+               function (err)
+               {
+                   callback(false)
+               })
+       }
    }
 })
 

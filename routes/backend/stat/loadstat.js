@@ -31,21 +31,36 @@ var countIdvars = function (datas, idvar, value)
 
     for (var idx in datas) if (datas[idx][idvar] == value) ret++;
     return ret;
-};
+}
 
-exports.loadStat = function (conn, callback, survey_id)
+function apply_filter(sql, filter_year, filter_grade)
 {
+    if (filter_grade != undefined)
+    {
+        sql.sql += 'and submitList.grade = ' + filter_grade + ' '
+    }
+    if (filter_year != undefined)
+    {
+        sql.sql += 'inner join user on user.grade = ' + filter_year + ' '
+    }
+}
+
+exports.loadStat = function (conn, callback, survey_id, filter_year, filter_grade)
+{
+    // year, grade -> 클라이언트 측에서 보내지 않았으면 undefined.
     var data_type12 = [];
     var data_type3 = [];
     var stat = {};
 
     var task = [
         function (cb) {
-            conn.query({
+            var sql = {
                 sql : 'select submitType1.`no`, submitType1.`select` from submitType1 ' +
-                'inner join submitList on submitList.submit_id = submitType1.submit_id and submitList.survey_id = ?',
+                'inner join submitList on submitList.submit_id = submitType1.submit_id and submitList.survey_id = ? ',
                 values : [survey_id]
-            }, function (err, rows) {
+            };
+            apply_filter(sql, filter_year, filter_grade);
+            conn.query(, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
                 cb(null);
@@ -53,11 +68,13 @@ exports.loadStat = function (conn, callback, survey_id)
         },
 
         function (cb) {
-            conn.query({
+            var sql = {
                 sql : 'select submitType2.`no`, submitType2.`select` from submitType2 ' +
-                'inner join submitList on submitList.submit_id = submitType2.submit_id and submitList.survey_id = ?',
+                'inner join submitList on submitList.submit_id = submitType2.submit_id and submitList.survey_id = ? ',
                 values : [survey_id]
-            }, function (err, rows) {
+            };
+            apply_filter(sql, filter_year, filter_grade);
+            conn.query(, function (err, rows) {
                  if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
                 cb(null);
@@ -65,11 +82,13 @@ exports.loadStat = function (conn, callback, survey_id)
         },
 
         function (cb) {
-            conn.query({
+            var sql = {
                 sql : 'select submitType3.`no`, submitType3.`select`, submitType3.`order` from submitType3 ' +
-                'inner join submitList on submitList.submit_id = submitType3.submit_id and submitList.survey_id = ?',
+                'inner join submitList on submitList.submit_id = submitType3.submit_id and submitList.survey_id = ? ',
                 values : [survey_id]
-            }, function (err, rows) {
+            };
+            apply_filter(sql, filter_year, filter_grade);
+            conn.query(, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type3.push(rows[idx])
                 cb(null);
