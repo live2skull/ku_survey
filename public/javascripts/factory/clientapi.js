@@ -53,6 +53,22 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
             )
         },
 
+        setTimeForm : function (survey_id, reset, started_at, closed_at, callback)
+        {
+          $http({
+              method : "POST",
+              url : '/api/surveytime',
+              data : {survey_id : survey_id, reset : reset, started_at : started_at, closed_at : closed_at}
+          }).then(
+              function (data) {
+                  var d = data.data;
+                  var result = d.result;
+                  callback(result);
+              },
+              function () {callback(false)}
+          )
+        },
+
         checkAssignedSubmit : function (survey_id, callback) {
             $http({
                 method : 'POST',

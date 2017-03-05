@@ -26,6 +26,7 @@ const api_loadsubmit = require('./backend/submit/loadsubmit');
 const api_listsurvey = require('./backend/survey/listsurvey');
 const api_listsubmit = require('./backend/submit/listsubmit');
 const api_checksubmit = require('./backend/submit/checksubmit');
+const api_surveytime = require('./backend/survey/surveytime');
 
 const api_savecomment = require('./backend/comment/savecomment');
 const api_loadcomment = require('./backend/comment/loadcomment');
@@ -609,6 +610,27 @@ router.post('/loadstat', function (req, res, next) {
 });
 
 // ************************************************************************************
+
+router.post('/surveytime', function (req, res, next) {
+
+    if (req.session.hak_level != 1) {res.send(JSON.stringify({result : false})); return }
+
+    dbms.pool.getConnection(function (err, conn) {
+
+        function callback_surveytime(result)
+        {
+            conn.release();
+            res.send(JSON.stringify({result : result}));
+        }
+
+        if (err) { conn.release(); res.send(JSON.stringify({result : false})); }
+        var reset = req.body.reset;
+        var survey_id = req.body.survey_id;
+        if (reset) api_surveytime.setSurveyTime(conn, callback_surveytime, survey_id, reset);
+        else api_surveytime.setSurveyTime(conn, callback_surveytime, survey_id, false, req.body.started_at, req.body.closed_at);
+    });
+})
+
 
 
 // Malicious!!!

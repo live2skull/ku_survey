@@ -24,6 +24,15 @@ angular.module('kudoc')
             case 2: return "학교설문";
         }
     };
+    $scope.solve.getTime = function (survey)
+    {
+        if (survey.closed_at == "1970. 1. 1. 오전 9:00:00" || survey.started_at == "1970. 1. 1. 오전 9:00:00") return "중지됨 (아직 정해지지 않음)";
+        var started_at = survey.started_at;
+        var closed_at = survey.closed_at;
+
+        return started_at + ' ~ ' + closed_at;
+    }
+
 
     function callback_listSurvey(result, data)
     {

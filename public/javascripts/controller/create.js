@@ -4,6 +4,13 @@ angular.module('kudoc')
 // 교수 설문지 만들기 및 수정 :: /professor/create + /professor/edit/:survey_id
 .controller('createController', function ($scope, $location, $anchorScroll, surveyFormFactory) {
 
+    function getFormattedDate(date) {
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear().toString();
+        return year + '-' + month + '-' + day;
+    }
+
     function getMaxArguments_Question() {
 
         // var maxNo = -1;
@@ -48,7 +55,13 @@ angular.module('kudoc')
     $scope.input = {}; $scope.input.name = '';
     $scope.click = {};
     $scope.flag = {};
-    $scope.flag.isTimeSet = true;
+    $scope.flag.isTimeSet = false;
+    $scope.flag.timErrMsg = "";
+
+    // http://stackoverflow.com/questions/4802190/how-do-i-format-date-in-jquery-datetimepicker
+    var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss', minDate : getFormattedDate(new Date())};
+    // var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss', minDate : getFormattedDate(new Date())};
+    // var datetime_format = {format : 'YYYY/MM/DD HH:mm:ss'};
 
     $scope.survey = {
         survey_id : '',
@@ -243,8 +256,57 @@ angular.module('kudoc')
         $scope.moveAnchor('title');
     };
     $scope.click.apply = function () {
-        $scope.flag.isTimeSet = true;
+        if ($scope.survey.survey_id == "") alert ('먼저 설문지 변경사항을 저장해 주세요.');
+        else $scope.flag.isTimeSet = true;
     };
+
+    $scope.click.saveTime = function () {
+        var start = $('#dtpicker-start');
+        var end = $('#dtpicker-end');
+
+        var o_start = picker2obj(start);
+        var o_end = picker2obj(end);
+
+        if (o_start >= o_end) alert("오류 : 시작 기간이 종료 기간보다 빠르거나 같습니다.");
+        else if (o_end <= Date.now()) alert("오류 : 종료 기간이 현재 시간보다 과거입니다.");
+        else
+        {
+            var str_start = picker2str(start);
+            var str_end = picker2str(end);
+
+            if (confirm('설문 시작 일시 : ' + str_start + '\n설문 종료 일시 : ' + str_end + '\n다음과 같이 설정합니까?'))
+                surveyFormFactory.setTimeForm($scope.survey.survey_id, false, str_start, str_end, setTimeCallback)
+        }
+    };
+    $scope.click.eraseTime = function () {
+        if (confirm('설문 참여를 일시 중단하시겠습니까?'))
+            surveyFormFactory.setTimeForm($scope.survey.survey_id, true, null, null, setTimeCallback)
+    };
+    $scope.click.saveCancel = function () {
+        $scope.flag.isTimeSet = false;
+    };
+
+    function picker2str (obj)
+    {
+        return obj.find('input').val().replace('/', '-').replace('/', '-');
+    }
+
+    function picker2obj (obj)
+    {
+        return obj.data('DateTimePicker').date().toDate();
+    }
+
+    function setTimeCallback(result)
+    {
+        if (result)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
 
     function postFormCallback(result, survey_id, err) {
         if (result)
@@ -294,6 +356,9 @@ angular.module('kudoc')
     function init() {
         var survey_id = $("#survey_id").val();
         $scope.survey.survey_id = survey_id;
+
+        $('#dtpicker-start').datetimepicker(datetime_format);
+        $('#dtpicker-end').datetimepicker(datetime_format);
 
         // reload survey form!
         if (survey_id != '')

@@ -24,6 +24,8 @@
     "deepcopy": "^0.6.3",
     "dateformat": "^0.4.1",
     "moment": "^2.17.1",
-    "Chart.js": "chart.js#2.1.0"
+    "Chart.js": "chart.js#2.1.0",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "jquery-ui": "jquery.ui#^1.12.1"
   }
 }

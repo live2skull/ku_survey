@@ -22,9 +22,10 @@ block content
             table.table.stat-list
                 thead
                     tr
-                        th.stat-th-large(width="20%") 설문 이름
-                        th.stat-th-large(width="5%") 종류
-                        th.stat-th-large(width="30%") 제작 일시
+                        th.stat-th-large(width="25%") 설문 이름
+                        th.stat-th-large(width="10%") 종류
+                        th.stat-th-large(width="20%") 제작 일시
+                        th.stat-th-large(width="30%") 참여 기간
                         //th 부서(학과)
                         //th.stat-th 참여인원
                         //th.stat-th 마감여부
@@ -35,6 +36,7 @@ block content
                         th {{ survey.title }}
                         td {{ solve.getType(survey.type) }}
                         td {{ survey.created_at }}
+                        td {{ solve.getTime(survey) }}
                         //td {{ survey. }}
                         //td {{ submit.created_at }}
                         //td

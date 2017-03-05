@@ -43,7 +43,7 @@ block content
         // h4
         div#qid-title
             h4.assign-info-h 설문제목 &nbsp;
-            input.assign-q-input.assign-default-info.assign-c-title(ng-model='survey.title', type='text', placeholder='제목 입력')
+            input.assign-q-input.assign-default-info.assign-c-title(ng-model='survey.title', type='text', placeholder='제목 입력', ng-readonly='flag.isTimeSet')
         div.no-padding(ng-show="!flag.isTimeSet")
             h4.assign-info-h 설문종류
             .rows(style='margin-top: 10px')
@@ -192,18 +192,38 @@ block content
         div.no-padding(ng-show="flag.isTimeSet")
             .container
                 .row
-                    .col-sm-6
+                    .col-sm-4
                         .form-group
-                            #datetimepicker1.input-group.date
+                            h4 시작 시간
+                            #dtpicker-start.input-group.date
                                 input.form-control(type='text')
 
                                 span.input-group-addon
                                     span.glyphicon.glyphicon-calendar
 
-                    script(type='text/javascript').
-                        $(function () {
-                            $('#datetimepicker1').datepicker();
-                        });
+                            h4 &nbsp;
+                            h4 마감 시간
+                            #dtpicker-end.input-group.date
+                                input.form-control(type='text')
+
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-calendar
+                    .col-sm-8(style="padding-left: 10px; ")
+
+                        i.fa.fa-info.fa-2x
+                            i.notice &nbsp;&nbsp;응답시간 설정
+
+                        h5 지정한 응답 시간 사이에 설문이 학생들에게 보여집니다. (단, 통계 자료에서는 응답 시간이 종료되도 계속 보여집니다)
+                        h5 응답불가 상태가 되면 설문이 학생들에게 보여지지 않으며, 설문에 참여할 수 없습니다.
+                        h5 설정 전, 먼저 변경사항을 저장해주세요.
+                        //div(style="padding-left: 10px; float: right")
+                        div
+                            button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.saveTime()')
+                                i.fa.fa-floppy-o.fa-neg.fa-12x &nbsp;&nbsp;응답시간 저장
+                            button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.eraseTime()')
+                                i.fa.fa-stop-circle.fa-neg.fa-12x &nbsp;&nbsp;응답불가 상태로 변경
+                            button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.saveCancel()')
+                                i.fa.fa-times.fa-neg.fa-12x &nbsp;&nbsp;취소
 
 
         div.no-padding(ng-show="!flag.isTimeSet")
@@ -227,7 +247,9 @@ block content
 
     link(rel='stylesheet', href='/public/stylesheets/assign.css')
     link(rel='stylesheet', href='/public/stylesheets/assign-c.css')
+    link(rel='stylesheet', href='/public/bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')
 
     script(src='/public/javascripts/controller/create.js')
+    script(src='/public/bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
     //script(src='/public/javascripts/publicAPI.js')
     //script(src='/public/javascripts/professor.js')

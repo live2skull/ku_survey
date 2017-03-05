@@ -70,7 +70,7 @@ exports.listSurveyStudent = function (conn, callback, type, department, show_clo
             * */
             // 0000-00-00 00:00:00
             // http://stackoverflow.com/questions/3669348/mysql-datetime-not-null-default-1970-01-01-gets-turned-to-0000-00-00-0000
-            // DATETIME 에는 null 을 쓰지 말 것!
+            // DATETIME 에는 null 을 쓰지 말 것 >>> 써도 상관 없음. "is NULL 로 구분하여야함."
             if (!show_closed)
             {
                 // 부등호를 반대로 하면 -> 현재 진행중인 설문이 됨.
