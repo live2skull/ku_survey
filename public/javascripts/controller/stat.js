@@ -78,6 +78,7 @@ angular.module('kudoc')
 
         else
         {
+            $scope.flag.statAvaliable = true;
             var formats = chartManager.buildChartData(survey, stat);
             if (formats == undefined)
             {
@@ -139,6 +140,10 @@ angular.module('kudoc')
     }
 
     function refreshData () {
+        for (var idx in $scope.ctxs) delete $scope.ctxs[idx]
+        delete $scope.ctxs; $scope.ctxs = [];
+        delete $scope.formats; $scope.formats = [];
+
         var year = Number($scope.select.year.code);
         var grade = Number($scope.select.grade.code);
 

@@ -41,7 +41,7 @@ function apply_filter(sql, filter_year, filter_grade)
     }
     if (filter_year != undefined)
     {
-        sql.sql += 'inner join user on user.grade = ' + filter_year + ' '
+        sql.sql += 'inner join user on submitList.student_id = user.user_id and user.year = ' + filter_year + ' '
     }
 }
 
