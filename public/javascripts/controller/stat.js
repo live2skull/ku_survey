@@ -12,8 +12,10 @@ angular.module('kudoc')
     $scope.flag = {};
     $scope.flag.statAvaliable = true;
 
-    $scope.getMeta = function (type)
-    {
+    $scope.option = {};
+    $scope.select = {};
+
+    $scope.getMeta = function (type) {
         switch (type)
         {
             case 1:
@@ -33,8 +35,7 @@ angular.module('kudoc')
         history.back();
     };
 
-    function callback_awaitChart()
-    {
+    function callback_awaitChart() {
         var ctxIdx = -1;
         for (var idx in $scope.formats)
         {
@@ -105,7 +106,31 @@ angular.module('kudoc')
     {
         if (result)
         {
-            surveyFormFactory.loadForm($scope.survey_id, callback_loadForm)
+            surveyFormFactory.loadForm($scope.survey_id, callback_loadForm);
+
+            var years = data.year;
+            var grades = data.grade;
+
+            $scope.option.year = [];
+            $scope.option.year.push({code : -1, name : '--- 학번 세부 선택 ---'});
+            for (var idx in years)
+            {
+                var year = years[idx];
+                $scope.option.year.push({code : year, name : year + '학번'});
+            }
+
+            $scope.option.grade = [];
+            $scope.option.grade.push({code : -1, name : '--- 학년 세부 선택 --- '});
+            for (var idx in grades)
+            {
+                var grade = grades[idx];
+                $scope.option.grade.push({code : grade, name : grade + '학년'});
+            }
+
+            $scope.select.year = $scope.option.year[0];
+            $scope.select.grade = $scope.option.grade[0];
+
+            // build select list
         }
         else
         {
@@ -113,9 +138,24 @@ angular.module('kudoc')
         }
     }
 
+    function refreshData () {
+        var year = Number($scope.select.year.code);
+        var grade = Number($scope.select.grade.code);
+
+        if (year == -1) year = undefined;
+        if (grade == -1) grade = undefined;
+        statFactory.loadStat($scope.survey_id, callback_loadStat, year, grade);
+    }
+
     $scope.click.loadStatMeta = function (survey_id)
     {
         statFactory.loadStatMeta(survey_id, callback_loadStatMeta)
+    };
+    $scope.click.changeYear = function () {
+        refreshData()
+    };
+    $scope.click.changeGrade = function () {
+        refreshData()
     };
 
     function init()

@@ -29,7 +29,7 @@ block content
                         thead
                             tr
                                 th.stat-th-large 설문지명
-                                th.stat-th-large 종류
+                                //th.stat-th-large 종류
                                 th.stat-th-large 종료일자
                                 //th.stat-th-large 참여일자
                                 //th.stat-th-large 설문지명
@@ -42,7 +42,7 @@ block content
                             tr.stat-th-body(ng-click='click.setSurvey("(" + solve.getType(survey.type) + ")" + survey.title, survey.survey_id)', ng-repeat='survey in surveys')
                                 th {{ survey.title}}
                                     //a.stat-list-href {{ submit.hak_name }}
-                                td {{ solve.getType(survey.type) }}
+                                //td {{ solve.getType(survey.type) }}
                                 td {{ solve.getClosed(survey.closed_at) }}
                                 //td {{ submit.survey_name }}
                                 //td {{ survey.participants_cnt }} 명
@@ -116,7 +116,7 @@ block content
 
                         div(ng-show="submits.length == 0")
                             br
-                            h4(style="text-align: center") 설문 작성자가 없습니다!
+                            h4(style="text-align: center") 생성한 설문이 없습니다!
                             br
 
 

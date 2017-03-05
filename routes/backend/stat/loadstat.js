@@ -60,7 +60,7 @@ exports.loadStat = function (conn, callback, survey_id, filter_year, filter_grad
                 values : [survey_id]
             };
             apply_filter(sql, filter_year, filter_grade);
-            conn.query(, function (err, rows) {
+            conn.query(sql, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
                 cb(null);
@@ -74,7 +74,7 @@ exports.loadStat = function (conn, callback, survey_id, filter_year, filter_grad
                 values : [survey_id]
             };
             apply_filter(sql, filter_year, filter_grade);
-            conn.query(, function (err, rows) {
+            conn.query(sql, function (err, rows) {
                  if (err) {cb(err); return}
                 for (var idx in rows) data_type12.push(rows[idx])
                 cb(null);
@@ -88,7 +88,7 @@ exports.loadStat = function (conn, callback, survey_id, filter_year, filter_grad
                 values : [survey_id]
             };
             apply_filter(sql, filter_year, filter_grade);
-            conn.query(, function (err, rows) {
+            conn.query(sql, function (err, rows) {
                 if (err) {cb(err); return}
                 for (var idx in rows) data_type3.push(rows[idx])
                 cb(null);
