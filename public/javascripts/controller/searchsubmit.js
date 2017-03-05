@@ -67,7 +67,7 @@ angular.module('kudoc')
         }
     };
     $scope.solve.getClosed = function (closed_at) {
-        if (closed_at == null) return "정해지지 않음.";
+        if (closed_at == "1970. 1. 1. 오전 9:00:00") return "정해지지 않음.";
         else return closed_at;
     };
 

@@ -22,7 +22,7 @@ pagnation :: -
 */
 
 
-exports.listSurveyStudent = function (conn, callback, type, department, hide_closed, pagnation)
+exports.listSurveyStudent = function (conn, callback, type, department, show_closed, pagnation)
 {
     var data = {};
 
@@ -36,7 +36,7 @@ exports.listSurveyStudent = function (conn, callback, type, department, hide_clo
             if (type == 0 || type == 1)
                 qd =
                 {
-                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title from surveyList ' +
+                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.started_at, surveyList.closed_at, surveyList.created_at from surveyList ' +
                     'inner join user on user.hak_depart = ? and user.user_id = surveyList.professor_id ' +
                     'and surveyList.`type` = ? ',
                     values : [department, type]
@@ -45,15 +45,15 @@ exports.listSurveyStudent = function (conn, callback, type, department, hide_clo
             else if (type == 2)
                 qd =
                 {
-                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title from surveyList ' +
+                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.started_at, surveyList.closed_at, surveyList.created_at from surveyList ' +
                     'inner join user on user.user_id = surveyList.professor_id and surveyList.`type` = ? ',
                     values : [type]
                 };
-            // 전체
+            // 전체 -> 차트 볼 때 사용
             else if (type == 3)
                 qd =
                 {
-                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.`type` from surveyList ' +
+                    sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.`type`, surveyList.started_at, surveyList.closed_at, surveyList.created_at from surveyList ' +
                     'inner join user on user.user_id = surveyList.professor_id ',
                     values : []
                 };
@@ -68,10 +68,14 @@ exports.listSurveyStudent = function (conn, callback, type, department, hide_clo
             * 2.
             * 폼 양식 수정 시 이미 있는지 체크 (validataion)
             * */
-            if (hide_closed)
+            // 0000-00-00 00:00:00
+            // http://stackoverflow.com/questions/3669348/mysql-datetime-not-null-default-1970-01-01-gets-turned-to-0000-00-00-0000
+            // DATETIME 에는 null 을 쓰지 말 것!
+            if (!show_closed)
             {
                 // 부등호를 반대로 하면 -> 현재 진행중인 설문이 됨.
-                qd.sql += ' where date(surveyList.closed_at) >= date(now()) and date(surveyList.started_at) <= date(now()) '
+                qd.sql += ' where date(surveyList.closed_at) >= date(now()) and date(surveyList.started_at) <= date(now()) ' +
+                    'and surveyList.closed_at is not null and surveyList.started_at is not null '
             }
 
             if (pagnation)
@@ -138,10 +142,20 @@ exports.listSurveyProfessor = function (conn, callback, type, user_id) {
     var task = [
         function (cb)
         {
-            var qd = {
-                sql : 'select * from surveyList where professor_id = ? and type = ? order by created_at desc',
-                values : [user_id, type]
-            };
+            if (type != 3)
+            {
+                var qd = {
+                    sql: 'select * from surveyList where professor_id = ? and type = ? order by created_at desc',
+                    values: [user_id, type]
+                };
+            }
+            else
+            {
+                var qd = {
+                    sql : 'select * from surveyList where professor_id = ? order by created_at desc',
+                    values : [user_id]
+                };
+            }
 
             // isAvaliable 사용이 필요한가? 교수 버전에서는 필요없을 것 같음.
 

@@ -30,7 +30,8 @@ exports.loadForm = function (conn, callback, survey_id)
                 sql : 'select * from surveyOption where survey_id = ?',
                 values : [survey_id]
             }, function (err, rows) {
-                if (!rows.length) {cb(-1); return}
+                // 에러로 처리할 필요 없음.
+                // if (!rows.length) {cb(-1); return}
                 if (err) {cb(err); return}
                 form.questions = [];
 

@@ -2,7 +2,7 @@ angular.module('kudoc')
 
 // TODO 설문지 enable (closed_at 조정 datetimepicker 추가 필요)
 // 교수 설문지 만들기 및 수정 :: /professor/create + /professor/edit/:survey_id
-.controller('createController', function ($scope, surveyFormFactory) {
+.controller('createController', function ($scope, $location, $anchorScroll, surveyFormFactory) {
 
     function getMaxArguments_Question() {
 
@@ -32,8 +32,23 @@ angular.module('kudoc')
 
     }
 
+    $scope.moveAnchor = function (qid) {
+        var aid = 'qid-' + qid;
+        if ($location.hash() !== aid) {
+            // set the $location.hash to `newHash` and
+            // $anchorScroll will automatically scroll to it
+            $location.hash(aid);
+        } else {
+            // call $anchorScroll() explicitly,
+            // since $location.hash hasn't changed
+            $anchorScroll();
+        }
+    };
+
     $scope.input = {}; $scope.input.name = '';
     $scope.click = {};
+    $scope.flag = {};
+    $scope.flag.isTimeSet = true;
 
     $scope.survey = {
         survey_id : '',
@@ -222,7 +237,13 @@ angular.module('kudoc')
     };
     // 뒤로가기
     $scope.click.back = function () {
-
+        history.back();
+    };
+    $scope.click.up = function () {
+        $scope.moveAnchor('title');
+    };
+    $scope.click.apply = function () {
+        $scope.flag.isTimeSet = true;
     };
 
     function postFormCallback(result, survey_id, err) {

@@ -11,33 +11,45 @@ block content
 
         table#survey-list.table(ng-show="flag.showList")
             thead
-                tr
+                // 더 제대로 구현할려면 모바일, 데스크톱 버전 나누어 (width 구분) tr 2개를 배치했어야 함.
+
+                // desktop
+                tr(ng-show='checkValidateShow()')
+                    th(width="35%") 제목
+                    th 교수
+                    th(width="15%") 부서
+                    th(width="30%")
+                        i.fa.fa-clock-o
+                    th
+                        i.fa.fa-users
+
+                // mobile
+                tr(ng-show='!checkValidateShow()')
                     th(width="50%") 제목
                     th(width="20%") 교수
                     th(width="30%") 부서
-                    th(ng-show='checkValidateShow()', width="10%")
-                        i.fa.fa-users
-                    //th(ng-show='getScreenWidth() < 480', width="10%")
-                    //    i.fa.fa-users
-                    //th 완료
-                    //th Share
-                    //th More
+
             tbody
-                tr(ng-click='click.goAssign(survey.survey_id)', ng-repeat='survey in surveys')
+                // desktop
+                tr(ng-show='checkValidateShow()', ng-click='click.goAssign(survey.survey_id)', ng-repeat='survey in surveys')
                     th
                         a {{ survey.title }}
-                    //td {{ survey.closed_at }}
                     td {{ survey.hak_name }}
                     td {{ survey.hak_depart }}
-                    td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
-                    td
-                        //i(ng-show='!survey.complete').fa.fa-times
-                        //i(ng-show='survey.complete').fa.fa-check-circle-o
-                        //i.fa.fa-check-circle-o
-                        //    | df
+                    td {{ survey.started_at + ' ~ ' + survey.closed_at }}
+                    td {{ survey.participants_cnt }}
+
+                // mobile
+                tr(ng-show='!checkValidateShow()', ng-click='click.goAssign(survey.survey_id)', ng-repeat='survey in surveys')
+                    th
+                        a {{ survey.title }}
+                    td {{ survey.hak_name }}
+                    td {{ survey.hak_depart }}
+
             tfoot
                 tr
-                    td(colspan='7')
+                    td(ng-show='checkValidateShow()', colspan='5')
+                    td(ng-show='!checkValidateShow()', colspan='3')
 
         div.container-fluid.no-padding.notify-nothing(ng-show="flag.showNothing")
             br

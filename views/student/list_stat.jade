@@ -24,7 +24,7 @@ block content
                     //th Share
                     //th More
             tbody
-                tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys')
+                tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys | filter : { started_at : "!!"}')
                     th
                         a {{ survey.title }}
                     //td {{ survey.closed_at }}

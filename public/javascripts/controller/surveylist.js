@@ -1,7 +1,7 @@
 angular.module('kudoc')
 
 // Using :: list_ordinary_department_university, statistics
-.controller('surveylistController', function ($scope, surveyListFactory) {
+.controller('surveylistController', function ($scope, surveyListFactory, lv2sHelper) {
 
     $scope.click = {};
     $scope.func = {};
@@ -88,7 +88,10 @@ angular.module('kudoc')
         if (type == null) { alert('Warning! page URL Information ERR!'); return }
         if (type == 0 || type == 1) pagnation = 0;
         // pagnation => 추후 해당 기능 지원 예정.
-        surveyListFactory.listSurvey(type, false, pagnation, callback_surveyList);
+
+        var show_closed = false;
+        if (type == 3) show_closed = true;
+        surveyListFactory.listSurvey(type, show_closed, pagnation, callback_surveyList);
     };
 
     function init() {

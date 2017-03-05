@@ -29,7 +29,7 @@ angular.module('kudoc')
     {
         if (result)
         {
-
+            $scope.surveys = data;
         }
         else
         {
@@ -39,6 +39,7 @@ angular.module('kudoc')
 
     function init()
     {
+        $scope.click.getSurveyList();
 
         // $scope.surveys.push({
         //     survey_id : '157525834b26df1c59a224a38fb3e8d8',

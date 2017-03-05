@@ -6,6 +6,8 @@ angular.module('kudoc')
     $scope.click = {};
     $scope.survey = {};
 
+    $scope.showQuestion = true;
+
     // hak_department 를 설정하기 전, 코드를 가져와서 match 시킴.
 
     // $scope.survey.title = '2017 전자및정보공학과 정기 상담신청';
@@ -50,7 +52,9 @@ angular.module('kudoc')
     $scope.click.postComment = function () {
         commentManagerFactory.saveComment($scope.submit_id, $scope.survey.comment, saveCommentCallback)
     };
-
+    $scope.click.toggleShowQ = function () {
+        $scope.showQuestion = !$scope.showQuestion;
+    };
     /* ********************************************************************* */
 
     function saveCommentCallback(result)

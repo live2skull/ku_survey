@@ -121,8 +121,7 @@ block content
         hr.assign-hr-top(ng-show='viewMode')
         i.fa.fa-user.fa-2x(ng-show='viewMode', style='display: block')
             i.notice &nbsp;&nbsp;코멘트 기록
-        textarea.assign-q-textarea(ng-show='viewMode', ng-model='survey.comment', placeholder="여기에 코멘트를 입력하세요.",
-        style='margin-top: 10px')
+        textarea.assign-q-textarea(ng-show='viewMode', ng-model='survey.comment', placeholder="여기에 코멘트를 입력하세요.",style='margin-top: 10px; min-height: 500px !important')
 
         hr.assign-hr-top(ng-show='viewMode')
 

@@ -7,6 +7,7 @@ block content
         i.fa.fa-wpforms.fa-2x(style="margin-top: 20px")
             i.notice &nbsp;&nbsp;통계 자료 검색
 
+        h5 집계된 통계 자료를 그래프로 열람하실 수 있습니다. (객관식, 순위지정 문항에 한함)
         hr
 
         table#survey-list.table
@@ -23,14 +24,14 @@ block content
                     //th Share
                     //th More
             tbody
-                tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys')
+                tr(ng-click='click.goStat(survey.survey_id)', ng-repeat='survey in surveys | filter : { started_at : "!!"}')
                     th
                         a {{ survey.title }}
                     //td {{ survey.closed_at }}
                     td {{ survey.hak_name }}
                     td {{ survey.hak_depart }}
                     td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
-                    td
+                    //td
                         //i(ng-show='!survey.complete').fa.fa-times
                         //i(ng-show='survey.complete').fa.fa-check-circle-o
                         //i.fa.fa-check-circle-o

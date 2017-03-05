@@ -476,8 +476,6 @@ router.post('/listsurvey', function(req, res, next) {
     }
 
     var type = Number(req.body.type);
-    var show_closed = req.body.show_closed;
-    var pagnation = req.body.pagnation;
 
     if (type == null || type == undefined)
     {
@@ -502,6 +500,8 @@ router.post('/listsurvey', function(req, res, next) {
         var department = req.session.hak_depart;
         var hak_level = req.session.hak_level;
         var user_id = req.session.user_id;
+        var show_closed = req.body.show_closed;
+        var pagnation = req.body.pagnation;
 
         // hak_level 을 구분한 것은 교수의 경우 closed 된 것을 볼 수 있기 위함 (?)
         // 그런데 어차피, stat 출력을 위해서는 closed 된 것도 보아야 한다
@@ -525,13 +525,17 @@ router.post('/listsurvey', function(req, res, next) {
                     break;
 
                 case 3:
-                    api_listsurvey.listSurveyStudent(conn, callback, 3, null, null, null); // ALL!
+                    api_listsurvey.listSurveyStudent(conn, callback, 3, null, show_closed, null); // ALL!
                     break;
 
                 default:
                     conn.release();
                     res.send(RES_FORBIDDEN);
             }
+        }
+        else if (hak_level == 1 && show_closed)
+        {
+            api_listsurvey.listSurveyStudent(conn, callback, 3, null, show_closed, null);
         }
         else if (hak_level == 1)
         {

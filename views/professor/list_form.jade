@@ -4,13 +4,14 @@ block content
 
     div#main-container.container(ng-controller='listFormController')
 
-        div(style='margin-bottom: -10px')
-            h4(style='display: inline-block') 설문지 양식
+        i.fa.fa-clipboard.fa-2x(style="margin-top: 20px")
+            i.notice &nbsp;&nbsp;설문지 양식
 
-        div(style='margin-top: 10px')
-            i.fa.fa-lightbulb-o(style='font-size: 1.5em; !important')
-                i.notice &nbsp;&nbsp;참고사항
-            h5 설문을 활성화하려면 해당 설문 클릭 -> 하단의 설문 활성화 선택.
+        //div(style='margin-top: 10px')
+        //    i.fa.fa-lightbulb-o(style='font-size: 1.5em; !important')
+        //        i.notice &nbsp;&nbsp;참고사항
+        h5 목록에서 설문을 선택하여 수정 및 삭제, 응답기간을 설정할 수 있습니다.
+        h5 새 설문지를 생성하려면 "설문지 제작"을 누릅니다.
 
         hr.assign-hr-top
         div
@@ -21,9 +22,9 @@ block content
             table.table.stat-list
                 thead
                     tr
-                        th.stat-th-large 설문 이름
-                        th.stat-th-large 제작 일시
-                        th.stat-th-large 진행 중
+                        th.stat-th-large(width="20%") 설문 이름
+                        th.stat-th-large(width="5%") 종류
+                        th.stat-th-large(width="30%") 제작 일시
                         //th 부서(학과)
                         //th.stat-th 참여인원
                         //th.stat-th 마감여부
@@ -31,22 +32,20 @@ block content
                         //th More
                 tbody
                     tr.stat-th-body(ng-click='click.goEdit(survey.survey_id)', ng-repeat='survey in surveys')
-                        th {{ survey.survey_name}}
-                            //a.stat-list-href {{ submit.hak_name }}
+                        th {{ survey.title }}
+                        td {{ solve.getType(survey.type) }}
                         td {{ survey.created_at }}
                         //td {{ survey. }}
                         //td {{ submit.created_at }}
-                        //td {{ submit.survey_name }}
-                        //td {{ survey.participants_cnt }} 명
-                        td
-                            i(ng-show='!survey.complete').fa.fa-times
-                            i(ng-show='survey.complete').fa.fa-check-circle-o
+                        //td
+                        //    i(ng-show='!survey.complete').fa.fa-times
+                        //    i(ng-show='survey.complete').fa.fa-check-circle-o
                 tfoot
                     tr
                         td(colspan='5')
 
         button.btn.ku-button(type='button', ng-click='click.goCreate()')
-            i.fa.fa-plus.fa-neg.fa-12x &nbsp;설문지 제작
+            i.fa.fa-plus.fa-neg.fa-12x &nbsp;&nbsp;설문지 제작
 
     script(src='/public/javascripts/controller/listform.js')
     link(rel='stylesheet', href='/public/stylesheets/assign.css')

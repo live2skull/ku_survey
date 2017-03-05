@@ -153,6 +153,12 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                     {
                         // convert datetime object.
                         // lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
+                        var datas = d.data;
+                        for (var idx in datas)
+                        {
+                            // var form = forms[idx];
+                            lv2sHelper.recv_tIso2Stirng(datas[idx], ['created_at', 'modified_at', 'started_at', 'closed_at'], true);
+                        }
                         callback(true, d.data);
                     }
                 },
