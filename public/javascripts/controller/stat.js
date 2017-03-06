@@ -35,6 +35,28 @@ angular.module('kudoc')
         history.back();
     };
 
+
+    function callback_getFile(result, data) {
+        if (result)
+        {
+            alert(data);
+        }
+        else
+        {
+            alert('엑셀 파일을 가져오는데 실패했습니다.')
+        }
+    }
+
+    $scope.click.getFile = function () {
+        var year = Number($scope.select.year.code);
+        var grade = Number($scope.select.grade.code);
+
+        if (year == -1) year = undefined;
+        if (grade == -1) grade = undefined;
+
+        statFactory.loadStatFile($scope.survey_id, callback_getFile, year, grade)
+    };
+
     function callback_awaitChart() {
         var ctxIdx = -1;
         for (var idx in $scope.formats)

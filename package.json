@@ -12,6 +12,7 @@
     "child_process": "^1.0.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.1",
+    "dateformat": "^2.0.0",
     "debug": "~2.2.0",
     "deepcopy": "^0.6.3",
     "express": "~4.14.0",
@@ -23,10 +24,12 @@
     "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.7.0",
     "mysql": "^2.12.0",
+    "node-xlsx": "^0.7.4",
     "request": "^2.79.0",
     "serve-favicon": "~2.3.0",
     "url-pattern": "^1.0.3",
-    "url-regex": "^4.0.0"
+    "url-regex": "^4.0.0",
+    "xlsx": "^0.8.7"
   },
   "main": "app.js",
   "devDependencies": {},

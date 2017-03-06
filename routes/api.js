@@ -33,6 +33,7 @@ const api_loadcomment = require('./backend/comment/loadcomment');
 
 const api_loadstat = require('./backend/stat/loadstat');
 const api_loadstatmeta = require('./backend/stat/statmeta');
+const api_buildchart = require('./backend/stat/buildchart');
 
 // INFO
 /*
@@ -611,6 +612,57 @@ router.post('/loadstat', function (req, res, next) {
 
     });
 });
+
+router.post('/loadstatfile', function (req, res, next) {
+
+    var survey_id = req.body.survey_id;
+    var filter_year = req.body.filter_year;
+    var filter_grade = req.body.filter_grade;
+
+    dbms.pool.getConnection(function (err, conn) {
+
+        var data_stat = [];
+        var data_form = [];
+
+        var callback_buildXLSXFile = function (result, path)
+        {
+
+        }
+
+        var callback_loadform = function (result, data)
+        {
+            conn.release();
+            if (result)
+            {
+                data_form = data;
+                api_buildchart.buildXLSXFile(callback_buildXLSXFile, req.session.user_id, data_stat, data_form, filter_year, filter_grade);
+            }
+            else
+            {
+                res.send(JSON.stringify({result : false}));
+            }
+        };
+
+        var callback_loadstat = function (result, data)
+        {
+            if (result)
+            {
+                data_stat = data;
+                api_loadform.loadForm(conn, callback_loadform, survey_id);
+                //res.send(JSON.stringify({result : result, data : data}));
+            }
+            else
+            {
+                conn.release();
+                res.send(JSON.stringify({result : false}))
+            }
+        };
+
+        api_loadstat.loadStat(conn, callback_loadstat, survey_id, filter_year, filter_grade);
+
+    });
+
+})
 
 // ************************************************************************************
 

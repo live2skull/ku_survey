@@ -324,6 +324,30 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
            }
        )},
 
+       loadStatFile : function (survey_id, callback, filter_year, filter_grade) {
+           $http({
+               method : 'POST',
+               url : '/api/loadstatfile`',
+               data : {survey_id : survey_id, filter_year : filter_year, filter_grade : filter_grade}
+           }).then(
+               function (data) {
+                   var d = data.data;
+                   var result = d.result;
+                   if (!result) {
+                       callback(false)
+                   }
+                   else {
+                       callback(true, d.data)
+                   }
+
+               },
+
+               function (err)
+               {
+                   callback(false)
+               }
+           )},
+
        loadStatMeta : function (survey_id, callback)
        {
            $http({

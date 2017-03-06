@@ -17,10 +17,8 @@ block content
 
         i.fa.fa-lightbulb-o.fa-2x
             i.notice &nbsp;&nbsp;참고사항
-        h5
-        | 순위 지정 그래프는 각 순위별로 가장 많이 선택된 항목을 표시하며, 라벨을 선택하면 해당 항목을 제외할 수 있습니다.
-        h5
-        | 학년, 학번 세부 선택으로 필러팅해 볼 수 있습니다. 선택하지 않으면, 전체 데이터를 보여줍니다.
+        h5 순위 지정 그래프는 각 순위별로 가장 많이 선택된 항목을 표시하며, 라벨을 선택하면 해당 항목을 제외할 수 있습니다.
+        h5 학년, 학번 세부 선택으로 필러팅해 볼 수 있습니다. 선택하지 않으면, 전체 데이터를 보여줍니다.
         //| 순위 지정 그래프는 각 순위별로 가장 많이 선택된 항목을 표시하며, 그래프 상단의 라벨을 클릭하여 해당 항목을 숨길 수 있습니다.
 
         //hr.assign-hr-top
@@ -33,11 +31,6 @@ block content
             .ku-select.create-type.quest-type(style="width: 180px")
                 select(ng-model='select.grade', ng-options='data as data.name for data in option.grade',
                 ng-change='click.changeGrade()')
-
-            button.btn.ku-button.create-button(style='width: 120px !important; float: right' ,type='button', ng-click='click.removeQuestion(quest.no)')
-                i.fa.fa-file-text.fa-neg.fa-1x &nbsp;&nbsp;엑셀파일 저장
-
-
 
 
         hr.assign-hr-top

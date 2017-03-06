@@ -1,0 +1,33 @@
+const async = require('async');
+// const xlsx = require('xlsx');
+const xlsx = require('node-xlsx');
+// https://github.com/felixge/node-dateformat
+const dateformat = require('dateformat');
+const fs = require('fs');
+
+function getTime() {
+    return dateformat(new Date(), "yyyy-mm-dd hh:MM:ss TT")
+}
+
+// user_id : 데이터 저장한 사람. (설문지 만든 사람 아님!!)
+exports.buildXLSXFile = function (callback, user_id, stat, form, filter_year, filter_grade)
+{
+    var data = [];
+    function apply(arr) { data.push(arr); }
+
+    var ts = new Date() / 1000;
+    var path = process.cwd() + '/public/downloads/' + form.title + '_' +
+        user_id + '_' + ts + '.xlsx';
+
+    apply(['설문지명', '작성자', '파일 출력일', '학년 필터', '학번 필터']);
+    apply([form.title, user_id, getTime(),
+        filter_grade === undefined ? "없음" : filter_grade,
+        filter_year === undefined ? "없음" : filter_year
+    ]);
+
+    var buffer = xlsx. build([{name : '설문지', data : data}]);
+    fs.appendFile(path, buffer, function (err)
+    {
+        callback(true)
+    })
+};

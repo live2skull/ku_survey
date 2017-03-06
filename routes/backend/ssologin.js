@@ -45,13 +45,7 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
         },
 
         function (ssoToken, cb) {
-            // java -cp SIServerAPI.4.3.jar;. TestSso
 
-            //var jarpath = process.env.PWD + '/sso/SIServerAPI.4.3.jar';
-            //var ssopath = process.env.PWD + '/sso/TestSso';
-
-            // var batch = process.env.PWD + '/sso/run.sh ' + ssoToken;
-            // var batch = process.cwd() + '/sso/run.sh ' + ssoToken;
             var hostName = config.SSO_HOST;
             var port = config.SSO_PORT;
 
@@ -71,8 +65,6 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
                     var d = rows[idx]; if (d == "") continue;
                     var s = d.split('-');
                     userInfo[s[0]] = s[1].replace(';', '');
-                    // result.s[0] = s[1].replace(';', '');
-                    // 존재하지 않는 property 일 경우 브라켓으로 값 설정.
                 }
 
                 cb(null);

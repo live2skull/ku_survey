@@ -14,7 +14,7 @@ exports.listSubmit_Professor = function (conn, callback, user_id, survey_id)
         {
             conn.query({
                 sql : 'select submitList.submit_id, user.hak_name, user.hak_number, submitList.grade, user.hak_depart, submitList.created_at from user ' +
-                'inner join submitList on submitList.student_id = user.user_id where submitList.survey_id = ?',
+                'inner join submitList on submitList.student_id = user.user_id where submitList.survey_id = ? order by user.hak_number asc',
                 values : [survey_id]
             }, function (err, rows) {
                 if (err) { cb(err); return; }
