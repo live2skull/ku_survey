@@ -10,7 +10,15 @@ function searchOpt2no(options, no)
 // 클라이언트 렌더링할때 데이터 뽑아내는 모듈 가져왔음!
 exports.buildChartData =  function (form, data, output) {
 
+    var temp = {};
+    var titles = {};
+
     function apply(arr) { output.push(arr); }
+    function swap(order, arr) {
+        if (!temp.hasOwnProperty(order)) temp[order] = [];
+        temp[order].push(arr);
+    }
+    function enterTitle(order, title) { titles[order] = title; }
     function getQTitle(type, order, name)
     {
         var tmsg = "";
@@ -22,7 +30,7 @@ exports.buildChartData =  function (form, data, output) {
             case 3: tmsg = "(순위지정)"; break;
         }
 
-        return tmsg + ' ' + order + '. ' + name;
+        return order + '. ' + name + ' ' + tmsg;
     }
 
     // 하나의 Question - 하나의 format 데이터.
@@ -40,7 +48,8 @@ exports.buildChartData =  function (form, data, output) {
 
         // var format = {};
 
-        apply([getQTitle(type, order, name)]);
+        // apply([getQTitle(type, order, name)]);
+        enterTitle(order, getQTitle(type, order, name));
         // var labels = []; var datas = []; var colors = [];
 
         // data
@@ -57,25 +66,30 @@ exports.buildChartData =  function (form, data, output) {
                     var option = searchOpt2no(question.options, key);
                     // order + 1 을 해주어야 함.
                     // labels.push('#' + (Number(i) + 1) + '. ' + option.name); datas.push(value);
-                    apply(['#' + (Number(i) + 1) + '. ' + option.name], value);
+                    swap(order, ['#' + (Number(i) + 1) + '. ' + option.name, value]);
                     break;
 
                 default: // 일반형 (객관식 단일, 다중선택)
                     // value :: stat!
                     var option = searchOpt2no(question.options, i);
-                    apply([option.name, stat]);
+                    swap(order, [option.name, stat]);
                     // labels.push(option.name;); datas.push(stat);
                     break;
             }
         }
-
-        apply([""]); // 공백 삽입.
-
-        // format['labels'] = labels;
-        // format['datasets'] = [];
-        // format['datasets'].push({data : datas, backgroundColor : colors});
-        // formats.push(format);
     }
+
+    var keys = Object.keys(temp);
+    keys.sort();
+    for (var idx in keys)
+    {
+        var k = Number(keys[idx]); // order number
+        apply([titles[k]]);
+        var d = temp[k]; for (var i in d) apply(d[i]);
+        apply([""]); // 공백 삽입
+    }
+
+    // return output;
     // return formats
 
 };
