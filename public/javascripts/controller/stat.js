@@ -1,6 +1,6 @@
 angular.module('kudoc')
 
-.controller('statController', function ($scope, surveyFormFactory, statFactory, chartManager) {
+.controller('statController', function ($scope, $window, surveyFormFactory, statFactory, chartManager) {
 
 
     $scope.survey_id = '';
@@ -30,16 +30,17 @@ angular.module('kudoc')
     $scope.click.setChartIdx = function (format, idx) {
         format.idx = idx;
     };
-
     $scope.click.goBack = function () {
         history.back();
     };
 
 
-    function callback_getFile(result, data) {
+    function callback_getFile(result, path) {
         if (result)
         {
-            alert(data);
+            // window.open(path, '_blank');
+            // $window.open(path);
+            window.location = path;
         }
         else
         {
@@ -194,4 +195,4 @@ angular.module('kudoc')
 
     init();
 
-})
+});

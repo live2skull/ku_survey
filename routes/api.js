@@ -660,8 +660,9 @@ router.post('/loadstatfile', function (req, res, next) {
 
         var callback_buildXLSXFile = function (result, path)
         {
-
-        }
+            if (result) res.send(JSON.stringify({result : true, path : path}));
+            else res.send(JSON.stringify({result : false}));
+        };
 
         var callback_loadform = function (result, data)
         {

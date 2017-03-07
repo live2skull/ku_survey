@@ -74,8 +74,8 @@ function buildSheetData(workbook, ws_name, data, wscols)
 exports.buildXLSXFile = function (callback, user_id, stat, form, filter_year, filter_grade)
 {
     var ts = new Date() / 1000;
-    var path = process.cwd() + '/public/downloads/' + form.title + '_' +
-        user_id + '_' + ts + '.xlsx';
+    var dpath = '/public/downloads/' + form.title + '_' + user_id + '_' + ts + '.xlsx';
+    var path = process.cwd() + dpath
 
     var task = [
         function (cb) {
@@ -104,8 +104,8 @@ exports.buildXLSXFile = function (callback, user_id, stat, form, filter_year, fi
             apply(['설문지명', form.title, '', "고려대학교 세종캠퍼스 온라인 학생설문시스템에서 만들어진 파일입니다."]);
             apply(['작성자', user_id]);
             apply(['파일 출력일', getTime(), '', "설문 데이터 열람은 좌측 하단의 '설문 데이터' 탭을 선택하세요."]);
-            apply(['학년 필터', filter_grade === undefined ? "없음" : filter_grade]);
-            apply(['학번 필터', filter_year === undefined ? "없음" : filter_year]);
+            apply(['학년 필터', filter_grade === undefined ? "없음" : filter_grade + "학년"]);
+            apply(['학번 필터', filter_year === undefined ? "없음" : filter_year + "학번"]);
             buildSheetData(wb, "파일 정보", data, wscols_intro); data = []; // reset
 
 
@@ -122,6 +122,6 @@ exports.buildXLSXFile = function (callback, user_id, stat, form, filter_year, fi
 
     async.waterfall(task, function (err) {
         if (err) callback(false);
-        else callback(true, path);
+        else callback(true, dpath);
     });
 };

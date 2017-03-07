@@ -337,9 +337,8 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                        callback(false)
                    }
                    else {
-                       callback(true, d.data)
+                       callback(true, d.path)
                    }
-
                },
 
                function (err)
