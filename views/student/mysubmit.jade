@@ -23,7 +23,7 @@ block content
                         a {{ submit.title }}
                     //td {{ survey.closed_at }}
                     td(ng-show='checkValidateShow()') {{ submit.created_at }}
-                    td {{ submit.hak_depart }}
+                    td {{ submit.hak_depart.split(';')[0] }}
                     td {{ submit.hak_name }}
                     //td(ng-show='checkValidateShow()') {{ survey.participants_cnt }}
                     //td

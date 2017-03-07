@@ -57,26 +57,43 @@ router.post('/SSOAgree', function (req, res, next) {
 
     if (!agreement) { res.redirect('/'); return }
 
-    var callback_ssoSave = function (conn, result) {
+    function callback_ssoSave (conn, result) {
         conn.release();
         if (result)
         {
+            // TODO Patch : 교수 로그인 과정 수정 필요
+            // TODO 데이터 값 변형 (DPTNMLIST)
             var hak_number = userInfo.USERID;
+            var GROUPNMLIST = userInfo.GROUPNMLIST;
             req.session.hak_number = hak_number; res.cookie('hak_number', hak_number);
             req.session.hak_name = userInfo.USERNAME; res.cookie('hak_name', userInfo.USERNAME);
             req.session.user_id = userInfo.UID; res.cookie('user_id', userInfo.UID);
-            req.session.hak_depart = userInfo.DPTNM; res.cookie('hak_depart', userInfo.DPTNM);
+            req.session.hak_depart = userInfo.DPTNMLIST; res.cookie('hak_depart', userInfo.DPTNMLIST);
 
-            if (hak_number.length == 6) // 교수
+            // 교수인 경우
+            if (GROUPNMLIST.indexOf("교원") != -1)
             {
                 req.session.hak_level = 1;
-                res.cookie('hak_level', '1');
+                res.cookie('hak_level' , '1');
             }
-            else if (hak_number.length == 10) // 학생
+            // 학생인 경우
+            else
             {
                 req.session.hak_level = 0;
                 res.cookie('hak_level', '0');
             }
+            //
+            // if (hak_number.length == 6) // 교수
+            // {
+            //     req.session.hak_level = 1;
+            //     res.cookie('hak_level', '1');
+            // }
+            // else if (hak_number.length == 10) // 학생
+            // {
+            //     req.session.hak_level = 0;
+            //     res.cookie('hak_level', '0');
+            // }
+
             res.send(JSON.stringify({result : true}));
         }
         else res.send(JSON.stringify({result : false}));
@@ -121,23 +138,40 @@ router.post('/SSOLogin', function (req, res, next) {
 
             // 이미 동의함.
             case 1:
+                // TODO Patch : 교수 로그인 데이터 수정 필요.
+
                 // userInfo = deepcopy(uInfo);
                 var hak_number = userInfo.USERID;
+                var GROUPNMLIST = userInfo.GROUPNMLIST;
+
                 req.session.hak_number = hak_number; res.cookie('hak_number', hak_number);
                 req.session.hak_name = userInfo.USERNAME; res.cookie('hak_name', userInfo.USERNAME);
                 req.session.user_id = userInfo.UID; res.cookie('user_id', userInfo.UID);
-                req.session.hak_depart = userInfo.DPTNM; res.cookie('hak_depart', userInfo.DPTNM);
+                req.session.hak_depart = userInfo.DPTNMLIST; res.cookie('hak_depart', userInfo.DPTNMLIST);
 
-                if (hak_number.length == 6) // 교수
+                // 교수인 경우
+                if (GROUPNMLIST.indexOf("교원") != -1)
                 {
                     req.session.hak_level = 1;
-                    res.cookie('hak_level', '1');
+                    res.cookie('hak_level' , '1');
                 }
-                else if (hak_number.length == 10) // 학생
+                // 학생인 경우
+                else
                 {
                     req.session.hak_level = 0;
                     res.cookie('hak_level', '0');
                 }
+
+                // if (hak_number.length == 6) // 교수
+                // {
+                //     req.session.hak_level = 1;
+                //     res.cookie('hak_level', '1');
+                // }
+                // else if (hak_number.length == 10) // 학생
+                // {
+                //     req.session.hak_level = 0;
+                //     res.cookie('hak_level', '0');
+                // }
                 res.send(JSON.stringify({result : 1}));
                 break;
 

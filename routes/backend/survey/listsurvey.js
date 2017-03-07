@@ -36,10 +36,11 @@ exports.listSurveyStudent = function (conn, callback, type, department, show_clo
             if (type == 0 || type == 1)
                 qd =
                 {
+                    // 학과정보 저장방식 변경으로 LIKE 쿼리를 이용한다
                     sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.started_at, surveyList.closed_at, surveyList.created_at from surveyList ' +
-                    'inner join user on user.hak_depart = ? and user.user_id = surveyList.professor_id ' +
+                    'inner join user on user.hak_depart LIKE ? and user.user_id = surveyList.professor_id ' +
                     'and surveyList.`type` = ? ',
-                    values : [department, type]
+                    values : ["%" + department + "%", type]
                 };
             // 학교
             else if (type == 2)

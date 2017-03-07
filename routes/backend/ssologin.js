@@ -5,6 +5,26 @@ const request = require('request');
 
 const config = require('../../config');
 
+// http://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
+function replaceAll(str, org, dst)
+{
+    // TODO :: 프로토타입이란 무엇인가???
+    String.prototype.replaceAt = function(index, character) {
+        return this.substr(0, index) + character + this.substr(index+character.length);
+    };
+
+    for (var idx in str)
+    {
+        idx = Number(idx); var s = str[idx];
+        if (s == org)
+        {
+            str = str.replaceAt(idx, dst)
+        }
+    }
+
+    return str
+}
+
 exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
 {
     var userInfo = {};
@@ -57,15 +77,25 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
                     return
                 }
 
+                // 에러 처리 확인 필요.
                 if (stdout.indexOf('verifyToken()') != -1) {cb(-1); return}
 
+                // 여기서는 전체 데이터를 가져오므로 따로 손볼 필요가 없습니다.
                 var rows = stdout.split('\n');
                 for (var idx in rows)
                 {
                     var d = rows[idx]; if (d == "") continue;
                     var s = d.split('-');
-                    userInfo[s[0]] = s[1].replace(';', '');
-                }
+                    // Patched -> 전체 데이터 저장으로 변경함.
+                    // userInfo[s[0]] = s[1].replace(';', '');
+                    // !!! - replace 할 경우 전체 데이터를 뱐경하지 않음. 한개의 문자열만 변경하고 끝남
+                    userInfo[s[0]] = s[1];
+
+                    // TODO 에러 발생 가능성 있음!
+                    // 학교 SSO 토큰에서 특정 정보를 임의적으로 주지 않을 경우 (key 없음)
+                    if (s[0] == 'DPTNMLIST') userInfo[s[0]] = replaceAll(s[1], '·', '및');
+                    // 전자·정보공학과의 경우 -> 전자및정보공학과로 변경합니다.
+                };
 
                 cb(null);
 
@@ -153,11 +183,12 @@ exports.ssoSave = function (conn, callback, userInfo)
             if (hak_number.length == 6) hak_level = 1; // 교수
             else if (hak_number.length == 10) hak_level = 0; // 학생
 
+            // fixed! - 저장하는 데이터 일부 변경함.
             conn.query({
                 sql : 'insert into user (user_id, year, hak_name, hak_number, hak_depart, hak_level, groupnmlist)' +
                 ' values (?, ?, ?, ?, ?, ?, ?)',
                 values : [userInfo.UID, year, userInfo.USERNAME, Number(hak_number),
-                    userInfo.DPTNM, hak_level, userInfo.GROUPNMLIST]
+                    userInfo.DPTNMLIST, hak_level, userInfo.GROUPNMLIST]
             },
             function (err, rows)
             {

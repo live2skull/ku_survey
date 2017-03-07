@@ -35,7 +35,7 @@ block content
                     th
                         a {{ survey.title }}
                     td {{ survey.hak_name }}
-                    td {{ survey.hak_depart }}
+                    td {{ survey.hak_depart.split(';')[0] }}
                     td {{ survey.started_at + ' ~ ' + survey.closed_at }}
                     td {{ survey.participants_cnt }}
 
