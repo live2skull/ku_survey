@@ -18,6 +18,11 @@
     font-weight: 700;
 }
 
+.navbar-toggle {
+    /*background-color: #545050 !important;*/
+    background-color: #000000 !important;
+}
+
 /* 브랜드 이름 크기 - 디바이스 크기에 맞게 조절 */
 @media all and (max-width: 480px) {
     #navbar-brand-span {
