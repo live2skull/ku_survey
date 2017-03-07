@@ -264,6 +264,8 @@ angular.module('kudoc')
         var start = $('#dtpicker-start');
         var end = $('#dtpicker-end');
 
+        if (start.find('input').val() == "" || end.find('input').val() == "") alert("오류 : 시간이 입력되지 않았습니다.");
+
         var o_start = picker2obj(start);
         var o_end = picker2obj(end);
 
@@ -300,11 +302,12 @@ angular.module('kudoc')
     {
         if (result)
         {
-
+            alert('성공적으로 저장되었습니다.');
+            location.href = '/professor/edit/' + $scope.survey.survey_id;
         }
         else
         {
-
+            alert("오류 : 설문 응답시간 설정을 실패했습니다. 페이지를 새로고침 해 주세요.")
         }
     }
 

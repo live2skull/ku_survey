@@ -28,7 +28,7 @@ function CHK_UserAuth(req, res) {
     }
     else if (hak_level == 0)
     {
-        res.redirect('/list_submit');
+        res.redirect('/');
         return false;
     }
     return true;

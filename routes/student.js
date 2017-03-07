@@ -32,7 +32,7 @@ function CHK_UserAuth(req, res) {
     }
     else if (hak_level == 1)
     {
-        res.redirect('/list_ordinary');
+        res.redirect('/');
         return false;
     }
     return true;

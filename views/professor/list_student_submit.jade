@@ -103,7 +103,7 @@ block content
                                         //a.stat-list-href {{ submit.hak_name }}
                                     td {{ submit.hak_number }}
                                     td {{ submit.grade }}
-                                    td {{ submit.hak_depart }}
+                                    td {{ submit.hak_depart.split(';')[0] }}
                                     td {{ submit.created_at }}
                                     //td {{ submit.survey_name }}
                                     //td {{ survey.participants_cnt }} 명
