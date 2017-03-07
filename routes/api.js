@@ -33,7 +33,7 @@ const api_loadcomment = require('./backend/comment/loadcomment');
 
 const api_loadstat = require('./backend/stat/loadstat');
 const api_loadstatmeta = require('./backend/stat/statmeta');
-const api_buildchart = require('./backend/stat/buildchart');
+const api_buildchart = require('./backend/stat/buildxlsx');
 
 // INFO
 /*
