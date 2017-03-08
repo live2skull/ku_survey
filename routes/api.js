@@ -213,7 +213,7 @@ router.post('/SSOLogin', function (req, res, next) {
 
         case false:
             if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-            else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
+            // else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
             else res.send(JSON.stringify({result : -1}));
             break;
 

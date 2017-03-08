@@ -8,10 +8,7 @@ angular.module('kudoc')
     // 실제 서비스 운영 시에는 안전하지 않은 로그인 API 는 서버에서 제거됨!
     var FORCE_USE_LOGIN_UNSECURE_MODE = false;
     var LOGIN_DEBUG_MODE = true;
-
-    $scope.login.id = 'l2ttlebit';
-    $scope.login.pw = 'Qazdr116!!^';
-
+    
     function goHome()
     {
         var hak_level = Number(getCookie('hak_level'));
