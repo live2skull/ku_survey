@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const config = require('../config');
+
 router.get('/', function(req, res, next) {
 
   // cors require 하여 사용
@@ -12,7 +14,7 @@ router.get('/', function(req, res, next) {
   //   "Access-Control-Allow-Origin": "portal.korea.ac.kr"
   // });
 
-  res.render('login.jade')
+  res.render('login.jade', {EXPOSE_SSO_DEBUG : config.EXPOSE_SSODEBUG})
 
 });
 

@@ -59,6 +59,13 @@ html(ng-app='kudoc')
                                 p.message
 
                         button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
-                            i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인 (SSO)
+                            i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인
+
+                        if (EXPOSE_SSO_DEBUG == true)
+                            button.btn.ku-button(ng-click='click.debugLogin()', type='button', style='width: 100%')
+                                i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;SSO DEBUG
+                        else
+
+
 
         include footer

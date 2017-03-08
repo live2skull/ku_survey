@@ -1,4 +1,6 @@
 exports.DEBUG = false;
+exports.EXPOSE_SSODEBUG = true;
+
 exports.SSO_UNSECURE = false;
 
 // exports.SSO_HOST = "163.152.215.187";
