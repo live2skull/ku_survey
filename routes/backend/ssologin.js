@@ -183,7 +183,11 @@ exports.ssoSave = function (conn, callback, userInfo)
 
             // 교수인 경우
             if (GROUPNMLIST.indexOf("교원") != -1) hak_level = 1;
-            else hak_level = 0;
+            else
+            {
+                hak_level = 0;
+                year = Number(hak_number.substring(0, 4));
+            }
 
             // fixed! - 저장하는 데이터 일부 변경함.
             conn.query({
