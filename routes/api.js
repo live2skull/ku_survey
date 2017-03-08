@@ -258,6 +258,21 @@ router.post('/loadform', function (req, res, next) {
 
 }); // OK
 
+router.post('/checkform', function (req, res, next) {
+    var survey_id = req.body.survey_id;
+
+    dbms.pool.getConnection(function (err, conn) {
+
+        var callback_checkFormData = function (result) {
+            conn.release();
+            if (result) res.send(JSON.stringify({result : true}));
+            else res.send(JSON.stringify({result : false, reason : '이미 이 설문지에 대한 응답이 있으므로, 설문을 저장할 수 없습니다.'}));
+        };
+
+        api_saveform.checkExistFormData(conn, callback_checkFormData, survey_id);
+    });
+})
+
 // 설문지 양식 저장하기 (새로 만들기, 수정)
 router.post('/saveform', function (req, res, next) {
     if (!DEBUG)
@@ -278,7 +293,19 @@ router.post('/saveform', function (req, res, next) {
                 res.send(JSON.stringify({result : false, reason : 'beginTransaction Failed.'}));
                 conn.release(); return
             }
-            var cb = function (result, survey_id) {
+
+            var callback_checkFormData = function (result)
+            {
+                if (result) api_saveform.saveForm(conn, callback_saveForm, doc, req.session.user_id);
+                else {
+                    res.send(JSON.stringify({result : false, reason : '이미 이 설문지에 대한 응답이 있으므로, 설문을 저장할 수 없습니다.'}));
+                    conn.rollback(function (err) {
+                        conn.release();
+                    })
+                }
+            };
+
+            var callback_saveForm = function (result, survey_id) {
                 if (result === true)
                 {
                     res.send(JSON.stringify({result : true, survey_id : survey_id}));
@@ -295,8 +322,9 @@ router.post('/saveform', function (req, res, next) {
                 }
             };
 
-            api_saveform.saveForm(conn, cb, doc, req.session.user_id)
-
+            var survey_id = doc.survey_id;
+            if (survey_id != "") api_saveform.checkExistFormData(conn, callback_checkFormData, survey_id);
+            else api_saveform.saveForm(conn, callback_saveForm, doc, req.session.user_id)
 
         });
     });

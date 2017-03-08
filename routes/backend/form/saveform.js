@@ -8,6 +8,32 @@ function createSurveyId(userId)
     return security.buildHash(t.getTime().toString() + '_' + userId + '_' + Math.random().toString())
 }
 
+exports.checkExistFormData = function (conn, callback, survey_id)
+{
+    var task = [
+        function (cb) {
+            if (survey_id == '') cb(null);
+            else
+            {
+                conn.query({
+                    sql : 'select count(*) from submitList where survey_id = ?',
+                    values : [survey_id]
+                }, function (err, rows) {
+                    if (err) {cb(err); return}
+                    var count = rows[0]['count(*)'];
+                    if (count) {cb(1); return }// 이미 저장된 데이터가 있는 경우
+                    cb(null);
+                });
+            }
+        }
+    ];
+
+    async.waterfall(task, function (err) {
+        if (err) callback(false);
+        else callback(true);
+    });
+};
+
 // http://stackoverflow.com/questions/23446377/syntax-error-due-to-using-a-reserved-word-as-a-table-or-column-name-in-mysql
 // TODO no, order, type, name -> MySQL reserved! (`` escape required)
 exports.saveForm = function (conn, callback, doc, user_id)

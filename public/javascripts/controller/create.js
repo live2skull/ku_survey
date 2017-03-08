@@ -56,6 +56,7 @@ angular.module('kudoc')
     $scope.click = {};
     $scope.flag = {};
     $scope.flag.isTimeSet = false;
+    $scope.flag.isEditable = true;
     $scope.flag.timErrMsg = "";
 
     // http://stackoverflow.com/questions/4802190/how-do-i-format-date-in-jquery-datetimepicker
@@ -244,7 +245,12 @@ angular.module('kudoc')
     };
 
     $scope.click.postForm = function () {
-        $scope.survey.type = Number($scope.survey.type)
+        if (!$scope.flag.isEditable)
+        {
+            alert('이 설문지에 대한 응답이 존재하므로 수정이 불가능합니다.');
+            return;
+        }
+        $scope.survey.type = Number($scope.survey.type);
         surveyFormFactory.submitForm($scope.survey, postFormCallback);
         // 새로 만들기
     };
@@ -311,7 +317,7 @@ angular.module('kudoc')
         }
     }
 
-    function postFormCallback(result, survey_id, err) {
+    function postFormCallback(result, survey_id, reason) {
         if (result)
         {
             alert('성공적으로 저장되었습니다.');
@@ -326,9 +332,24 @@ angular.module('kudoc')
             }
         }
         else {
-            alert('오류 : 설문지 양식을 저장하는데 실패했습니다.');
+            if (reason) { alert('오류 : 설문지 양식을 저장하는데 실패했습니다.\n' + reason); }
+            else { alert('오류 : 설문지 양식을 저장하는데 실패했습니다.'); }
         }
     }
+
+    function checkExistCallback(result)
+    {
+        if (result)
+        {
+            // do nothing! (TODO :: disable loading modal)
+            $scope.flag.isEditable = true;
+        }
+        else
+        {
+            $scope.flag.isEditable = false;
+        }
+    }
+
     function loadFormCallback(result, form)
     {
         if (result)
@@ -344,6 +365,7 @@ angular.module('kudoc')
             }
 
             $scope.survey = form;
+            surveyFormFactory.checkFormEditable($scope.survey.survey_id, checkExistCallback)
         }
         else {
             alert("오류 : 설문지 양식을 불러오는데 실패했습니다. 다시 시도해 주세요.");

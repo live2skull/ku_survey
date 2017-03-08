@@ -13,12 +13,9 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
                 {
                     var d = data.data;
                     var result = d.result;
-                    if (!result)
-                    {
-                        callback(d.result);
-                        //alert('Warning: saveform failed. / rst');
-                    }
-                    callback(d.result, d.survey_id);
+                    var reason = d.reason;
+                    if (!result) callback(d.result, null, reason);
+                    else callback(d.result, d.survey_id);
                 },
                 function (err)
                 {
@@ -30,27 +27,24 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
         ,
         loadForm : function (survey_id, callback) {
             $http({
-                method : 'POST',
-                url : '/api/loadform',
-                data : {survey_id : survey_id}
+                method: 'POST',
+                url: '/api/loadform',
+                data: {survey_id: survey_id}
             }).then(
-                function (data)
-                {
+                function (data) {
                     var d = data.data;
                     var result = d.result;
                     if (!result) callback(d.result);
-                    else
-                    {
+                    else {
                         // convert datetime object.
                         lv2sHelper.recv_tIso2Stirng(d.form, ['created_at', 'modified_at'], true);
                         callback(d.result, d.form);
                     }
                 },
-                function ()
-                {
+                function () {
                     callback()
                 }
-            )
+            );
         },
 
         setTimeForm : function (survey_id, reset, started_at, closed_at, callback)
@@ -69,24 +63,39 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
           )
         },
 
-        checkAssignedSubmit : function (survey_id, callback) {
+        checkFormEditable : function (survey_id, callback)
+        {
             $http({
-                method : 'POST',
-                url : '/api/checkassignedsubmit',
+                method : "POST",
+                url : '/api/checkform',
                 data : {survey_id : survey_id}
             }).then(
-                function (data)
-                {
+                function (data) {
                     var d = data.data;
                     var result = d.result;
                     callback(result);
                 },
-                function ()
-                {
-                    callback(false);
-                }
+                function () {callback(false)}
             )
         }
+        // checkAssignedSubmit : function (survey_id, callback) {
+        //     $http({
+        //         method : 'POST',
+        //         url : '/api/checkassignedsubmit',
+        //         data : {survey_id : survey_id}
+        //     }).then(
+        //         function (data)
+        //         {
+        //             var d = data.data;
+        //             var result = d.result;
+        //             callback(result);
+        //         },
+        //         function ()
+        //         {
+        //             callback(false);
+        //         }
+        //     )
+        // }
     }
 })
 
