@@ -182,7 +182,7 @@ exports.ssoSave = function (conn, callback, userInfo)
             var GROUPNMLIST = userInfo.GROUPNMLIST;
 
             // 교수인 경우
-            if (GROUPNMLIST.indexOf("교원") != -1) hak_level = 1;
+            if (GROUPNMLIST.indexOf("교원") != -1 || GROUPNMLIST.indexOf("직원") != -1) hak_level = 1;
             else
             {
                 hak_level = 0;

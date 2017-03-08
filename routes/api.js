@@ -71,7 +71,7 @@ router.post('/SSOAgree', function (req, res, next) {
             req.session.hak_depart = userInfo.DPTNMLIST; res.cookie('hak_depart', userInfo.DPTNMLIST);
 
             // 교수인 경우
-            if (GROUPNMLIST.indexOf("교원") != -1)
+            if (GROUPNMLIST.indexOf("교원") != -1 || GROUPNMLIST.indexOf("직원") != -1
             {
                 req.session.hak_level = 1;
                 res.cookie('hak_level' , '1');
@@ -150,7 +150,7 @@ router.post('/SSOLogin', function (req, res, next) {
                 req.session.hak_depart = userInfo.DPTNMLIST; res.cookie('hak_depart', userInfo.DPTNMLIST);
 
                 // 교수인 경우
-                if (GROUPNMLIST.indexOf("교원") != -1)
+                if (GROUPNMLIST.indexOf("교원") != -1 || GROUPNMLIST.indexOf("직원") != -1)
                 {
                     req.session.hak_level = 1;
                     res.cookie('hak_level' , '1');
