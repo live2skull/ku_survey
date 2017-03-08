@@ -179,9 +179,11 @@ exports.ssoSave = function (conn, callback, userInfo)
 
             var year = 0; var hak_level = 0;
             var hak_number = userInfo.USERID;
-            if (hak_number.length == 10) year = Number(hak_number.substring(0, 4));
-            if (hak_number.length == 6) hak_level = 1; // 교수
-            else if (hak_number.length == 10) hak_level = 0; // 학생
+            var GROUPNMLIST = userInfo.GROUPNMLIST;
+
+            // 교수인 경우
+            if (GROUPNMLIST.indexOf("교원") != -1) hak_level = 1;
+            else hak_level = 0;
 
             // fixed! - 저장하는 데이터 일부 변경함.
             conn.query({
