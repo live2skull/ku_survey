@@ -1,2 +1,2 @@
 npm install -w
-bower insatll -w
+bower install -w
