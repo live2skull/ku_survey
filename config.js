@@ -1,5 +1,5 @@
 exports.DEBUG = false;
-exports.EXPOSE_SSODEBUG = true;
+exports.EXPOSE_SSODEBUG = false;
 
 exports.SSO_UNSECURE = false;
 

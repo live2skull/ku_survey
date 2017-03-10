@@ -62,11 +62,15 @@
     width: 100%;
     height: calc(100% - 55.54px);
 
-    -webkit-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
-    -moz-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
-    -o-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
-    -ms-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
-    filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));
+    /* http://stackoverflow.com/questions/30506194/css3-filter-not-working-on-element-in-ie-10 */
+    /*filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='5');*/
+
+    /*-webkit-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));*/
+    /*-moz-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));*/
+    /*-o-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));*/
+    /*-ms-filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));*/
+
+    /*filter: blur(var(--blur-background-image)) grayscale(var(--grayscale-background-image));*/
 }
 
 
