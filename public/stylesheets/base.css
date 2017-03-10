@@ -6,6 +6,23 @@
     box-sizing: border-box;
 }
 
+/*2017. 03. 10 추가. Windows 환경 및 IE 에서 폰트 적용.*/
+html * {
+    /*font-family: "NanumBarunGothic";*/
+    /*font-family: "NanumBarunGothic_B";*/
+    /*font-family: "HelveticaBold";*/
+    /*font-family: helvetica, meiryo, gulim;*/
+    letter-spacing: 1px;
+}
+
+/*2017. 03. 10 추가. Internet Explorer 환경에서 이미지 안티엘라이싱 적용.*/
+img { -ms-interpolation-mode: nearest-neighbor; }
+/*img {*/
+    /*!*-ms-interpolation-mode: bicubic;*!*/
+    /*image-rendering: optimizeQuality;*/
+/*}*/
+
+
 :root {
     /*
     --background-color-start: #76b852;
@@ -75,7 +92,10 @@
 
 
 body {
-    background: var(--background-color-start); /* fallback for old browsers */
+    /*background: var(--background-color-start); !* fallback for old browsers *!*/
+    background: #c3c3c3; /* fallback for old browsers */
+
+
     /* background: -webkit-linear-gradient(right, var(--background-color-start), var(--background-color-end));
     background: -moz-linear-gradient(right, var(--background-color-start), var(--background-color-end));
     background: -o-linear-gradient(right, var(--background-color-start), var(--background-color-end));

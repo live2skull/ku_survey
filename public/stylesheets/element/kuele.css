@@ -1,17 +1,27 @@
 /* Button */
 /* fa-12x (font-size: 1.2em) */
 /* ********************************************************************** */
+
+/*
+Interent Explorer 에서는 var 설정을 지원하지 않음. *
+일차적으로 변수를 사용한 설정을 상수 값으로 교체하고,
+점진적으로 sass 코드로 변경하도록 교체할 것.
+
+ */
+
 .ku-button {
     margin-top: 10px;
     height: 50px;
-    background-color: var(--ku-crimson-btn);
+    background-color: #6a000b;
+    /*background-color: var(--ku-crimson-btn);*/
     border: none;
     border-radius: 0;
     box-shadow: 0px 0px 10px 1px rgba(0,0,0, 0.4);
 }
 
 .ku-button:hover {
-    background-color: var(--ku-crimson-btn-hover);
+    /*background-color: var(--ku-crimson-btn-hover);*/
+    background-color: #400008;
 }
 /* ********************************************************************** */
 
@@ -19,7 +29,8 @@
 /* Form */
 /* ********************************************************************** */
 .ku-form input {
-    border: 1px solid var(--ku-crimson-btn) !important;
+    /*border: 1px solid var(--ku-crimson-btn) !important;*/
+    border: 1px solid #6a000b !important;
     font-family: "Roboto", sans-serif;
     outline: 0;
     /* background: #f2f2f2; */
@@ -48,7 +59,8 @@
 /* ********************************************************************** */
 
 .ku-htext {
-    color: var(--ku-crimson-default);
+    /*color: var(--ku-crimson-default);*/
+    color: #8e0012;
     /*font-weight: 600;*/
 }
 
@@ -65,14 +77,16 @@ select {
     appearance: none;
     outline: 0;
     border: 0 !important;
-    background: var(--ku-crimson-input);
+    /*background: var(--ku-crimson-input);*/
+    background: #f3efef;
     /*background: var(--ku-crimson-default);*/
     /*background-image: none;*/
 }
 
 /* Custom Select */
 .ku-select {
-    border: 1px solid var(--ku-crimson-btn) !important;
+    /*border: 1px solid var(--ku-crimson-btn) !important;*/
+    border: 1px solid #6a000b !important;
     /*box-shadow: 0px 0px 10px 1px rgba(0,0,0, 0.4);*/
     position: relative;
     display: block;
@@ -80,7 +94,8 @@ select {
     height: 32px;
     /*height: 3em;*/
     /*line-height: 3;*/
-    background: var(--ku-crimson-input);
+    /*background: var(--ku-crimson-input);*/
+    background: #f3efef;
     overflow: hidden;
     margin-top: 10px;
     /*border-radius: .25em;*/
@@ -108,7 +123,8 @@ select::-ms-expand {
     right: 0;
     bottom: 0;
     padding: 0 0.7em;
-    background: var(--ku-crimson-btn);
+    /*background: var(--ku-crimson-btn);*/
+    background: #6a000b;
     pointer-events: none;
 }
 /* Transition */

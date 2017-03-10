@@ -15,7 +15,8 @@
 /* 브랜드 이름 글씨색 */
 .navbar-brand-span {
     color: #8e0012;
-    font-weight: 700;
+    /*font-family: "Helvetica" !important;*/
+    /*font-weight: 600;*/
 }
 
 .navbar-toggle {

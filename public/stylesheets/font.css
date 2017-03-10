@@ -1,16 +1,47 @@
-
-/* 고려대학교 폰트 사용 */
+ /*나눔바른고딕 - 두꺼운글씨*/
 @font-face {
-    font-family: KoreaUniv;
-    src: url('/public/fonts/KorUL.woff');
+    font-family: "NanumBarunGothic_B";
+    font-style: normal;
+    font-weight: 800;
+    src: local('Nanum Barun Gothic Bold'), local('Nanum Barun Gothic-Bold'), local('NanumBarunGothic Bold');
+    src: url("/public/fonts/NanumGothicBold.eot");
+    src: url("/public/fonts/NanumGothicBold.eot?#iefix") format("embedded-opentype"),
+    url("/public/fonts/NanumGothicBold.woff") format("woff"),
+    url("/public/fonts/NanumGothicBold.ttf") format("truetype");
+}
+
+
+/* 나눔바른고딕 - 일반글씨*/
+@font-face {
+    font-family: "NanumBarunGothic";
+    /*font-style: all;*/
+    /*font-weight: 700;*/
+    src: local('Nanum Barun Gothic Regular'), local('Nanum Barun Gothic Regular'), local('NanumBarunGothic Regular');
+    src: url("/public/fonts/NanumGothic.eot");
+    src: url("/public/fonts/NanumGothic.eot?#iefix") format("embedded-opentype"),
+    url("/public/fonts/NanumGothic.woff") format("woff"),
+    url("/public/fonts/NanumGothic.ttf") format("truetype");
+}
+
+/* 헬베티카 폰트 - Internet Explorer 적용 위함. */
+@font-face {
+    font-family: "Helvetica";
+    font-style: normal;
+    font-weight: normal;
+    /*src: local('Helvetica');*/
+    src: url('/public/fonts/HelveticaNeue.eot');
+    src: url("/public/fonts/HelveticaNeue.eot?#iefix") format("embedded-opentype"),
+    url('/public/fonts/HelveticaNeue.ttf') format('truetype'),
+    url('/public/fonts/HelveticaNeue.woff') format('woff');
 }
 
 @font-face {
-    font-family: KoreaUnivBold;
-    src: url('/public/fonts/KorUB.woff');
-}
-
-@font-face {
-    font-family: Nanum Gothic;
-    @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    font-family: "HelveticaBold";
+    font-style: normal;
+    font-weight: normal;
+    /*src: local('HelveticaBp;d');*/
+    src: url('/public/fonts/HelveticaNeueBold.eot');
+    src: url("/public/fonts/HelveticaNeueBold.eot?#iefix") format("embedded-opentype"),
+    url('/public/fonts/HelveticaNeueBold.ttf') format('truetype'),
+    url('/public/fonts/HelveticaNeueBold.woff') format('woff');
 }

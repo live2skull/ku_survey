@@ -40,7 +40,7 @@ app.use(allowCORS);
 
 // app.use(cors());
 
-// view engine setup
+// view engine setupZ
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

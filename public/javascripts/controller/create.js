@@ -4,6 +4,8 @@ angular.module('kudoc')
 // 교수 설문지 만들기 및 수정 :: /professor/create + /professor/edit/:survey_id
 .controller('createController', function ($scope, $location, $anchorScroll, surveyFormFactory) {
 
+    console.log('loaded.')
+
     function getFormattedDate(date) {
         var day = date.getDate();
         var month = date.getMonth() + 1;
@@ -60,7 +62,8 @@ angular.module('kudoc')
     $scope.flag.timErrMsg = "";
 
     // http://stackoverflow.com/questions/4802190/how-do-i-format-date-in-jquery-datetimepicker
-    var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss', minDate : getFormattedDate(new Date())};
+    var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss'};
+    // var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss', minDate : getFormattedDate(new Date())};
     // var datetime_format = {format : 'YYYY-MM-DD HH:mm:ss', minDate : getFormattedDate(new Date())};
     // var datetime_format = {format : 'YYYY/MM/DD HH:mm:ss'};
 
