@@ -56,41 +56,74 @@ angular.module('KU_SSO', [])
                 callback(false);
              });
          }
+         var DELAY_WAIT_LOGIN = 1000;
+         var DELAY_WAIT_TERM = 200;
 
-         var before_portal = !(getCookie('PORTAL_SESSIONID') == "");
+         var last_token = getCookie('ssotoken');
+         var last_session = getCookie('PORTAL_SESSIONID');
 
-         function callback_loaded() {
-            var ssotoken = getCookie('ssotoken');
-            var portal_sessionid = getCookie('PORTAL_SESSIONID');
+          var loginWindow = window.open('https://portal.korea.ac.kr/common/Login.kpd?id=' +
+              encodeURIComponent(userInfo.id)  + '&pw=' + encodeURIComponent(userInfo.pw));
 
-            if (loginWindow.closed)
-            {
-                console.log('SSOLogin Failed : loginWindow closed.');
-                callback(-1);
-            }
-            else if (ssotoken == '' && before_portal)
-            {
-                console.log('SSOLogin Pending : POR_Session exist, ssotoken empty');
-                setTimeout(callback_loaded, 100);
-            }
-            else if (ssotoken != '')
-            {
-                console.log('SSOLogin OK : ssotoken found!');
-                loginWindow.close();
-                sendSsoToken(ssotoken);
-            }
-            else if (ssotoken == '' || portal_sessionid != '' || before_portal)
-            {
-              // delete_cookie('PORTAL_SESSIONID', '/', '*.korea.ac.kr');
-              loginWindow.close();
-              callback(-1);
-            }
-            else setTimeout(callback_loaded, 200);
+         function callback_retry() {
+             var token = getCookie('ssotoken');
+             if (loginWindow.closed)
+             {
+                 console.log('SSOLogin Failed : loginWindow closed.');
+                 callback(-1);
+             }
+             else if (token != "")
+             {
+                 loginWindow.close();
+                 sendSsoToken(token);
+             }
+             else setTimeout(callback_retry, DELAY_WAIT_TERM);
          }
 
-         var loginWindow = window.open('https://portal.korea.ac.kr/common/Login.kpd?id=' +
-             encodeURIComponent(userInfo.id)  + '&pw=' + encodeURIComponent(userInfo.pw));
-         setTimeout(callback_loaded, 1000);
+         function callback_started() {
+             var token = getCookie('ssotoken');
+             var session = getCookie('PORTAL_SESSIONID');
+             if (loginWindow.closed)
+             {
+                 console.log('SSOLogin Failed : loginWindow closed.');
+                 callback(-1);
+             }
+             else if (token != "" && session != "")
+             {
+                 loginWindow.close();
+                 sendSsoToken(token);
+             }
+             else if (token == "" && session != "")
+             {
+                 console.log('SSOLogin Failed : Auth failed.');
+                 loginWindow.close();
+                 callback(-1);
+             }
+             else setTimeout(callback_started, DELAY_WAIT_TERM);
+         }
+
+         function callback_logined() {
+             var token = getCookie('ssotoken');
+             if (loginWindow.closed)
+             {
+                 console.log('SSOLogin Failed : loginWindow closed.');
+                 callback(-1);
+             }
+             else if (token != last_token)
+             {
+                 loginWindow.close();
+                 sendSsoToken(token);
+             }
+             else setTimeout(callback_logined, DELAY_WAIT_TERM);
+         }
+
+         // 로그인에 실패함.
+         if (last_session != "" && last_token == "") setTimeout(callback_retry, DELAY_WAIT_LOGIN);
+         // 처음 시도
+         else if (last_session == "" && last_token == "") setTimeout(callback_started, DELAY_WAIT_LOGIN);
+         // 로그인되어 있음
+         else if (last_session != "" && last_token != "") setTimeout(callback_logined, DELAY_WAIT_LOGIN);
+         else alert('Warning: SSO Login status checking failed!');
       },
 
       doAgreement : function (callback) {
