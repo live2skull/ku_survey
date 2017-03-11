@@ -8,13 +8,13 @@
 
 /*2017. 03. 10 추가. Windows 환경 및 IE 에서 폰트 적용.*/
 html * {
-    font-family: "Helvetica Neue", "NotoSansCJK";
+    /*font-family: "Helvetica Neue", "NotoSansCJK";*/
     /*font-family: "NotoSansCJK_B";*/
     /*font-family: "NanumBarunGothic";*/
     /*font-family: "NanumBarunGothic_B";*/
     /*font-family: "HelveticaBold";*/
     /*font-family: helvetica, meiryo, gulim;*/
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 /*2017. 03. 10 추가. Internet Explorer 환경에서 이미지 안티엘라이싱 적용.*/
@@ -126,4 +126,8 @@ i.notice {
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: middle; /* center 가 아니고 middle 임 */
+}
+
+.ifont {
+    font-family: "NotoSansCJK" !important;
 }

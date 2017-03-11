@@ -1,21 +1,36 @@
+/* html * 로 전체 폰트 설정 시 오류를 수정함.
+단, Internet explorer 의 경우 default 폰트로 보여 이쁘게 보이지는 않음.
+추후 i
+*/
+
 .fa-neg {
     color: #ffffff;}
 
 .fa-12x {
+    font-family: FontAwesome !important;
     font-size: 1.3em !important;}
 
 .fa-2x {
+    font-family: FontAwesome !important;
     font-size: 2em !important;}
+
 .fa-3x {
+    font-family: FontAwesome !important;
     font-size: 3em !important;}
+
 .fa-4x {
+    font-family: FontAwesome !important;
     font-size: 4em !important;}
+
 .fa-5x {
+    font-family: FontAwesome !important;
     font-size: 5em !important;}
 
 .fa-05x {
+    font-family: FontAwesome !important;
     font-size: 0.9em !important;}
 
 .fa-size-create {
+    font-family: FontAwesome !important;
     font-size: 1.5em !important;
 }
