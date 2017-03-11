@@ -121,13 +121,13 @@ body {
     box-shadow: 0px 0px 10px 1px rgba(0,0,0, 0.4);
 }
 
+i {
+    font-family: FontAwesome !important;
+}
+
 i.notice {
     font-style: normal;
     font-weight: 600;
     font-size: 0.6em;
     vertical-align: middle; /* center 가 아니고 middle 임 */
-}
-
-.ifont {
-    font-family: "NotoSansCJK" !important;
 }
