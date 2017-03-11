@@ -8,6 +8,8 @@
 
 /*2017. 03. 10 추가. Windows 환경 및 IE 에서 폰트 적용.*/
 html * {
+    font-family: "NotoSansCJK", "Helvetica Neue";
+    /*font-family: "NotoSansCJK_B";*/
     /*font-family: "NanumBarunGothic";*/
     /*font-family: "NanumBarunGothic_B";*/
     /*font-family: "HelveticaBold";*/

@@ -5,6 +5,9 @@ block content
     //div#main-container.container(ng-controller='surveylistController')
     div#main-container.container(ng-controller='submitListController')
 
+        i.fa.fa-wpforms.fa-2x(style="margin-top: 20px")
+            i.notice &nbsp;&nbsp;내가 참여한 설문
+
         table#survey-list.table(ng-show="flag.isAvaliable")
             thead
                 tr

@@ -3,7 +3,7 @@
 link(rel='stylesheet', href='/public/stylesheets/element/navbar.css')
 
 //- nav.navbar.navbar-inverse.navbar-fixed-top(ng-controller='navbar') fixed!
-nav.navbar.navbar-inverse#application-navbar
+nav.navbar.navbar-inverse#application-navbar(ng-controller='navbarCtrl')
     .container-fluid
         .navbar-header
             a.navbar-brand
@@ -13,7 +13,7 @@ nav.navbar.navbar-inverse#application-navbar
                         img(src='/public/images/brand.png', alt='brand',
                         width="25px", height="25px", style='margin-left: 7px; margin-top: -2px;')
                     img#navbar-brand(src='/public/images/logo-fixed.png', alt='brand')
-                    | &nbsp;&nbsp;고려대학교 세종캠퍼스 온라인 학생설문시스템
+                    | &nbsp;&nbsp;{{ resolveTitle() }}
                 //- img.navbar-brand(alt='Marina Marques', src='https://shvvffle.github.io/img/marina_marques_logo.png')
                 //- img.navbar-brand()
 

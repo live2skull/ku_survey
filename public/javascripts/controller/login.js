@@ -4,6 +4,8 @@ angular.module('kudoc')
 
     $scope.login = {};
     $scope.click = {};
+    $scope.flag = {};
+    $scope.flag.isMSIE = false;
     // False 로 설정
     // 실제 서비스 운영 시에는 안전하지 않은 로그인 API 는 서버에서 제거됨!
     var FORCE_USE_LOGIN_UNSECURE_MODE = false;
@@ -85,8 +87,22 @@ angular.module('kudoc')
         location.href = '/';
     };
 
+    $scope.click.chrome = function () {
+        window.open('https://www.google.com/chrome/browser/desktop/index.html');
+    };
+
+    function checkBadInternetExplorer() {
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        return (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./));
+    }
+
     function init()
     {
+        $scope.flag.isMSIE = checkBadInternetExplorer();
+
         $("#login_id").keyup(function(event){
             if(event.keyCode == 13){
                 $scope.click.startLogin();

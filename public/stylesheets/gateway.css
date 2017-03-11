@@ -33,6 +33,15 @@ i.notice {
     width: 95px;
 }
 
+.gateway-alertIE {
+    margin-top: 30px;
+}
+
+.alert-message {
+    display: inline-block;
+}
+
+
 form.login-form {
     margin-top: 20px;
     margin-bottom: -10px;
