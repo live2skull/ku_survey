@@ -23,7 +23,8 @@
      font-style: normal;
      font-weight: 600;
      src: local("Noto Sans CJK KR Regular");
-     src: url('/public/fonts/NotoSansCJKkr-Regular.woff') format("woff");
+     src: url('http://yein.cdn.live2skull.net/fonts/NotoSansCJKkr-Regular.woff') format("woff");
+     /*src: url('/public/fonts/NotoSansCJKkr-Regular.woff') format("woff");*/
  }
 
 /* 나눔바른고딕 - 일반글씨*/
