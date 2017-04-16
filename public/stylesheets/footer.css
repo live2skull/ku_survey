@@ -56,10 +56,16 @@ body {
     /*float : left;*/
 }
 
-
 @media all and (max-width: 414px) {
     .container .text-muted {
         font-size: 13px !important;
+    }
+}
+
+
+@media all and (max-width: 320px) {
+    .container .text-muted {
+        font-size: 10px !important;
     }
 }
 
