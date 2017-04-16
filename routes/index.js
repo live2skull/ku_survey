@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const config = require('../config');
+const DEBUG = require('../config').DEBUG;
 
 router.get('/', function(req, res, next) {
 
@@ -14,7 +15,7 @@ router.get('/', function(req, res, next) {
   //   "Access-Control-Allow-Origin": "portal.korea.ac.kr"
   // });
 
-  res.render('login.jade', {EXPOSE_SSO_DEBUG : config.EXPOSE_SSODEBUG})
+  res.render('login.jade', {DEBUG: DEBUG})
 
 });
 

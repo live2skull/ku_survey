@@ -20,12 +20,12 @@ angular.module('KU_SSO', [])
              });
       },
 
-      doDebugLogin : function (callback)
+      doDebugLogin : function (callback, userid)
       {
           $http({
               method: 'POST',
               url: '/api/SSOLogin',
-              data: {secure: true, ssoToken: getCookie('ssotoken')}
+              data: {isDebug: true, id: userid}
               // data: {secure: true}
           }).then(
               function (data) {

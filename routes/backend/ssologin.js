@@ -149,7 +149,41 @@ exports.ssoCheck = function (conn, callback, userInfo)
     });
 };
 
+exports.ssoWithUserID = function (conn, callback, userId, uInfo)
+{
+    var task = [
+        function (cb) {
+            var sql = 'select * from user where user_id = ?';
+            conn.query({
+                sql : sql,
+                values : [userId]
+            }, function (err, rows) {
+                if (err) { cb(err); return; }
+                if (!rows.length) { cb(err); return;}
+                var row = rows[0];
 
+                uInfo['UID'] = row['user_id'];
+                uInfo['USERNAME'] = row['hak_name'];
+                uInfo['GROUPNMLIST'] = row['groupnmlist'];
+                uInfo['DPTNMLIST'] = row['hak_depart'];
+                uInfo['USERID'] = row['hak_number'];
+
+                cb(null);
+            });
+        }
+    ];
+
+    async.waterfall(task, function (err) {
+       if (err)
+       {
+           callback(conn, 0);
+       }
+       else
+       {
+           callback(conn, 1);
+       }
+    });
+}
 
 // USERNAME, USERID(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
 exports.ssoSave = function (conn, callback, userInfo)

@@ -53,7 +53,7 @@ angular.module('kudoc')
     }
 
     $scope.click.debugLogin = function () {
-        loginFactory.doDebugLogin(callback_login)
+        loginFactory.doDebugLogin(callback_login, $scope.login.debug);
     };
 
     $scope.click.startLogin = function () {

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const DEBUG = require('../config').DEBUG;
 const deepcopy = require('deepcopy');
 const dbms = require('../mod/dbms');
 
@@ -9,7 +10,6 @@ Warning:: Service DEBUG Flag!
 disabled debug flag -> ignore authentication
 */
 
-const DEBUG = require('../config').DEBUG;
 // temporary disabled!s
 // const SSO_UNSECURE = require('../config').SSO_UNSECURE;
 
@@ -20,6 +20,7 @@ const api_ssologin = require('./backend/ssologin');
 
 const api_loadform = require('./backend/form/loadform');
 const api_saveform = require('./backend/form/saveform');
+const api_deleteform = require('./backend/form/deleteform');
 
 const api_savesubmit = require('./backend/submit/savesubmit');
 const api_loadsubmit = require('./backend/submit/loadsubmit');
@@ -127,7 +128,7 @@ router.post('/SSOLogin', function (req, res, next) {
     // DB 에 사용자 정보가 들어 있는가?
     var callback_ssoCheck = function (conn, result) {
 
-        conn.release();
+        if (conn) conn.release();
 
         switch (result)
         {
@@ -164,7 +165,7 @@ router.post('/SSOLogin', function (req, res, next) {
 
                 // if (hak_number.length == 6) // 교수
                 // {
-                //     req.session.hak_level = 1;
+                //         req.session.hak_level = 1;
                 //     res.cookie('hak_level', '1');
                 // }
                 // else if (hak_number.length == 10) // 학생
@@ -199,28 +200,42 @@ router.post('/SSOLogin', function (req, res, next) {
 
     // 로그인 시도
     var id = req.body.id;
-    var pw = req.body.pw;
+    // var pw = req.body.pw; 사용하지 않음. 포탈 서버를 이용하여 로그인합니다.
     var secure = req.body.secure;
+    var isDebug = req.body.isDebug;
 
-    switch (secure)
+    if (isDebug === true)
     {
-        case true:
-            var ssoCookie = req.cookies.ssotoken;
-            // var ssoCookie = req.body.ssotoken; // 이름 주의!
-            if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : -1}));
-            else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
-            break;
+        dbms.pool.getConnection(function (err, conn) {
+            api_ssologin.ssoWithUserID(conn, callback_ssoCheck, id, userInfo);
+        });
+    }
 
-        case false:
-            if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-            // else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-            else res.send(JSON.stringify({result : -1}));
-            break;
+    else
+    {
+        switch (secure)
+        {
+            case true:
+                var ssoCookie = req.cookies.ssotoken;
+                // var ssoCookie = req.body.ssotoken; // 이름 주의!
+                if (ssoCookie == null || ssoCookie == undefined) res.send(JSON.stringify({result : -1}));
+                else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
+                break;
 
-        default:
-            res.send(JSON.stringify({result : -1}));
+            // changed to login speficated user.
+            case false:
+                // if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
+                // else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
+                // else res.send(JSON.stringify({result : -1}));
+                res.send(JSON.stringify({result : -1}));
+                break;
+
+            default:
+                res.send(JSON.stringify({result : -1}));
+        }
     }
 });
+
 
 // ************************************************************************************
 
@@ -246,15 +261,15 @@ router.post('/loadform', function (req, res, next) {
                 case -1: // error
                     res.status(500).send(JSON.stringify(RES_INTERNAL_ERR)); break;
                 case 0: // cannot found
-                    res.send(JSON.stringify({result : false})); break;
-                case 1: // ok!
-                    res.send(JSON.stringify({result : true, form: form})); break;
-            }
-            conn.release();
-        };
+        res.send(JSON.stringify({result : false})); break;
+        case 1: // ok!
+        res.send(JSON.stringify({result : true, form: form})); break;
+    }
+    conn.release();
+};
 
-        api_loadform.loadForm(conn, cb, survey_id)
-    });
+api_loadform.loadForm(conn, cb, survey_id)
+});
 
 }); // OK
 
@@ -271,18 +286,18 @@ router.post('/checkform', function (req, res, next) {
 
         api_saveform.checkExistFormData(conn, callback_checkFormData, survey_id);
     });
-})
+});
 
 // 설문지 양식 저장하기 (새로 만들기, 수정)
 router.post('/saveform', function (req, res, next) {
-    if (!DEBUG)
-    {
-
-    }
-    if (DEBUG)
-    {
-        req.session.user_id = 'admin';
-    }
+    // if (!DEBUG)
+    // {
+    //
+    // }
+    // if (DEBUG)
+    // {
+    //     req.session.user_id = 'admin';
+    // }
 
     var doc = req.body;
 
@@ -330,6 +345,42 @@ router.post('/saveform', function (req, res, next) {
     });
 }); // OK
 
+router.post('/deleteform', function (req, res, next) {
+    var sess = req.session;
+    if (sess.hak_level !== 1) { res.send(JSON.stringify({result : false, reson : 'forbidden'})); return}
+
+    var survey_id = req.body.survey_id;
+
+    dbms.pool.getConnection(function (err, conn) {
+        conn.beginTransaction(function (err) {
+            if (err)
+            {
+                res.send(JSON.stringify({result : false, reason : 'beginTransaction Failed.'}));
+                conn.release(); return
+            }
+            var cb = function (result) {
+                if (result === true)
+                {
+                    res.send(JSON.stringify({result : true}));
+                    conn.commit(function (err) {
+                        conn.release();
+                    })
+                }
+                else
+                {
+                    res.send(JSON.stringify({result : false}));
+                    conn.rollback(function (err) {
+                        conn.release();
+                    })
+                }
+            };
+
+            api_deleteform.deleteForm(conn, cb, survey_id);
+
+        });
+    });
+});
+
 // ************************************************************************************
 
 // 설문 데이터 불러오기
@@ -374,14 +425,14 @@ router.post('/loadsubmit', function (req, res, next) {
 
 // 설문 데이터 저장하기
 router.post('/savesubmit', function (req, res, next) {
-    if (!DEBUG)
-    {
-
-    }
-    if (DEBUG)
-    {
-        req.session.user_id = 'student_tester'
-    }
+    // if (!DEBUG)
+    // {
+    //
+    // }
+    // if (DEBUG)
+    // {
+    //     req.session.user_id = 'student_tester'
+    // }
 
     var doc = deepcopy(req.body);
 
@@ -443,10 +494,10 @@ router.post('/checkassignedsubmit', function (req, res, next) {
 
 // 설문의 코멘트 불러오기
 router.post('/loadcomment', function (req, res, next) {
-    if (!DEBUG)
-    {
-
-    }
+    // if (!DEBUG)
+    // {
+    //
+    // }
 
     var submit_id = req.body;
 
@@ -485,14 +536,14 @@ router.post('/loadcomment', function (req, res, next) {
 
 // 설문의 코멘트 저장하기
 router.post('/savecomment', function (req, res, next) {
-    if (!DEBUG)
-    {
-
-    }
-    if (DEBUG)
-    {
-        req.session.user_id = 'professor_test'
-    }
+    // if (!DEBUG)
+    // {
+    //
+    // }
+    // if (DEBUG)
+    // {
+    //     req.session.user_id = 'professor_test'
+    // }
 
     // submit_id , comment
     var rparam = req.body;

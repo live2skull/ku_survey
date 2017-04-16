@@ -39,7 +39,7 @@ block content
 
         hr.assign-hr-top
 
-        h4(ng-show='!flag.isEditable', style="font-weight: 800") 이 설문지에 대한 응답이 존재하므로, 설문지 내용을 변경할 수 없습니다.
+        h4(ng-show='!flag.isEditable', style="font-weight: 900 !important") 이 설문지에 대한 응답이 존재하므로, 설문지 내용을 변경할 수 없습니다.
 
         // h4
         div#qid-title
@@ -70,7 +70,7 @@ block content
 
         hr.assign-hr-top
 
-        div.no-padding(ng-show="!flag.isTimeSet")
+        div.no-padding(ng-show="flag.isShowMain")
             i.fa.fa-edit.fa-2x
                 i.notice &nbsp;&nbsp;질의응답 작성
 
@@ -190,7 +190,7 @@ block content
 
 
 
-        div.no-padding(ng-show="flag.isTimeSet")
+        div.no-padding(ng-show="flag.isShowSetTime")
             .container
                 .row
                     .col-sm-4
@@ -226,8 +226,29 @@ block content
                             button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.saveCancel()')
                                 i.fa.fa-times.fa-neg.fa-12x &nbsp;&nbsp;취소
 
+        div.no-padding(ng-show="flag.isShowDeleteConfirm")
+            .container
+                .row
+                    .col-sm-8(style="padding-left: 10px; ")
 
-        div.no-padding(ng-show="!flag.isTimeSet")
+                        //h5 &nbsp;
+                        i.fa.fa-info.fa-2x
+                            i.notice &nbsp;&nbsp;설문지 삭제
+
+                        h4 현재 설문을 삭제하면, 지정한 모든 설문 양식과 학생들이 작성한 설문 데이터, 통계자료가 함께 삭제되며, 복구할 수 없습니다!
+                        //div(style="padding-left: 10px; float: right")
+
+                    .col-sm-4
+                        h5 &nbsp;
+                        div
+                            button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.delete()')
+                                i.fa.fa-times.fa-neg.fa-12x &nbsp;&nbsp;삭제
+                            button.btn.ku-button(style="height: 33px !important; margin-right: 10px", type='button', ng-click='click.deleteCancel()')
+                                i.fa.fa-arrow-circle-left.fa-neg.fa-12x &nbsp;&nbsp;취소
+                        h3 &nbsp;
+
+
+        div.no-padding(ng-show="flag.isShowCommand")
             button.btn.ku-button(type='button', ng-click='click.postForm()')
                 i.fa.fa-floppy-o.fa-neg.fa-12x &nbsp;&nbsp;변경사항 저장
             a &nbsp;&nbsp;
@@ -239,6 +260,9 @@ block content
             a &nbsp;&nbsp;
             button.btn.ku-button(type='button', ng-click='click.apply()')
                 i.fa.fa-clock-o.fa-neg.fa-12x &nbsp;&nbsp;응답시간 설정
+            a &nbsp;&nbsp;
+            button.btn.ku-button(type='button', ng-click='click.deleteCheck()')
+                i.fa.fa-times.fa-neg.fa-12x &nbsp;&nbsp;삭제
             a &nbsp;&nbsp;
 
         //button.btn.ku-button(type='button', ng-click='click.test()')

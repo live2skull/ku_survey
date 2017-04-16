@@ -63,6 +63,22 @@ angular.module('kudoc.clientAPI', ['live2skull.helper'])
           )
         },
 
+        deleteForm : function (survey_id, callback)
+        {
+            $http({
+                method : "POST",
+                url : '/api/deleteform',
+                data : {survey_id : survey_id}
+            }).then(
+                function (data) {
+                    var d = data.data;
+                    var result = d.result;
+                    callback(result);
+                },
+                function () {callback(false)}
+            );
+        },
+
         checkFormEditable : function (survey_id, callback)
         {
             $http({

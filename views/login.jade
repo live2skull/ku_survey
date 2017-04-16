@@ -54,8 +54,6 @@ html(ng-app='kudoc')
                             h4.ku-htext.ku-htext-main 고려대학교 세종캠퍼스
                             h4.ku-htext.ku-htext-main 온라인 학생설문시스템
 
-
-                    //- WARNING:: 서버 업로드 시 계정 정보 지울 것
                     .col-md-6.col-sm-6
                         .ku-form
                             form.login-form
@@ -64,14 +62,16 @@ html(ng-app='kudoc')
                                 input#login_pw(ng-model='login.pw', type='password', placeholder='포털 비밀번호')
                                 p.message
 
-                        button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
-                            i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인
+                            button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
+                                i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;로그인
 
-                        if (EXPOSE_SSO_DEBUG == true)
-                            button.btn.ku-button(ng-click='click.debugLogin()', type='button', style='width: 100%')
-                                i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;SSO DEBUG
-                        else
+                            if (DEBUG == true)
+                                input#login_debug(ng-model='login.debug', type='text', placeholder='DEBUG Entry ID')
+                                button.btn.ku-button(ng-click='click.debugLogin()', type='button', style='width: 100%')
+                                    i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;DEBUG ENTRY
+                            else
 
+                    //- WARNING:: 서버 업로드 시 계정 정보 지울 것
             .gateway-login.container.gateway-alertIE(ng-show="flag.isMSIE")
                 i.fa.fa-exclamation-triangle.fa-2x
                     i.notice &nbsp;&nbsp;권고사항
@@ -79,5 +79,6 @@ html(ng-app='kudoc')
                 h5.alert-message 현재 Internet Explorer 브라우저를 사용하고 있습니다. 최적의 환경에서 사용하려면&nbsp;
                 a.alert-message(href="", ng-click="click.chrome()") Chrome 브라우저
                 h5.alert-message 를 이용해주세요.
+
 
         include footer

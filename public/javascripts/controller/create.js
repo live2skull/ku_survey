@@ -4,7 +4,7 @@ angular.module('kudoc')
 // 교수 설문지 만들기 및 수정 :: /professor/create + /professor/edit/:survey_id
 .controller('createController', function ($scope, $location, $anchorScroll, surveyFormFactory) {
 
-    console.log('loaded.')
+    console.log('loaded.');
 
     function getFormattedDate(date) {
         var day = date.getDate();
@@ -57,7 +57,12 @@ angular.module('kudoc')
     $scope.input = {}; $scope.input.name = '';
     $scope.click = {};
     $scope.flag = {};
-    $scope.flag.isTimeSet = false;
+    //scope.flag.isTimeSet = false; // 다음부터는 showMain, showTimeset 으로 바꿀것!
+    $scope.flag.isShowMain = true;
+    $scope.flag.isShowSetTime = false;
+    $scope.flag.isShowCommand = true;
+    $scope.flag.isShowDeleteConfirm = false;
+
     $scope.flag.isEditable = true;
     $scope.flag.timErrMsg = "";
 
@@ -266,8 +271,32 @@ angular.module('kudoc')
     };
     $scope.click.apply = function () {
         if ($scope.survey.survey_id == "") alert ('먼저 설문지 변경사항을 저장해 주세요.');
-        else $scope.flag.isTimeSet = true;
+        else {
+            $scope.flag.isShowMain = false;
+            $scope.flag.isShowSetTime = true;
+            $scope.flag.isShowCommand = false;
+        }
     };
+
+    $scope.click.delete = function () {
+        if (confirm('정말로 삭제합니까?')) {
+             surveyFormFactory.deleteForm($scope.survey.survey_id, deleteFormCallback)
+        }
+    };
+
+    $scope.click.deleteCheck = function () {
+        if ($scope.survey.survey_id == "") alert ('이 설문은 아직 저장되지 않았습니다.');
+        $scope.flag.isShowMain = false;
+        $scope.flag.isShowCommand = false;
+        $scope.flag.isShowDeleteConfirm = true;
+    };
+
+    $scope.click.deleteCancel = function () {
+        $scope.flag.isShowMain = true;
+        $scope.flag.isShowCommand = true;
+        $scope.flag.isShowDeleteConfirm = false;
+    };
+
 
     $scope.click.saveTime = function () {
         var start = $('#dtpicker-start');
@@ -294,7 +323,10 @@ angular.module('kudoc')
             surveyFormFactory.setTimeForm($scope.survey.survey_id, true, null, null, setTimeCallback)
     };
     $scope.click.saveCancel = function () {
-        $scope.flag.isTimeSet = false;
+        // $scope.flag.isTimeSet = false;
+        $scope.flag.isShowMain = true;
+        $scope.flag.isShowSetTime = false;
+        $scope.flag.isShowCommand = true;
     };
 
     function picker2str (obj)
@@ -305,6 +337,19 @@ angular.module('kudoc')
     function picker2obj (obj)
     {
         return obj.data('DateTimePicker').date().toDate();
+    }
+
+    function deleteFormCallback(result)
+    {
+        if (result)
+        {
+            alert('성공적으로 삭제되었습니다.');
+            location.href = '/professor/list_form'
+        }
+        else
+        {
+            alert('삭제 중 오류가 발생했습니다.');
+        }
     }
 
     function setTimeCallback(result)
@@ -377,8 +422,6 @@ angular.module('kudoc')
 
         var mode = $("#mode").val();
         $scope.survey.mode = mode;
-
-
     }
 
     function init() {

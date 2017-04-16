@@ -85,8 +85,8 @@ exports.buildXLSXFile = function (callback, user_id, stat, form, filter_year, fi
             // 컬럼 공백 설정
             var wscols_intro = [
                 {wch:15},
-                {wch:30},
-                {wch:5},
+                {wch:40},
+                {wch:10},
                 {wch:60}
             ];
 

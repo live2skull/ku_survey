@@ -4,19 +4,19 @@ var router = express.Router();
 const DEBUG = require('../config').DEBUG;
 
 function DBG_MakeUserStudent(req, res) {
-    // session set
-    req.session.hak_number = 130012;
-    req.session.hak_name = '나교수';
-    req.session.user_id = 'proftest';
-    req.session.hak_depart = '전자및정보공학과';
-    req.session.hak_level = 1;
-
-    // cookie set
-    res.cookie('hak_number', 130012);
-    res.cookie('hak_name' , '나교수');
-    res.cookie('user_id', 'proftest');
-    res.cookie('hak_depart', '전자및정보공학과');
-    res.cookie('hak_level', 1)
+    // // session set
+    // req.session.hak_number = 130012;
+    // req.session.hak_name = '나교수';
+    // req.session.user_id = 'proftest';
+    // req.session.hak_depart = '전자및정보공학과';
+    // req.session.hak_level = 1;
+    //
+    // // cookie set
+    // res.cookie('hak_number', 130012);
+    // res.cookie('hak_name' , '나교수');
+    // res.cookie('user_id', 'proftest');
+    // res.cookie('hak_depart', '전자및정보공학과');
+    // res.cookie('hak_level', 1)
 }
 function CHK_UserAuth(req, res) {
     var hak_level = req.session.hak_level;

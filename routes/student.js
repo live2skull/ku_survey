@@ -4,23 +4,23 @@ var router = express.Router();
 const DEBUG = require('../config').DEBUG;
 
 function DBG_MakeUserStudent(req, res) {
-    // session set
-    req.session.hak_number = 2016270501;
-    // req.session.hak_name = '양해찬';
-    req.session.hak_name = '테스트계정';
-    // req.session.user_id = 'l2ttlebit';
-    req.session.user_id = 'testuser';
-    req.session.hak_depart = '전자및정보공학과';
-    req.session.hak_level = 0;
-
-    // cookie set
-    res.cookie('hak_number', 2016270501);
-    res.cookie('hak_name' , '테스트계정');
-    // res.cookie('hak_name' , '양해찬');
-    res.cookie('user_id', 'testuser');
-    // res.cookie('user_id', 'l2ttlebit');
-    res.cookie('hak_depart', '전자및정보공학과');
-    res.cookie('hak_level', 0)
+    // // session set
+    // req.session.hak_number = 2016270501;
+    // // req.session.hak_name = '양해찬';
+    // req.session.hak_name = '테스트계정';
+    // // req.session.user_id = 'l2ttlebit';
+    // req.session.user_id = 'testuser';
+    // req.session.hak_depart = '전자및정보공학과';
+    // req.session.hak_level = 0;
+    //
+    // // cookie set
+    // res.cookie('hak_number', 2016270501);
+    // res.cookie('hak_name' , '테스트계정');
+    // // res.cookie('hak_name' , '양해찬');
+    // res.cookie('user_id', 'testuser');
+    // // res.cookie('user_id', 'l2ttlebit');
+    // res.cookie('hak_depart', '전자및정보공학과');
+    // res.cookie('hak_level', 0)
 }
 function CHK_UserAuth(req, res) {
     var hak_level = req.session.hak_level;
