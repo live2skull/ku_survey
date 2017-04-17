@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 // var cors = require('cors');
+var robots = require('express-robots');
 var session = require('express-session');
 var redis = require('redis');
 var redisStore = require('connect-redis')(session);
@@ -75,6 +76,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(robots(__dirname + '/robots.txt'));
 
 app.use('/', require('./routes/index'));
 app.use('/student', require('./routes/student'));
