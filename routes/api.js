@@ -204,7 +204,7 @@ router.post('/SSOLogin', function (req, res, next) {
     var secure = req.body.secure;
     var isDebug = req.body.isDebug;
 
-    if (isDebug === true)
+    if (isDebug === true && DEBUG)
     {
         dbms.pool.getConnection(function (err, conn) {
             api_ssologin.ssoWithUserID(conn, callback_ssoCheck, id, userInfo);
