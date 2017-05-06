@@ -308,15 +308,21 @@ router.post('/saveform', function (req, res, next) {
                 res.send(JSON.stringify({result : false, reason : 'beginTransaction Failed.'}));
                 conn.release(); return
             }
-
             var callback_checkFormData = function (result)
+
             {
-                if (result) api_saveform.saveForm(conn, callback_saveForm, doc, req.session.user_id);
+                // 최종 폼 저장.
+                if (result) api_saveform.saveForm(conn, callback_saveForm, false, doc, req.session.user_id);
+
+                // 설문지의 데이터가 존재하는 경우.
                 else {
-                    res.send(JSON.stringify({result : false, reason : '이미 이 설문지에 대한 응답이 있으므로, 설문을 저장할 수 없습니다.'}));
-                    conn.rollback(function (err) {
-                        conn.release();
-                    })
+                    // update: 2017. 05. 06
+
+                    api_saveform.saveForm(conn, callback_saveForm, true, doc, req.session.user_id);
+                    // res.send(JSON.stringify({result : false, reason : '이미 이 설문지에 대한 응답이 있으므로, 설문을 저장할 수 없습니다.'}));
+                    // conn.rollback(function (err) {
+                    //     conn.release();
+                    // })
                 }
             };
 
@@ -339,7 +345,8 @@ router.post('/saveform', function (req, res, next) {
 
             var survey_id = doc.survey_id;
             if (survey_id != "") api_saveform.checkExistFormData(conn, callback_checkFormData, survey_id);
-            else api_saveform.saveForm(conn, callback_saveForm, doc, req.session.user_id)
+            // 새로운 폼 생성
+            else api_saveform.saveForm(conn, callback_saveForm, false, doc, req.session.user_id)
 
         });
     });
@@ -623,6 +630,8 @@ router.post('/listsurvey', function(req, res, next) {
         // 그런데 어차피, stat 출력을 위해서는 closed 된 것도 보아야 한다
         // 그러면 hak_level 이 아닌 closed_list 를 사용하는 것도 방법인 듯?
         // closed 컬럼을 true, false 가 아닌 시간을 지정하는 것도 방법임.
+
+        // 학생 모드. 여기는 손 댈 필요 없음.
         if (hak_level == 0)
         {
             switch (type)
@@ -649,10 +658,14 @@ router.post('/listsurvey', function(req, res, next) {
                     res.send(RES_FORBIDDEN);
             }
         }
+
+        // 교수. 학생 데이터 확인
         else if (hak_level == 1 && show_closed)
         {
             api_listsurvey.listSurveyStudent(conn, callback, 3, null, show_closed, null);
         }
+
+        // 교수 default - 설문열람 페이지
         else if (hak_level == 1)
         {
             api_listsurvey.listSurveyProfessor(conn, callback, type, user_id, null, null);

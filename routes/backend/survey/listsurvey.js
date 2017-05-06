@@ -142,26 +142,37 @@ exports.listSurveyProfessor = function (conn, callback, type, user_id) {
 
     var task = [
         function (cb)
-        {
-            if (type != 3)
-            {
-                var qd = {
-                    sql: 'select * from surveyList where professor_id = ? and type = ? order by created_at desc',
-                    values: [user_id, type]
-                };
-            }
-            else
-            {
-                var qd = {
-                    sql : 'select * from surveyList where professor_id = ? order by created_at desc',
-                    values : [user_id]
-                };
-            }
+                {
+                    if (type != 3)
+                    {
 
-            // isAvaliable 사용이 필요한가? 교수 버전에서는 필요없을 것 같음.
 
-            conn.query(qd, function (err, rows) {
-                if (err) { cb(err); return; }
+                        // var qd = {
+                        //     sql: 'select * from surveyList where professor_id = ? and type = ? order by created_at desc',
+                        //     values: [user_id, type]
+                        // };
+
+                        // update 2017. 05. 06 - 교수 간 설문 정보 공유 가능.
+                        var qd = {
+                            sql: 'select * from surveyList where (professor_id = ? and type = ?) or (is_share = 1 and type = ?) order by created_at desc',
+                            values: [user_id, type, type]
+                        };
+                    }
+
+
+                    // ?? 왜 만들었는지 까먹음
+                    else
+                    {
+                        var qd = {
+                            sql : 'select * from surveyList where professor_id = ? order by created_at desc',
+                            values : [user_id]
+                        };
+                    }
+
+                    // isAvaliable 사용이 필요한가? 교수 버전에서는 필요없을 것 같음.
+
+                    conn.query(qd, function (err, rows) {
+                        if (err) { cb(err); return; }
                 surveys = deepcopy(rows);
                 cb(null);
             })

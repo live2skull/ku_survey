@@ -39,8 +39,6 @@ block content
 
         hr.assign-hr-top
 
-        h4(ng-show='!flag.isEditable', style="font-weight: 900 !important") 이 설문지에 대한 응답이 존재하므로, 설문지 내용을 변경할 수 없습니다.
-
         // h4
         div#qid-title
             h4.assign-info-h 설문제목 &nbsp;
@@ -66,6 +64,15 @@ block content
                 h4.assign-info-h 공지사항
             textarea.assign-q-textarea.assign-c-notice(ng-model='survey.notice', placeholder="최대 200 글자까지 입력 가능")
 
+
+            br
+            br
+            div(style='margin-bottom: 10px')
+                h4.assign-info-h 공유설정
+                label(style='display: block; margin-top: 10px')
+                    input(ng-model='survey.is_share', type='checkbox')
+                    | &nbsp;&nbsp;본 설문의 데이터를 다른 교원과 공유합니다.
+
         // h4.assign-title &nbsp;{{ survey.title }}
 
         hr.assign-hr-top
@@ -73,6 +80,8 @@ block content
         div.no-padding(ng-show="flag.isShowMain")
             i.fa.fa-edit.fa-2x
                 i.notice &nbsp;&nbsp;질의응답 작성
+
+            h4(ng-show='!flag.isEditable', style="font-weight: 800 !important;") 이 설문지에 대한 응답이 존재하므로, 질의응답 내용은 변경되지 않습니다.
 
             div.assign-list
                 div.assign-q(ng-repeat='quest in survey.questions | orderBy: "order"', id='qid-{{quest.no}}')

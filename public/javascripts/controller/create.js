@@ -78,6 +78,7 @@ angular.module('kudoc')
         notice : '',
         no_idx : 0,
         type : 0,
+        isshare: 1,
 
         // undefined - survey_id, professor_id, started_at, created_at, finished_at, modified_at, closed
 
@@ -253,11 +254,14 @@ angular.module('kudoc')
     };
 
     $scope.click.postForm = function () {
-        if (!$scope.flag.isEditable)
-        {
-            alert('이 설문지에 대한 응답이 존재하므로 수정이 불가능합니다.');
-            return;
-        }
+        // update: 2017. 05. 06
+        // 설문지 종류나 제목 등은 변경할 수 있어야 함.
+
+        // if (!$scope.flag.isEditable)
+        // {
+        //     alert('이 설문지에 대한 응답이 존재하므로 수정이 불가능합니다.');
+        //     return;
+        // }
         $scope.survey.type = Number($scope.survey.type);
         surveyFormFactory.submitForm($scope.survey, postFormCallback);
         // 새로 만들기
@@ -413,6 +417,7 @@ angular.module('kudoc')
             }
 
             $scope.survey = form;
+            $scope.survey.is_share = Boolean($scope.survey.is_share);
             surveyFormFactory.checkFormEditable($scope.survey.survey_id, checkExistCallback)
         }
         else {

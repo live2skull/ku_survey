@@ -1,4 +1,4 @@
-exports.DEBUG = true;
+exports.DEBUG = false;
 exports.EXPOSE_SSODEBUG = false;
 exports.SSO_UNSECURE = false;
 

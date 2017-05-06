@@ -16,28 +16,31 @@ exports.checkExistFormData = function (conn, callback, survey_id)
             else
             {
                 conn.query({
-                    sql : 'select count(*) from submitList where survey_id = ?',
-                    values : [survey_id]
-                }, function (err, rows) {
-                    if (err) {cb(err); return}
-                    var count = rows[0]['count(*)'];
-                    if (count) {cb(1); return }// 이미 저장된 데이터가 있는 경우
-                    cb(null);
-                });
-            }
-        }
-    ];
+        sql : 'select count(*) from submitList where survey_id = ?',
+            values : [survey_id]
+    }, function (err, rows) {
+        if (err) {cb(err); return}
+        var count = rows[0]['count(*)'];
+        if (count) {cb(1); return }// 이미 저장된 데이터가 있는 경우
+        cb(null);
+    });
+}
+}
+];
 
-    async.waterfall(task, function (err) {
-        if (err) callback(false);
+async.waterfall(task, function (err) {
+    if (err) callback(false);
         else callback(true);
     });
 };
 
 // http://stackoverflow.com/questions/23446377/syntax-error-due-to-using-a-reserved-word-as-a-table-or-column-name-in-mysql
 // TODO no, order, type, name -> MySQL reserved! (`` escape required)
-exports.saveForm = function (conn, callback, doc, user_id)
+exports.saveForm = function (conn, callback, update_basic, doc, user_id)
 {
+
+    // update_basic - 질의응답 데이터를 변경하지 않음.
+
     var survey_id = doc.survey_id;
     var flag_edit = false;
 
@@ -61,8 +64,8 @@ exports.saveForm = function (conn, callback, doc, user_id)
                 flag_edit = true;
 
                 conn.query({
-                    sql : 'update surveyList SET title = ?, notice = ?, no_idx = ?, `type` = ?, modified_at = now() where survey_id = ?',
-                    values : [doc.title, doc.notice, doc.no_idx, doc.type, survey_id]
+                    sql : 'update surveyList SET title = ?, notice = ?, no_idx = ?, `type` = ?, `is_share` = ?, modified_at = now() where survey_id = ?',
+                    values : [doc.title, doc.notice, doc.no_idx, doc.type, doc.is_share, survey_id]
                 }, function (err, rows) {
                     if (err || !rows.affectedRows) {cb(err); return}
                     cb(null);
@@ -71,6 +74,7 @@ exports.saveForm = function (conn, callback, doc, user_id)
         },
 
         function (cb) {
+            if (update_basic) {cb(null); return}
             if (!flag_edit) {cb(null); return}
 
             conn.query({
@@ -85,6 +89,8 @@ exports.saveForm = function (conn, callback, doc, user_id)
 
         // 데이터 (설문 폼) 삽입.
         function (cb) {
+            if (update_basic) {cb(null); return}
+
             var idx = 0;
             var max = doc.questions.length;
             async.until(
