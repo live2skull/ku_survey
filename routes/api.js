@@ -649,6 +649,7 @@ router.post('/listsurvey', function(req, res, next) {
                     api_listsurvey.listSurveyStudent(conn, callback, 2, null, show_closed, pagnation);
                     break;
 
+                // 학생 차트
                 case 3:
                     api_listsurvey.listSurveyStudent(conn, callback, 3, null, show_closed, null); // ALL!
                     break;
@@ -659,7 +660,7 @@ router.post('/listsurvey', function(req, res, next) {
             }
         }
 
-        // 교수. 학생 데이터 확인
+        // 교수 차트?
         else if (hak_level == 1 && show_closed)
         {
             api_listsurvey.listSurveyStudent(conn, callback, 3, null, show_closed, null);

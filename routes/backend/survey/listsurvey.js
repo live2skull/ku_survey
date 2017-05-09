@@ -50,8 +50,10 @@ exports.listSurveyStudent = function (conn, callback, type, department, show_clo
                     'inner join user on user.user_id = surveyList.professor_id and surveyList.`type` = ? ',
                     values : [type]
                 };
+
             // 전체 -> 차트 볼 때 사용
             else if (type == 3)
+
                 qd =
                 {
                     sql : 'select surveyList.survey_id, user.hak_name, user.hak_depart, surveyList.title, surveyList.`type`, surveyList.started_at, surveyList.closed_at, surveyList.created_at from surveyList ' +
