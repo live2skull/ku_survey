@@ -42,7 +42,8 @@ block content
         // h4
         div#qid-title
             h4.assign-info-h 설문제목 &nbsp;
-            input.assign-q-input.assign-default-info.assign-c-title(ng-model='survey.title', type='text', placeholder='제목 입력', ng-readonly='flag.isTimeSet')
+            input.assign-q-input.assign-default-info.assign-c-title(ng-model='survey.title', type='text', placeholder='제목 입력', ng-readonly='flag.isTimeSet',
+            style='max-height: 45px !important')
         div.no-padding(ng-show="!flag.isTimeSet")
             h4.assign-info-h 설문종류
             .rows(style='margin-top: 10px')
@@ -90,7 +91,8 @@ block content
                             .col-md-6.col-sm-6
                                 div
                                     h4.assign-q-title(style='display: inline-block') {{ $index + 1 + '. ' }}&nbsp;
-                                    input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='quest.name', type='text', placeholder='이름 입력')
+                                    input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='quest.name', type='text', placeholder='이름 입력',
+                                    style='max-height: 45px !important')
                             .col-md-6.col-sm-6.no-padding
                                 div
                                     button.btn.ku-button.create-button(type='button', ng-click='click.sortQuestion(0, quest)')
@@ -152,7 +154,7 @@ block content
                                         i.fa.fa-plus.fa-neg.fa-1x
                                     //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important')
                                     //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; margin-bottom: 0px !important; display: inline-block')
-                                    input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; display: inline-block; vertical-align: -1px !important')
+                                    input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름', style='margin-top: 0px; display: inline-block; vertical-align: -1px !important; max-height: 45px !important')
                                     //input.assign-q-input.assign-default-info.assign-c-otitle(ng-model='quest.options_select.name', type='text', placeholder='선택지 이름',)
 
 
@@ -185,7 +187,8 @@ block content
                         //input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='input.name', type='text', placeholder='이름 입력')
                         //input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='quest.name', type='text', placeholder='이름 입력')
                         a &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='input.name', type='text', placeholder='이름 입력')
+                        input.assign-q-input.assign-default-info.assign-c-qtitle(ng-model='input.name', type='text', placeholder='이름 입력',
+                        style='max-height: 45px !important')
                     .col-md-6.col-sm-6.no-padding
                         //style='margin-top: -25px !important; width: 117px')
                         div

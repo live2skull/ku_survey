@@ -35,19 +35,19 @@ block content
             .rows
                 .col-md-3.col-sm-3.assign-c-info-padding
                     h4.assign-info-h 이름&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(ng-readonly='true', ng-model='survey.hak_name',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='max-height: 45px !important', ng-readonly='true', ng-model='survey.hak_name',ng-disabled='true', type='text')
 
                 .col-md-2.col-sm-2.assign-c-info-padding
                     h4.assign-info-h 학년&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 50px;', ng-readonly='true', ng-model='survey.grade',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 50px; max-height: 45px !important', ng-readonly='true', ng-model='survey.grade',ng-disabled='true', type='text')
 
                 .col-md-3.col-sm-3.assign-c-info-padding
                     h4.assign-info-h 학번&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 130px;', ng-readonly='true', ng-model='survey.hak_number',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 130px; max-height: 45px !important', ng-readonly='true', ng-model='survey.hak_number',ng-disabled='true', type='text')
 
                 .col-md-4.col-sm-4.assign-c-info-padding
                     h4.assign-info-h 학과&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 220px;', ng-readonly='true', ng-model='survey.hak_depart.split(";")[0]',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 220px; max-height: 45px !important', ng-readonly='true', ng-model='survey.hak_depart.split(";")[0]',ng-disabled='true', type='text')
 
                 //.col-md-3.col-sm-3
                 //    div
@@ -95,7 +95,8 @@ block content
                             ng-click='click.checkQuestion($event)', ng-checked='option.checked')
                             | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
 
-                        input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                        input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력',
+                        style='max-height: 45px !important')
 
                 // 객관식 문항 (다중)
                 div(ng-show='quest.type == 2')
@@ -106,7 +107,8 @@ block content
                             ng-click='click.checkQuestion($event)', ng-checked='option.checked')
                             | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
 
-                        input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                        input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력',
+                        style='max-height: 45px !important')
 
                 div.container-fluid.no-padding(ng-show='quest.type == 3')
                     .rows
@@ -116,7 +118,8 @@ block content
                                 div(style='margin-top: -3px')
                                     h5 {{ '#' + ($index + 1) + '. ' + option.name  }}&nbsp;
 
-                                input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                                input.assign-q-input(ng-readonly='true', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력',
+                                style='max-height: 45px !important')
 
                         .col-md-6.col-sm-6.no-padding
 

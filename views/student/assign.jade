@@ -29,16 +29,16 @@ block content
                     .col-md-3.col-sm-3
                         div
                             h4.assign-info-h 이름&nbsp;&nbsp;
-                            input.assign-q-input.assign-default-info(ng-model='survey.hak_name',ng-disabled='true', type='text')
+                            input.assign-q-input.assign-default-info(ng-model='survey.hak_name',ng-disabled='true', type='text', style='max-height: 45px !important')
                     .col-md-3.col-sm-3
                         div
                             h4.assign-info-h 학번&nbsp;&nbsp;
-                            input.assign-q-input.assign-default-info(ng-model='survey.hak_number',ng-disabled='true', type='text')
+                            input.assign-q-input.assign-default-info(ng-model='survey.hak_number',ng-disabled='true', type='text', style='max-height: 45px !important')
                     .col-md-3.col-sm-3
                         div
                             h4.assign-info-h 학년&nbsp;&nbsp;
                             input.assign-q-input.assign-default-info(ng-model='survey.hak_grade', type='number',
-                            style='text-align: right', id='qid-grade', pattern='[0-9]*')
+                            style='text-align: right; max-height: 45px !important', id='qid-grade', pattern='[0-9]*')
 
 
             hr.assign-hr-top
@@ -69,7 +69,8 @@ block content
                                 ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
                                 | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
 
-                            input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                            input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력',
+                            style='max-height: 45px !important')
 
                     // 객관식 문항 (다중)
                     div(ng-show='quest.type == 2')
@@ -80,7 +81,8 @@ block content
                                 ng-click='click.checkQuestion(quest, option)', ng-checked='option.checked')
                                 | &nbsp;{{ option.no }}.&nbsp;{{ option.name }}
 
-                            input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                            input.assign-q-input(ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력',
+                            style='max-height: 45px !important')
 
                     div.container-fluid.no-padding(ng-show='quest.type == 3')
                         .rows
@@ -95,7 +97,7 @@ block content
                                         a &nbsp;
                                         //button.btn.ku-button.edit-button(type='button', ng-click='click.removeSelection(quest.options, option.no)')
                                         //    i.fa.fa-times.fa-neg.fa-05x
-                                        input.assign-q-input(style='display: inline-block', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
+                                        input.assign-q-input(style='display: inline-block; max-height: 45px !important', ng-show='option.write && option.checked', ng-model='option.input', type='text', placeholder='세부 사항 입력')
 
                                         //div(style='display: inline-block; vertical-align: -6px')
                                         //    label

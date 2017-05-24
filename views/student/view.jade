@@ -35,19 +35,19 @@ block content
             .rows
                 .col-md-3.col-sm-3.assign-c-info-padding
                     h4.assign-info-h 이름&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(ng-readonly='true', ng-model='survey.hak_name',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(ng-readonly='true', ng-model='survey.hak_name',ng-disabled='true', type='text', style='max-height: 45px !important')
 
                 .col-md-2.col-sm-2.assign-c-info-padding
                     h4.assign-info-h 학년&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 50px;', ng-readonly='true', ng-model='survey.grade',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 50px; max-height: 45px !important', ng-readonly='true', ng-model='survey.grade',ng-disabled='true', type='text')
 
                 .col-md-3.col-sm-3.assign-c-info-padding
                     h4.assign-info-h 학번&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 130px;', ng-readonly='true', ng-model='survey.hak_number',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 130px; max-height: 45px !important', ng-readonly='true', ng-model='survey.hak_number',ng-disabled='true', type='text')
 
                 .col-md-4.col-sm-4.assign-c-info-padding
                     h4.assign-info-h 학과&nbsp;&nbsp;
-                    input.assign-q-input.assign-default-info(style='width: 220px;', ng-readonly='true', ng-model='survey.hak_depart.split(";")[0]',ng-disabled='true', type='text')
+                    input.assign-q-input.assign-default-info(style='width: 220px; max-height: 45px !important', ng-readonly='true', ng-model='survey.hak_depart.split(";")[0]',ng-disabled='true', type='text')
 
                 //.col-md-3.col-sm-3
                 //    div
