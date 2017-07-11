@@ -7,17 +7,6 @@ angular.module('kudoc')
     $scope.survey = {};
 
     $scope.showQuestion = true;
-
-    // hak_department 를 설정하기 전, 코드를 가져와서 match 시킴.
-
-    // $scope.survey.title = '2017 전자및정보공학과 정기 상담신청';
-    // $scope.survey.notice = '';
-    // $scope.survey.notice = '여러분들의 상담을 위해 사용되는 자료입니다. 성실하게 작성해 주시기 바랍니다.';
-    /* *********** 중요!!! 학번과 학년 데이터를 서버로 전송 시 int 형태로 변경하여 보낼 것. */
-    // $scope.survey.hak_number = '2016270501';
-    // $scope.survey.hak_name = '양해찬';
-    // $scope.survey.hak_grade = '';
-    /* ********************************************************************* */
     $scope.survey.questions = [];
     // https://docs.angularjs.org/api/ng/service/$anchorScroll
     $scope.moveAnchor = function (qid) {

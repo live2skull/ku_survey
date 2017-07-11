@@ -4,16 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-// var cors = require('cors');
 var robots = require('express-robots');
 var session = require('express-session');
 var redis = require('redis');
 var redisStore = require('connect-redis')(session);
-const config = require('./config');
 var mysql = require('./mod/dbms');
 
+// 2017. 07. 11 dotenv 로 교체되었음.
+// const config = require('./config');
+
 // http://stackoverflow.com/questions/38927926/connect-redis-doesnt-want-to-connect-to-remote-host
-var client = redis.createClient({host : config.REDIS_SERVER, port : config.REDIS_PORT});
+var client = redis.createClient({host : process.env.redis_server, port : Number(process.env.redis_port)});
 // https://www.npmjs.com/package/url-pattern (Extract parameters)
 // https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
 
@@ -35,10 +36,10 @@ app.use(cookieParser());
 app.use(session(
     {
         key: 'sid',
-        secret: 'MNX_STX_live2skul_kuvey_!!2@',
+        secret: process.env.redis_secret,
         store: new redisStore({
-            host: config.REDIS_SERVER,
-            port: config.REDIS_PORT,
+            host: process.env.redis_server,
+            port: Number(process.env.redis_port),
             client: client,
             prefix : "session:",
             db : 0

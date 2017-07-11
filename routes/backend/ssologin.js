@@ -3,8 +3,6 @@ const child_process = require('child_process');
 const deepcopy = require('deepcopy');
 const request = require('request');
 
-const config = require('../../config');
-
 // http://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
 function replaceAll(str, org, dst)
 {
@@ -66,10 +64,11 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
 
         function (ssoToken, cb) {
 
-            var hostName = config.SSO_HOST;
-            var port = config.SSO_PORT;
+            var hostName = process.env.sso_host;
+            var port = Number(process.env.sso_port);
+            var apikey = process.env.sso_api_key;
 
-            var batch = process.cwd() + '/sso/run.sh ' + hostName + ' ' + port + ' ' + ssoToken;
+            var batch = process.cwd() + '/sso/run.sh ' + hostName + ' ' + port + ' ' + apikey + ' ' + ssoToken;
 
             child_process.exec(batch, {timeout: 5000, killSignal: 'SIGKILL', cwd: process.cwd() + '/sso'}, function (err, stdout, stderr) {
                 if (err) {

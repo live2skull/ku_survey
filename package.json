@@ -16,6 +16,7 @@
     "dateformat": "^2.0.0",
     "debug": "~2.2.0",
     "deepcopy": "^0.6.3",
+    "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "express-robots": "^0.1.6",
     "express-session": "^1.14.2",

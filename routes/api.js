@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-const DEBUG = require('../config').DEBUG;
 const deepcopy = require('deepcopy');
 const dbms = require('../mod/dbms');
+
+var helper = require('../mod/helper');
+const DEBUG = helper.getBoolConfig('debug');
 
 /*
 Warning:: Service DEBUG Flag!
@@ -204,11 +206,22 @@ router.post('/SSOLogin', function (req, res, next) {
     var secure = req.body.secure;
     var isDebug = req.body.isDebug;
 
+    // SSO 디버깅 엔트리포인트
     if (isDebug === true && DEBUG)
     {
         dbms.pool.getConnection(function (err, conn) {
             api_ssologin.ssoWithUserID(conn, callback_ssoCheck, id, userInfo);
         });
+    }
+
+    // guest 로그인 엔트리포인트
+    if (helper.getBoolConfig('guest_login') === true)
+    {
+        // 학생, 교수 사용가능 선택 페이지로 이동시킨다.
+        req.session.guest = true;
+        res.json({result : true, option : 'guest'});
+        res.cookie('guest', '1');
+        return;
     }
 
     else
@@ -232,7 +245,7 @@ router.post('/SSOLogin', function (req, res, next) {
 
             default:
                 res.send(JSON.stringify({result : -1}));
-        }
+}
     }
 });
 

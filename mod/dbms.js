@@ -2,11 +2,11 @@
 var mysql = require('mysql');
 
 exports.pool = mysql.createPool({
-    host: '192.168.1.1',
-    port: 3309,
-    user: 'nomoreqq',
-    password: 'nomoreqq1!',
-    database: 'kuvey',
+    host: process.env.db_host,
+    port: process.env.db_port,
+    user: process.env.db_user,
+    password: process.env.db_password,
+    database: process.env.db_database,
     connectionLimit: 100,
     waitForConnections: true,
     multipleStatements: true
