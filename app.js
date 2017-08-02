@@ -100,6 +100,7 @@ app.use(function(err, req, res, next) {
   // render the error page
     // 서비스 정보가 노출되므로, 임시로 설정하도록 함.
     res.status(403);
+    console.log(err)
     res.send("Internal Server Error");
   // res.status(err.status || 500);
   // res.render('_default/error.jade');

@@ -71,33 +71,25 @@ exports.ssoLogin = function (callback, session, cookieOnly, id, pw)
             var batch = process.cwd() + '/sso/run.sh ' + hostName + ' ' + port + ' ' + apikey + ' ' + ssoToken;
 
             child_process.exec(batch, {timeout: 5000, killSignal: 'SIGKILL', cwd: process.cwd() + '/sso'}, function (err, stdout, stderr) {
-                if (err) {
-                    cb(err);
-                    return
-                }
+                // 실행 오류 발생 확인
+                if (err) { cb(err); return }
 
-                // 에러 처리 확인 필요.
+                // SSO 인증 오류 확인
                 if (stdout.indexOf('verifyToken()') != -1) {cb(-1); return}
 
-                // 여기서는 전체 데이터를 가져오므로 따로 손볼 필요가 없습니다.
                 var rows = stdout.split('\n');
                 for (var idx in rows)
                 {
                     var d = rows[idx]; if (d == "") continue;
                     var s = d.split('-');
-                    // Patched -> 전체 데이터 저장으로 변경함.
-                    // userInfo[s[0]] = s[1].replace(';', '');
-                    // !!! - replace 할 경우 전체 데이터를 뱐경하지 않음. 한개의 문자열만 변경하고 끝남
+                    // s[0] : key, s[1] : value
                     userInfo[s[0]] = s[1];
 
-                    // TODO 에러 발생 가능성 있음!
-                    // 학교 SSO 토큰에서 특정 정보를 임의적으로 주지 않을 경우 (key 없음)
+                    // 각 컬럼마다 '및' 표시 다르므로 통일함.
                     if (s[0] == 'DPTNMLIST') userInfo[s[0]] = replaceAll(s[1], '·', '및');
-                    // 전자·정보공학과의 경우 -> 전자및정보공학과로 변경합니다.
-                };
+                }
 
                 cb(null);
-
             });
         }
     ];
@@ -184,7 +176,7 @@ exports.ssoWithUserID = function (conn, callback, userId, uInfo)
     });
 }
 
-// USERNAME, USERID(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
+// USERNAME, \(학번), DPTNM(전자및정보공학과), DEPTCD(?), GROUPNMLIST(학부 재학), UID
 exports.ssoSave = function (conn, callback, userInfo)
 {
     var hak_level = 0;

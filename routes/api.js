@@ -147,7 +147,8 @@ router.post('/SSOLogin', function (req, res, next) {
                 var hak_number = userInfo.USERID;
                 var GROUPNMLIST = userInfo.GROUPNMLIST;
 
-                req.session.hak_number = hak_number; res.cookie('hak_number', hak_number);
+                req.session.hak_number = hak_number;
+                res.cookie('hak_number', hak_number);
                 req.session.hak_name = userInfo.USERNAME; res.cookie('hak_name', userInfo.USERNAME);
                 req.session.user_id = userInfo.UID; res.cookie('user_id', userInfo.UID);
                 req.session.hak_depart = userInfo.DPTNMLIST; res.cookie('hak_depart', userInfo.DPTNMLIST);
@@ -212,6 +213,7 @@ router.post('/SSOLogin', function (req, res, next) {
         dbms.pool.getConnection(function (err, conn) {
             api_ssologin.ssoWithUserID(conn, callback_ssoCheck, id, userInfo);
         });
+        return;
     }
 
     // guest 로그인 엔트리포인트

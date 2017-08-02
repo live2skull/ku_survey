@@ -81,6 +81,9 @@ angular.module('kudoc')
                         labels : {
                             boxWidth : 10
                         }
+                    },
+                    tooltip : {
+                        mode: 'average'
                     }
                 }
             });
@@ -137,6 +140,7 @@ angular.module('kudoc')
 
             $scope.option.year = [];
             $scope.option.year.push({code : -1, name : '--- 학번 세부 선택 ---'});
+            
             for (var idx in years)
             {
                 var year = years[idx];
