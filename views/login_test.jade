@@ -1,0 +1,92 @@
+//- 로그인 페이지 :: Layout 없이 한꺼번에 구성.
+//- http://hellomrma.com/wp/ios-10-%EB%AA%A8%EB%B0%94%EC%9D%BC%EC%9B%B9-pinch-to-zoom-%EA%B8%B0%EB%8A%A5/
+
+doctype html
+html(ng-app='kudoc')
+    head
+        meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0')
+        //meta(http-equiv='X-UA-Compatible', content='IE=9')
+        meta(http-equiv='content-type', content='text/html; charset=utf-8')
+
+        title 고려대학교 세종캠퍼스 온라인 학생설문시스템
+
+        script(src='/public/bower/angular/angular.min.js')
+        //- script(src='/public/bower/angular-route/angular-route.min.js')
+
+        script(src='/public/bower/jquery/dist/jquery.min.js')
+        script(src='/public/bower/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/public/bower/mobile-detect/mobile-detect.js')
+        link(rel='stylesheet', href='/public/bower/bootstrap/dist/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/public/bower/font-awesome/css/font-awesome.min.css')
+
+        link(rel='stylesheet', href='/public/stylesheets/base.css')
+        link(rel='stylesheet', href='/public/stylesheets/container.css')
+        link(rel='stylesheet', href='/public/stylesheets/fwhelp.css')
+        link(rel='stylesheet', href='/public/stylesheets/gateway.css')
+        link(rel='stylesheet', href='/public/stylesheets/element/kuele.css')
+        link(rel='stylesheet', href='/public/stylesheets/NotoSansKR-Hestia.css')
+        link(rel='stylesheet', href='/public/stylesheets/footer.css')
+
+        script(src='/public/javascripts/kudoc_guest.js')
+        script(src='/public/javascripts/controller/navbar_nologin.js')
+        script(src='/public/javascripts/controller/login.js')
+        script(src='/public/javascripts/live2skull_helper.js')
+        script(src='/public/javascripts/loginMod.js')
+        // script(src='/public/javascripts/setfont.js')
+
+        script.
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-86655225-2', 'auto');
+            ga('send', 'pageview');
+
+
+    body
+        include navbar_nologin
+
+        //- div.container-fluid.gateway.image
+
+        div.background
+
+        div.gateway-selection.content(ng-controller='loginController')
+
+            //iframe#loginFrame(src='http://portal.korea.ac.kr/front/Intro.kpd', width="0px", height="0px")
+            .gateway-login.container
+
+                .row
+                    .col-md-6.col-sm-6
+
+                        center(style='margin-top: 20px')
+                            img(src='/public/images/logo-fixed-large.png').gateway-splash
+                            h4.ku-htext.ku-htext-main 고려대학교 세종캠퍼스
+                            h4.ku-htext.ku-htext-main 온라인 학생설문시스템
+
+                    .col-md-6.col-sm-6
+                        .ku-form
+                            form.login-form
+                            input#login_debug(ng-model='login.debug', type='hidden', placeholder='DEBUG Entry ID')
+                            button.btn.ku-button(ng-click='click.debugTestLogin("test_student")', type='button', style='width: 100%')
+                                i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;테스트 로그인(학생)
+                            button.btn.ku-button(ng-click='click.debugTestLogin("test_professor")', type='button', style='width: 100%')
+                                i.fa.fa-id-card-o.fa-12x.fa-neg &nbsp;&nbsp;테스트 로그인(교수)
+
+                    //- WARNING:: 서버 업로드 시 계정 정보 지울 것
+            .gateway-login.container.gateway-alertIE(ng-show="flag.isMSIE")
+                i.fa.fa-exclamation-triangle.fa-2x
+                    i.notice &nbsp;&nbsp;권고사항
+                br
+                h5.alert-message 현재 Internet Explorer 브라우저를 사용하고 있습니다. 최적의 환경에서 사용하려면&nbsp;
+                a.alert-message(href="", ng-click="click.chrome()") Chrome 브라우저
+                h5.alert-message 를 이용해주세요.
+
+
+        include footer

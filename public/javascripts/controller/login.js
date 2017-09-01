@@ -56,6 +56,10 @@ angular.module('kudoc')
         loginFactory.doDebugLogin(callback_login, $scope.login.debug);
     };
 
+    $scope.click.debugTestLogin = function (userid) {
+        loginFactory.doDebugTestLogin(callback_login, userid);
+    };
+
     $scope.click.startLogin = function () {
 
         if ($scope.login.id == '' && $scope.login.pw == '') return;

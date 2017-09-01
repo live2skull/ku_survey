@@ -19,6 +19,13 @@ router.get('/', function(req, res, next) {
 
 });
 
+
+router.get('/test_entry', function (req, res, next) {
+
+  res.render('login_test.jade')
+
+});
+
 // https://www.privacy.go.kr/a3sc/per/inf/perInfStep01.do
 
 router.get('/join', function(req, res, next) {

@@ -6,6 +6,7 @@ const dbms = require('../mod/dbms');
 
 var helper = require('../mod/helper');
 const DEBUG = helper.getBoolConfig('debug');
+const DEBUG_TEST = helper.getBoolConfig('debug_test');
 
 /*
 Warning:: Service DEBUG Flag!
@@ -85,17 +86,6 @@ router.post('/SSOAgree', function (req, res, next) {
                 req.session.hak_level = 0;
                 res.cookie('hak_level', '0');
             }
-            //
-            // if (hak_number.length == 6) // 교수
-            // {
-            //     req.session.hak_level = 1;
-            //     res.cookie('hak_level', '1');
-            // }
-            // else if (hak_number.length == 10) // 학생
-            // {
-            //     req.session.hak_level = 0;
-            //     res.cookie('hak_level', '0');
-            // }
 
             res.send(JSON.stringify({result : true}));
         }
@@ -123,6 +113,7 @@ router.post('/SSOAgree', function (req, res, next) {
     else api_ssologin.ssoLogin(callback_ssoLogin, req.session, ssoCookie);
 
 });
+
 
 router.post('/SSOLogin', function (req, res, next) {
     var userInfo = {};
@@ -166,16 +157,6 @@ router.post('/SSOLogin', function (req, res, next) {
                     res.cookie('hak_level', '0');
                 }
 
-                // if (hak_number.length == 6) // 교수
-                // {
-                //         req.session.hak_level = 1;
-                //     res.cookie('hak_level', '1');
-                // }
-                // else if (hak_number.length == 10) // 학생
-                // {
-                //     req.session.hak_level = 0;
-                //     res.cookie('hak_level', '0');
-                // }
                 res.send(JSON.stringify({result : 1}));
                 break;
 
@@ -206,8 +187,10 @@ router.post('/SSOLogin', function (req, res, next) {
     // var pw = req.body.pw; 사용하지 않음. 포탈 서버를 이용하여 로그인합니다.
     var secure = req.body.secure;
     var isDebug = req.body.isDebug;
+    var isDebugTest = req.body.isDebugTest;
 
     // SSO 디버깅 엔트리포인트
+    // 디버깅 시에 원하는 계정으로 들어올 수 있습니다.
     if (isDebug === true && DEBUG)
     {
         dbms.pool.getConnection(function (err, conn) {
@@ -215,6 +198,19 @@ router.post('/SSOLogin', function (req, res, next) {
         });
         return;
     }
+
+    // SSO 외부업체 디버깅 엔트리포인트
+    if (isDebugTest === true && DEBUG_TEST == true)
+    {
+        if (id === 'test_professor' || id === 'test_student') {
+            dbms.pool.getConnection(function (err, conn) {
+                api_ssologin.ssoWithUserID(conn, callback_ssoCheck, id, userInfo);
+            });
+        }
+        else res.json({result : false});
+        return;
+    }
+
 
     // guest 로그인 엔트리포인트
     if (helper.getBoolConfig('guest_login') === true)
@@ -239,9 +235,6 @@ router.post('/SSOLogin', function (req, res, next) {
 
             // changed to login speficated user.
             case false:
-                // if (DEBUG) api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-                // else if (id == 'testweb') api_ssologin.ssoLogin(callback_ssoLogin, req.session, false, id, pw);
-                // else res.send(JSON.stringify({result : -1}));
                 res.send(JSON.stringify({result : -1}));
                 break;
 

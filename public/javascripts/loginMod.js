@@ -37,6 +37,23 @@ angular.module('KU_SSO', [])
               });
       },
 
+      doDebugTestLogin : function (callback, userid)
+      {
+          $http({
+              method: 'POST',
+              url: '/api/SSOLogin',
+              data: {isDebugTest: true, id: userid}
+              // data: {secure: true}
+          }).then(
+              function (data) {
+                  var d = data.data;
+                  callback(d.result);
+              },
+              function () {
+                  callback(false);
+              });
+      },
+
       // portal 에서 ssoToken 을 가져온 뒤 서버로 토큰 정보를 보냅니다.
       // 도메인이 kuvey.korea.ac.kr 일 때만 가능함.
       doSecureLogin : function (callback, userInfo)
