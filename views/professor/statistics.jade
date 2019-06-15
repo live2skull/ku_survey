@@ -32,7 +32,8 @@ block content
                 select(ng-model='select.grade', ng-options='data as data.name for data in option.grade',
                 ng-change='click.changeGrade()')
 
-            button.btn.ku-button.create-button(style='width: 120px !important; float: right' ,type='button', ng-click='click.getFile()')
+            //button.btn.ku-button.create-button(style='width: 100px !important; float: right' ,type='button', ng-click='click.getFile()')
+            button.btn.ku-button.create-button(style='float: right' ,type='button', ng-click='click.getFile()')
                 i.fa.fa-file-text.fa-neg.fa-1x &nbsp;&nbsp;엑셀파일 저장
 
         hr.assign-hr-top

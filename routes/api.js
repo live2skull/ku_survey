@@ -632,6 +632,7 @@ router.post('/listsurvey', function(req, res, next) {
         var hak_level = req.session.hak_level;
         var user_id = req.session.user_id;
         var show_closed = req.body.show_closed;
+        // var show_closed = true;
         var pagnation = req.body.pagnation;
 
         // hak_level 을 구분한 것은 교수의 경우 closed 된 것을 볼 수 있기 위함 (?)

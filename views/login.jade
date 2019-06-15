@@ -74,8 +74,8 @@ html(ng-app='kudoc')
                         .ku-form
                             form.login-form
                                 //- input(ng-model='login.email', type='text', placeholder='Email address', ng-pattern='config.emailFormat')
-                                input#login_id(ng-model='login.id', type='text', placeholder='포털 아이디')
-                                input#login_pw(ng-model='login.pw', type='password', placeholder='포털 비밀번호')
+                                input#login_id(ng-model='login.id', type='text', placeholder='아이디')
+                                input#login_pw(ng-model='login.pw', type='password', placeholder='비밀번호')
                                 p.message
 
                             button.btn.ku-button(ng-click='click.startLogin()', type='button', style='width: 100%')
@@ -88,6 +88,14 @@ html(ng-app='kudoc')
                             else
 
                     //- WARNING:: 서버 업로드 시 계정 정보 지울 것
+
+            .gateway-login.container.gateway-alertIE()
+                i.fa.fa-exclamation-triangle.fa-2x
+                    i.notice &nbsp;&nbsp;시연용 서비스
+                br
+                h5.alert-message 본 서비스는 시연 목적으로 운영되므로, 별도의 개인정보는 저장되지 않습니다. &nbsp;
+
+
             .gateway-login.container.gateway-alertIE(ng-show="flag.isMSIE")
                 i.fa.fa-exclamation-triangle.fa-2x
                     i.notice &nbsp;&nbsp;권고사항
