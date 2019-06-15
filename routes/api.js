@@ -132,7 +132,13 @@ router.post('/SSOLogin', function (req, res, next) {
 
             // 이미 동의함.
             case 1:
-                // TODO Patch : 교수 로그인 데이터 수정 필요.
+                // TODO Patch : 교수 로그인 데이터 수정 필요
+
+                // 20190615 - 테스트 아이디 없을 시 튕기는 현상 조치.
+                if (!userInfo.hasOwnProperty('USERID')) {
+                    res.send(JSON.stringify({result : -1}));
+                    break;
+                }
 
                 // userInfo = deepcopy(uInfo);
                 var hak_number = userInfo.USERID;

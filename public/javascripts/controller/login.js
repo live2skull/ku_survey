@@ -83,6 +83,10 @@ angular.module('kudoc')
         location.href = '/professor/debug_entry';
     };
 
+    $scope.click.inputEnter = function (e) {
+        if (e.keyCode == 13) $scope.click.debugLogin();
+    }
+
     $scope.click.applyAgreement = function () {
         loginFactory.doAgreement(callback_agree)
     };
