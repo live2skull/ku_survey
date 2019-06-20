@@ -624,6 +624,7 @@ router.post('/listsurvey', function(req, res, next) {
 
         var callback = function (result, data)
         {
+            conn.release();
             if (result)
             {
                 res.send(JSON.stringify({result : true, data : data}))
